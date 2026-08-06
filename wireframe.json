@@ -1,0 +1,68 @@
+{
+  "version": 3,
+  "app_title": "Room Occupancy Tracker Plan",
+  "nav": {
+    "placement": "none",
+    "items": []
+  },
+  "pages": [
+    {
+      "id": "page-add05397",
+      "name": "Room Occupancy Tracker",
+      "route": "/",
+      "item_ref": {
+        "index": 0,
+        "text": "Build a single-page room occupancy tracker with a clean Linear-style design: violet accent, bordered white cards on a soft gray background, opening directly to currently occupied rooms."
+      },
+      "blocks": [
+        {
+          "id": "header-summary",
+          "type": "hero",
+          "label": "Page title and occupancy summary",
+          "hint": "House occupancy status with count and quick context",
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 2,
+          "item_ref": {
+            "index": 0,
+            "text": "Build a single-page room occupancy tracker with a clean Linear-style design: violet accent, bordered white cards on a soft gray background, opening directly to currently occupied rooms."
+          },
+          "type_source": "palette"
+        },
+        {
+          "id": "occupied-room-list",
+          "type": "list",
+          "label": "Currently occupied rooms",
+          "hint": "Room cards showing room name, floor, tenant name, move-in date, and status",
+          "x": 0,
+          "y": 2,
+          "w": 5,
+          "h": 8,
+          "item_ref": {
+            "index": 0,
+            "text": "Build a single-page room occupancy tracker with a clean Linear-style design: violet accent, bordered white cards on a soft gray background, opening directly to currently occupied rooms."
+          },
+          "type_source": "palette"
+        },
+        {
+          "id": "tenant-detail-panel",
+          "type": "text",
+          "label": "Tenant details panel",
+          "hint": "Selected tenant contact, lease dates, emergency contact, and notes",
+          "x": 5,
+          "y": 2,
+          "w": 7,
+          "h": 8,
+          "item_ref": {
+            "index": 0,
+            "text": "Build a single-page room occupancy tracker with a clean Linear-style design: violet accent, bordered white cards on a soft gray background, opening directly to currently occupied rooms."
+          },
+          "type_source": "palette"
+        }
+      ],
+      "deleted_ids": []
+    }
+  ],
+  "attached_to_plan": false
+}

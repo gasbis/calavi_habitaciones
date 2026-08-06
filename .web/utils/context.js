@@ -1,0 +1,156 @@
+import { createContext, useContext, useMemo, useReducer, useState, createElement, useEffect } from "react"
+import { applyDelta, ReflexEvent, hydrateClientStorage, useEventLoop, refs } from "$/utils/state"
+import { jsx } from "@emotion/react";
+
+export const initialState = {"reflex___state____state": {"is_hydrated_rx_state_": false, "router_rx_state_": {"session": {"client_token": "", "client_ip": "", "session_id": ""}, "headers": {"host": "", "origin": "", "upgrade": "", "connection": "", "cookie": "", "pragma": "", "cache_control": "", "user_agent": "", "sec_websocket_version": "", "sec_websocket_key": "", "sec_websocket_extensions": "", "accept_encoding": "", "accept_language": "", "raw_headers": {}}, "page": {"host": "", "path": "", "raw_path": "", "full_path": "", "full_raw_path": "", "params": {}}, "url": {"scheme": "", "netloc": "", "origin": "://", "path": "", "query": "", "query_parameters": {}, "fragment": "", "href": ""}, "route_id": ""}}, "reflex___state____state.calavi_habitaciones___states___auth_state____auth_state": {"admin_users_rx_state_": [], "auth_error_rx_state_": "", "current_user_rx_state_": {"email": "", "name": "", "role": ""}, "email_error_rx_state_": "", "is_authenticated_rx_state_": false, "management_notice_rx_state_": "", "password_error_rx_state_": ""}, "reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state": {"attention_count_rx_state_": 0, "building_filter_rx_state_": "All buildings", "buildings_rx_state_": ["All buildings", "Aurora Hall", "Birch House", "Cedar Court"], "filtered_rooms_rx_state_": [], "has_history_selection_rx_state_": false, "has_selection_rx_state_": false, "history_filtered_rooms_rx_state_": [], "history_search_rx_state_": "", "history_selected_id_rx_state_": "", "is_loading_rx_state_": false, "monthly_revenue_rx_state_": 0.0, "occupancy_rate_rx_state_": 0.0, "occupied_count_rx_state_": 0, "occupied_rooms_rx_state_": [], "resident_count_rx_state_": 0, "result_label_rx_state_": "0 habitaciones listadas", "rooms_rx_state_": [], "search_rx_state_": "", "selected_history_room_rx_state_": {"id": "", "room": "", "building": "", "floor": 0, "room_type": "", "tenant": "", "tenant_email": "", "tenant_phone": "", "occupants": 0, "capacity": 0, "occupant_names": [], "rent": 0.0, "deposit": 0.0, "balance": 0.0, "payment_status": "", "last_payment": "", "next_payment": "", "check_in": "", "lease_start": "", "lease_end": "", "lease_term": "", "status": "", "notes": "", "emergency_name": "", "emergency_relation": "", "emergency_phone": "", "record_status": "Occupied", "termination_date": "", "termination_reason": ""}, "selected_id_rx_state_": "", "selected_room_rx_state_": {"id": "", "room": "", "building": "", "floor": 0, "room_type": "", "tenant": "", "tenant_email": "", "tenant_phone": "", "occupants": 0, "capacity": 0, "occupant_names": [], "rent": 0.0, "deposit": 0.0, "balance": 0.0, "payment_status": "", "last_payment": "", "next_payment": "", "check_in": "", "lease_start": "", "lease_end": "", "lease_term": "", "status": "", "notes": "", "emergency_name": "", "emergency_relation": "", "emergency_phone": "", "record_status": "Occupied", "termination_date": "", "termination_reason": ""}, "selected_room_label_rx_state_": "Ninguna habit. seleccionada", "terminated_count_rx_state_": 0, "terminated_rooms_rx_state_": [], "total_units_rx_state_": 16, "view_mode_rx_state_": "active"}, "reflex___state____state.calavi_habitaciones___states___record_state____record_state": {"building_options_rx_state_": ["Aurora Hall", "Birch House", "Cedar Court"], "delete_target_id_rx_state_": "", "dialog_subtitle_rx_state_": "Create a new occupied room record with resident and lease details.", "dialog_title_rx_state_": "Add occupied room", "editing_id_rx_state_": "", "errors_rx_state_": {"room": "", "building": "", "floor": "", "room_type": "", "status": "", "tenant": "", "tenant_email": "", "tenant_phone": "", "roommate": "", "occupants": "", "capacity": "", "rent": "", "deposit": "", "balance": "", "payment_status": "", "check_in": "", "lease_start": "", "lease_end": "", "lease_term": "", "last_payment": "", "next_payment": "", "emergency_name": "", "emergency_relation": "", "emergency_phone": "", "notes": ""}, "extension_end_date_rx_state_": "", "extension_error_rx_state_": "", "extension_notice_rx_state_": "", "extension_options_rx_state_": ["30 days", "60 days", "90 days"], "extension_target_id_rx_state_": "", "form_error_rx_state_": "", "form_key_rx_state_": 0, "form_values_rx_state_": {"room": "", "building": "Aurora Hall", "floor": "1", "room_type": "Single", "status": "Active", "tenant": "", "tenant_email": "", "tenant_phone": "", "roommate": "", "occupants": "1", "capacity": "1", "rent": "", "deposit": "", "balance": "0", "payment_status": "Paid", "check_in": "", "lease_start": "", "lease_end": "", "lease_term": "12-month lease", "last_payment": "", "next_payment": "", "emergency_name": "", "emergency_relation": "Partner", "emergency_phone": "", "notes": ""}, "has_delete_target_rx_state_": false, "has_extension_target_rx_state_": false, "has_termination_target_rx_state_": false, "is_open_rx_state_": false, "lease_term_options_rx_state_": ["6-month lease", "12-month lease", "Month-to-month"], "mode_rx_state_": "create", "notice_rx_state_": "", "payment_status_options_rx_state_": ["Paid", "Due", "Overdue"], "relation_options_rx_state_": ["Sister", "Brother", "Mother", "Father", "Partner", "Friend"], "room_type_options_rx_state_": ["Studio", "Single", "Double", "Suite", "Shared Loft"], "status_options_rx_state_": ["Active", "Ending soon", "Overdue"], "submit_label_rx_state_": "Create record", "termination_error_rx_state_": "", "termination_notice_rx_state_": "", "termination_reason_options_rx_state_": ["Lease completed", "Tenant moved out early", "Transferred to another room", "Non-payment", "Policy violation", "Other"], "termination_target_id_rx_state_": ""}, "reflex___state____state.reflex___istate___shared____shared_state_base_internal": {}, "reflex___state____state.reflex___state____frontend_event_exception_state": {}, "reflex___state____state.reflex___state____on_load_internal_state": {}, "reflex___state____state.reflex___state____update_vars_internal_state": {}}
+
+export const defaultColorMode = "light"
+export const ColorModeContext = createContext({
+  colorMode: defaultColorMode,
+  resolvedColorMode: defaultColorMode === "dark" ? "dark" : "light",
+  toggleColorMode: () => {},
+  setColorMode: () => {},
+});
+export const UploadFilesContext = createContext(null);
+export const DispatchContext = createContext(null);
+export const StateContexts = {reflex___state____state: createContext(null),reflex___state____state__calavi_habitaciones___states___auth_state____auth_state: createContext(null),reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state: createContext(null),reflex___state____state__calavi_habitaciones___states___record_state____record_state: createContext(null),reflex___state____state__reflex___istate___shared____shared_state_base_internal: createContext(null),reflex___state____state__reflex___state____frontend_event_exception_state: createContext(null),reflex___state____state__reflex___state____on_load_internal_state: createContext(null),reflex___state____state__reflex___state____update_vars_internal_state: createContext(null),};
+export const EventLoopContext = createContext(null);
+export const clientStorage = {"cookies": {}, "local_storage": {}, "session_storage": {}}
+
+
+export const state_name = "reflex___state____state"
+
+export const exception_state_name = "reflex___state____state.reflex___state____frontend_event_exception_state"
+
+// These events are triggered on initial load and each page navigation.
+export const onLoadInternalEvent = () => {
+    const internal_events = [];
+
+    // Get tracked cookie and local storage vars to send to the backend.
+    const client_storage_vars = hydrateClientStorage(clientStorage);
+    // But only send the vars if any are actually set in the browser.
+    if (client_storage_vars && Object.keys(client_storage_vars).length !== 0) {
+        internal_events.push(
+            ReflexEvent(
+                'reflex___state____state.reflex___state____update_vars_internal_state.update_vars_internal',
+                {vars: client_storage_vars},
+            ),
+        );
+    }
+
+    // `on_load_internal` triggers the correct on_load event(s) for the current page.
+    // If the page does not define any on_load event, this will just set `is_hydrated = true`.
+    internal_events.push(ReflexEvent('reflex___state____state.reflex___state____on_load_internal_state.on_load_internal'));
+
+    return internal_events;
+}
+
+// The following events are sent when the websocket connects or reconnects.
+export const initialEvents = () => [
+    ReflexEvent('reflex___state____state.hydrate'),
+    ...onLoadInternalEvent()
+]
+    
+
+export const isDevMode = true;
+
+// Module-level event dispatchers populated by ``EventLoopProvider`` on each
+// render. Components reach addEvents/connectErrors via this import instead of
+// hoisting ``useContext(EventLoopContext)`` so JSX literals (e.g.
+// ``ErrorBoundary.onError``) constructed in any JS scope can dispatch events
+// without depending on lexical hook hoisting.
+let _addEventsImpl = (events, args, event_actions) => {
+  console.warn("addEvents called before EventLoopProvider mounted", events);
+};
+let _connectErrorsImpl = [];
+
+export function addEvents(events, args, event_actions) {
+  return _addEventsImpl(events, args, event_actions);
+}
+
+export function getConnectErrors() {
+  return _connectErrorsImpl;
+}
+
+export function UploadFilesProvider({ children }) {
+  const [filesById, setFilesById] = useState({})
+  refs["__clear_selected_files"] = (id) => setFilesById(filesById => {
+    const newFilesById = {...filesById}
+    delete newFilesById[id]
+    return newFilesById
+  })
+  return createElement(
+    UploadFilesContext.Provider,
+    { value: [filesById, setFilesById] },
+    children
+  );
+}
+
+export function ClientSide(component) {
+  return ({ children, ...props }) => {
+    const [Component, setComponent] = useState(null);
+    useEffect(() => {
+      async function load() {
+        const comp = await component();
+        setComponent(() => comp);
+      }
+      load();
+    }, []);
+    return Component ? jsx(Component, props, children) : null;
+  };
+}
+
+export function EventLoopProvider({ children }) {
+  const dispatch = useContext(DispatchContext)
+  const [addEventsLocal, connectErrors] = useEventLoop(
+    dispatch,
+    initialEvents,
+    clientStorage,
+  )
+  // Populate the module-level dispatchers so JSX literals constructed
+  // outside the React-tree path (e.g. ``ErrorBoundary.onError``) can call
+  // ``addEvents`` without needing the events hook hoisted in their scope.
+  _addEventsImpl = addEventsLocal;
+  _connectErrorsImpl = connectErrors;
+  return createElement(
+    EventLoopContext.Provider,
+    { value: [addEventsLocal, connectErrors] },
+    children
+  );
+}
+
+export function StateProvider({ children }) {
+  const [reflex___state____state, dispatch_reflex___state____state] = useReducer(applyDelta, initialState["reflex___state____state"])
+const [reflex___state____state__calavi_habitaciones___states___auth_state____auth_state, dispatch_reflex___state____state__calavi_habitaciones___states___auth_state____auth_state] = useReducer(applyDelta, initialState["reflex___state____state.calavi_habitaciones___states___auth_state____auth_state"])
+const [reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state, dispatch_reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state] = useReducer(applyDelta, initialState["reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state"])
+const [reflex___state____state__calavi_habitaciones___states___record_state____record_state, dispatch_reflex___state____state__calavi_habitaciones___states___record_state____record_state] = useReducer(applyDelta, initialState["reflex___state____state.calavi_habitaciones___states___record_state____record_state"])
+const [reflex___state____state__reflex___istate___shared____shared_state_base_internal, dispatch_reflex___state____state__reflex___istate___shared____shared_state_base_internal] = useReducer(applyDelta, initialState["reflex___state____state.reflex___istate___shared____shared_state_base_internal"])
+const [reflex___state____state__reflex___state____frontend_event_exception_state, dispatch_reflex___state____state__reflex___state____frontend_event_exception_state] = useReducer(applyDelta, initialState["reflex___state____state.reflex___state____frontend_event_exception_state"])
+const [reflex___state____state__reflex___state____on_load_internal_state, dispatch_reflex___state____state__reflex___state____on_load_internal_state] = useReducer(applyDelta, initialState["reflex___state____state.reflex___state____on_load_internal_state"])
+const [reflex___state____state__reflex___state____update_vars_internal_state, dispatch_reflex___state____state__reflex___state____update_vars_internal_state] = useReducer(applyDelta, initialState["reflex___state____state.reflex___state____update_vars_internal_state"])
+  const dispatchers = useMemo(() => {
+    return {
+      "reflex___state____state": dispatch_reflex___state____state,
+"reflex___state____state.calavi_habitaciones___states___auth_state____auth_state": dispatch_reflex___state____state__calavi_habitaciones___states___auth_state____auth_state,
+"reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state": dispatch_reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state,
+"reflex___state____state.calavi_habitaciones___states___record_state____record_state": dispatch_reflex___state____state__calavi_habitaciones___states___record_state____record_state,
+"reflex___state____state.reflex___istate___shared____shared_state_base_internal": dispatch_reflex___state____state__reflex___istate___shared____shared_state_base_internal,
+"reflex___state____state.reflex___state____frontend_event_exception_state": dispatch_reflex___state____state__reflex___state____frontend_event_exception_state,
+"reflex___state____state.reflex___state____on_load_internal_state": dispatch_reflex___state____state__reflex___state____on_load_internal_state,
+"reflex___state____state.reflex___state____update_vars_internal_state": dispatch_reflex___state____state__reflex___state____update_vars_internal_state,
+    }
+  }, [])
+
+  return (
+    createElement(StateContexts.reflex___state____state,{value: reflex___state____state},
+createElement(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state,{value: reflex___state____state__calavi_habitaciones___states___auth_state____auth_state},
+createElement(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state,{value: reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state},
+createElement(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state,{value: reflex___state____state__calavi_habitaciones___states___record_state____record_state},
+createElement(StateContexts.reflex___state____state__reflex___istate___shared____shared_state_base_internal,{value: reflex___state____state__reflex___istate___shared____shared_state_base_internal},
+createElement(StateContexts.reflex___state____state__reflex___state____frontend_event_exception_state,{value: reflex___state____state__reflex___state____frontend_event_exception_state},
+createElement(StateContexts.reflex___state____state__reflex___state____on_load_internal_state,{value: reflex___state____state__reflex___state____on_load_internal_state},
+createElement(StateContexts.reflex___state____state__reflex___state____update_vars_internal_state,{value: reflex___state____state__reflex___state____update_vars_internal_state},
+    createElement(DispatchContext, {value: dispatchers}, children)
+    ))))))))
+  )
+}

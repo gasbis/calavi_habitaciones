@@ -1,0 +1,11 @@
+## Secure Occupancy Data Plan
+- [x] Build a single-page room occupancy tracker with a clean Linear-style design: violet accent, bordered white cards on a soft gray background, opening directly to currently occupied rooms.
+- [x] Add tenant detail access from each occupied room, showing contact, lease, and occupancy notes in a focused detail panel with clear empty and selected states.
+- [x] Add admin-managed access control with a login screen, no public signup, protected occupancy content, and clear signed-in/signed-out states.
+- [x] Add a simple administrator user-management area for viewing allowed users and controlling access status without exposing public registration.
+- [x] Add an admin record-management menu for creating, editing, and removing occupied room records from the protected occupancy view.
+- [x] Add contract extension controls that update lease dates/status context and keep tenant details, cards, and summaries in sync.
+- [x] Add contract termination controls that remove rooms from the default occupied view while preserving terminated records in history.
+- [x] Add a history view for terminated records with filters, clear status context, and access to past tenant details.
+- [x] Store tenant and occupancy records in the app database instead of in-memory state, while preserving active/history behavior.
+- [x] Store administrator accounts securely with hashed passwords and database-backed access status, while preserving protected login and admin management.
