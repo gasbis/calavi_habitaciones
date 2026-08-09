@@ -76,7 +76,7 @@ def page_title() -> rx.Component:
         rx.el.div(
             rx.icon("calendar-days", class_name="h-4 w-4 text-gray-400"),
             rx.el.span(
-                f"{OccupancyState.occupied_count} ocupadas · {OccupancyState.resident_count} residentes",
+                f"{OccupancyState.occupied_count} ocupadas",
                 class_name="text-sm font-semibold text-gray-700",
             ),
             class_name="flex w-fit items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2",

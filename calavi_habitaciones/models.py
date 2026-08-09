@@ -13,30 +13,31 @@ from faker import Faker
 class Room(TypedDict):
     id: str
     room: str
-    building: str
+    # building: str
     floor: int
-    room_type: str
+    bed_type: str
     tenant: str
+    tenant_dni: str
     tenant_email: str
     tenant_phone: str
-    occupants: int
-    capacity: int
-    occupant_names: list[str]
+    #occupants: int
+    # capacity: int
+    # occupant_names: list[str]
     rent: float
     deposit: float
     balance: float
     payment_status: str
     last_payment: str
     next_payment: str
-    check_in: str
+    #check_in: str
     lease_start: str
     lease_end: str
-    lease_term: str
+    # lease_term: str
     status: str
     notes: str
-    emergency_name: str
-    emergency_relation: str
-    emergency_phone: str
+    # emergency_name: str
+    # emergency_relation: str
+    # emergency_phone: str
     record_status: str
     termination_date: str
     termination_reason: str
@@ -45,40 +46,41 @@ class Room(TypedDict):
 EMPTY_ROOM: Room = Room(
     id="",
     room="",
-    building="",
+    # building="",
     floor=0,
-    room_type="",
+    bed_type="",
     tenant="",
+    tenant_dni="",
     tenant_email="",
     tenant_phone="",
-    occupants=0,
-    capacity=0,
-    occupant_names=[],
+    # occupants=0,
+    # capacity=0,
+    # occupant_names=[],
     rent=0.0,
     deposit=0.0,
     balance=0.0,
     payment_status="",
     last_payment="",
     next_payment="",
-    check_in="",
+    # check_in="",
     lease_start="",
     lease_end="",
-    lease_term="",
+    # lease_term="",
     status="",
     notes="",
-    emergency_name="",
-    emergency_relation="",
-    emergency_phone="",
+    # emergency_name="",
+    # emergency_relation="",
+    # emergency_phone="",
     record_status="Occupied",
     termination_date="",
     termination_reason="",
 )
 
 
-BUILDINGS: list[str] = ["Aurora Hall", "Birch House", "Cedar Court"]
-_ROOM_TYPES: list[str] = ["Studio", "Single", "Double", "Suite", "Shared Loft"]
+# BUILDINGS: list[str] = ["Aurora Hall", "Birch House", "Cedar Court"]
+_BED_TYPES: list[str] = ["Studio", "Single", "Double", "Suite", "Shared Loft"]
 _STATUSES: list[str] = ["Active", "Ending soon", "Overdue"]
-_RELATIONS: list[str] = ["Sister", "Father", "Mother", "Partner", "Brother"]
+# _RELATIONS: list[str] = ["Sister", "Father", "Mother", "Partner", "Brother"]
 _NOTES: list[str] = [
     "Quiet tenant, prefers maintenance visits after 5pm. Bike stored in basement rack 4.",
     "Requested extra storage locker. Renewed once, strong payment history.",
@@ -105,64 +107,66 @@ class OccupancyRecord(sqlmodel.SQLModel, table=True):
 
     id: int | None = sqlmodel.Field(default=None, primary_key=True)
     room: str = ""
-    building: str = ""
+    #building: str = ""
     floor: int = 1
-    room_type: str = ""
+    bed_type: str = ""
     tenant: str = ""
+    tenant_dni: str = ""
     tenant_email: str = ""
     tenant_phone: str = ""
-    occupants: int = 1
-    capacity: int = 1
-    occupant_names: str = ""
+    # occupants: int = 1
+    # capacity: int = 1
+    # occupant_names: str = ""
     rent: float = 0.0
     deposit: float = 0.0
     balance: float = 0.0
     payment_status: str = "Paid"
     last_payment: str = ""
     next_payment: str = ""
-    check_in: str = ""
+    #check_in: str = ""
     lease_start: str = ""
     lease_end: str = ""
-    lease_term: str = ""
+    # lease_term: str = ""
     status: str = "Active"
     notes: str = ""
-    emergency_name: str = ""
-    emergency_relation: str = ""
-    emergency_phone: str = ""
+    # emergency_name: str = ""
+    # emergency_relation: str = ""
+    # emergency_phone: str = ""
     record_status: str = "Occupied"
     termination_date: str = ""
     termination_reason: str = ""
 
 
 def _record_to_room(record: OccupancyRecord) -> Room:
-    names = [n for n in record.occupant_names.split("|") if n]
+    # names = [n for n in record.occupant_names.split("|") if n]
     return Room(
         id=f"room-{record.id}",
         room=record.room,
-        building=record.building,
+        # building=record.building,
         floor=record.floor,
-        room_type=record.room_type,
+        bed_type=record.bed_type,
         tenant=record.tenant,
+        tenant_dni=record.tenant_dni,
         tenant_email=record.tenant_email,
         tenant_phone=record.tenant_phone,
-        occupants=record.occupants,
-        capacity=record.capacity,
-        occupant_names=names or [record.tenant],
+        # occupants=record.occupants,
+        # capacity=record.capacity,
+        # occupant_names=names or [record.tenant],
         rent=record.rent,
         deposit=record.deposit,
         balance=record.balance,
         payment_status=record.payment_status,
         last_payment=record.last_payment,
         next_payment=record.next_payment,
-        check_in=record.check_in,
+        # check_in=record.check_in,
         lease_start=record.lease_start,
         lease_end=record.lease_end,
-        lease_term=record.lease_term,
+        # lease_term=record.lease_term,
         status=record.status,
         notes=record.notes,
-        emergency_name=record.emergency_name,
-        emergency_relation=record.emergency_relation,
-        emergency_phone=record.emergency_phone,
+        # emergency_name=record.emergency_name,
+        # emergency_relation=record.emergency_relation,
+        # emergency_phone=record.emergency_phone,
         record_status=record.record_status,
         termination_date=record.termination_date,
         termination_reason=record.termination_reason,
@@ -171,30 +175,31 @@ def _record_to_room(record: OccupancyRecord) -> Room:
 
 def _apply_room(record: OccupancyRecord, data: Room) -> OccupancyRecord:
     record.room = data["room"]
-    record.building = data["building"]
+    # record.building = data["building"]
     record.floor = int(data["floor"])
-    record.room_type = data["room_type"]
+    record.bed_type = data["bed_type"]
     record.tenant = data["tenant"]
+    record.tenant_dni= data["tenant_dni"]
     record.tenant_email = data["tenant_email"]
     record.tenant_phone = data["tenant_phone"]
-    record.occupants = int(data["occupants"])
-    record.capacity = int(data["capacity"])
-    record.occupant_names = "|".join(data["occupant_names"])
+    # record.occupants = int(data["occupants"])
+    # record.capacity = int(data["capacity"])
+    # record.occupant_names = "|".join(data["occupant_names"])
     record.rent = float(data["rent"])
     record.deposit = float(data["deposit"])
     record.balance = float(data["balance"])
     record.payment_status = data["payment_status"]
     record.last_payment = data["last_payment"]
     record.next_payment = data["next_payment"]
-    record.check_in = data["check_in"]
+    # record.check_in = data["check_in"]
     record.lease_start = data["lease_start"]
     record.lease_end = data["lease_end"]
-    record.lease_term = data["lease_term"]
+    # record.lease_term = data["lease_term"]
     record.status = data["status"]
     record.notes = data["notes"]
-    record.emergency_name = data["emergency_name"]
-    record.emergency_relation = data["emergency_relation"]
-    record.emergency_phone = data["emergency_phone"]
+    # record.emergency_name = data["emergency_name"]
+    # record.emergency_relation = data["emergency_relation"]
+    # record.emergency_phone = data["emergency_phone"]
     record.record_status = data["record_status"]
     record.termination_date = data["termination_date"]
     record.termination_reason = data["termination_reason"]
@@ -337,9 +342,9 @@ def _seed_rooms() -> list[Room]:
     random.seed(7)
     rooms: list[Room] = []
     for i in range(12):
-        building = BUILDINGS[i % len(BUILDINGS)]
+        #building = BUILDINGS[i % len(BUILDINGS)]
         floor = (i % 4) + 1
-        room_type = _ROOM_TYPES[i % len(_ROOM_TYPES)]
+        room_type = _BED_TYPES[i % len(_BED_TYPES)]
         capacity = 1 if room_type in ("Studio", "Single") else 2
         name = fake.name()
         status = _STATUSES[0]
@@ -363,15 +368,15 @@ def _seed_rooms() -> list[Room]:
             Room(
                 id="",
                 room=f"{floor}{(i % 6) + 1:02d}",
-                building=building,
+                # building=building,
                 floor=floor,
-                room_type=room_type,
+                bed_type=room_type,
                 tenant=name,
                 tenant_email=f"{name.split(' ')[0].lower()}.{name.split(' ')[-1].lower()}@mail.com",
                 tenant_phone=f"+1 (415) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
-                occupants=capacity,
-                capacity=capacity,
-                occupant_names=occupant_names,
+                # occupants=capacity,
+                # capacity=capacity,
+                # occupant_names=occupant_names,
                 rent=rent,
                 deposit=round(rent * 1.5, 2),
                 balance=balance,
@@ -382,21 +387,21 @@ def _seed_rooms() -> list[Room]:
                 next_payment=fake.date_between(
                     start_date="+3d", end_date="+30d"
                 ).strftime("%b %d, %Y"),
-                check_in=fake.date_between(
-                    start_date="-2y", end_date="-3M"
-                ).strftime("%b %d, %Y"),
+                # check_in=fake.date_between(
+                #     start_date="-2y", end_date="-3M"
+                # ).strftime("%b %d, %Y"),
                 lease_start=fake.date_between(
                     start_date="-2y", end_date="-4M"
                 ).strftime("%b %d, %Y"),
                 lease_end=fake.date_between(
                     start_date="+1M", end_date="+1y"
                 ).strftime("%b %d, %Y"),
-                lease_term=f"{12 if i % 2 == 0 else 6}-month lease",
+                # lease_term=f"{12 if i % 2 == 0 else 6}-month lease",
                 status=status,
                 notes=_NOTES[i % len(_NOTES)],
-                emergency_name=fake.name(),
-                emergency_relation=_RELATIONS[i % len(_RELATIONS)],
-                emergency_phone=f"+1 (628) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
+                # emergency_name=fake.name(),
+                # emergency_relation=_RELATIONS[i % len(_RELATIONS)],
+                # emergency_phone=f"+1 (628) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
                 record_status="Occupied",
                 termination_date="",
                 termination_reason="",
@@ -438,7 +443,8 @@ def room_exists(room: str, building: str, exclude_id: str = "") -> bool:
         with rx.session() as session:
             records = session.exec(
                 sqlmodel.select(OccupancyRecord).where(
-                    OccupancyRecord.building == building
+                    # OccupancyRecord.building == building
+                    True
                 )
             ).all()
             return any(

@@ -14,49 +14,50 @@ from calavi_habitaciones.models import (
 )
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
-_DISPLAY_FORMAT = "%b %d, %Y"
+_DISPLAY_FORMAT = "%d-%m-%Y"
 
 _FORM_KEYS: list[str] = [
     "room",
     "building",
     "floor",
-    "room_type",
+    "bed_type",
     "status",
     "tenant",
+    "tenant_dni",
     "tenant_email",
     "tenant_phone",
     "roommate",
-    "occupants",
-    "capacity",
+    # "occupants",
+    # "capacity",
     "rent",
     "deposit",
     "balance",
     "payment_status",
-    "check_in",
+    # "check_in",
     "lease_start",
     "lease_end",
-    "lease_term",
+    # "lease_term",
     "last_payment",
     "next_payment",
-    "emergency_name",
-    "emergency_relation",
-    "emergency_phone",
+    # "emergency_name",
+    # "emergency_relation",
+    # "emergency_phone",
     "notes",
 ]
 
 
 def _blank_form() -> dict[str, str]:
     values = {key: "" for key in _FORM_KEYS}
-    values["building"] = "Aurora Hall"
-    values["room_type"] = "Single"
+    # values["building"] = "Aurora Hall"
+    values["bed_type"] = "Single"
     values["status"] = "Active"
     values["payment_status"] = "Paid"
-    values["lease_term"] = "12-month lease"
+    # values["lease_term"] = "12-month lease"
     values["floor"] = "1"
-    values["occupants"] = "1"
-    values["capacity"] = "1"
+    # values["occupants"] = "1"
+    # values["capacity"] = "1"
     values["balance"] = "0"
-    values["emergency_relation"] = "Partner"
+    # values["emergency_relation"] = "Partner"
     return values
 
 
@@ -66,7 +67,7 @@ def _blank_errors() -> dict[str, str]:
 
 def _to_input_date(display: str) -> str:
     try:
-        return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%Y-%m-%d")
+        return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%d-%m-%Y")
     except Exception:
         logging.exception("Unexpected error")
         return ""
@@ -74,7 +75,7 @@ def _to_input_date(display: str) -> str:
 
 def _to_display_date(value: str) -> str:
     try:
-        return datetime.strptime(value, "%Y-%m-%d").strftime(_DISPLAY_FORMAT)
+        return datetime.strptime(value, "%d-%m-%Y").strftime(_DISPLAY_FORMAT)
     except Exception:
         logging.exception("Unexpected error")
         return ""
@@ -95,7 +96,7 @@ class RecordState(rx.State):
     termination_notice: str = ""
     extension_target_id: str = ""
     termination_reason_options: list[str] = [
-        "Lease completed",
+        "Contrato ",
         "Tenant moved out early",
         "Transferred to another room",
         "Non-payment",
@@ -105,27 +106,25 @@ class RecordState(rx.State):
     extension_error: str = ""
     extension_notice: str = ""
     extension_end_date: str = ""
-    extension_options: list[str] = ["30 days", "60 days", "90 days"]
+    # extension_options: list[str] = ["30 days", "60 days", "90 days"]
 
-    building_options: list[str] = [
-        "Aurora Hall",
-        "Birch House",
-        "Cedar Court",
+    # building_options: list[str] = [
+    #     "Aurora Hall",
+    #     "Birch House",
+    #     "Cedar Court",
+    # ]
+    bed_type_options: list[str] = [
+        "0.30",
+        "1.35",
+        "1.50",
     ]
-    room_type_options: list[str] = [
-        "Studio",
-        "Single",
-        "Double",
-        "Suite",
-        "Shared Loft",
-    ]
-    status_options: list[str] = ["Active", "Ending soon", "Overdue"]
+    status_options: list[str] = ["Ocupada", "Finaliza pronto", "Caducado"]
     payment_status_options: list[str] = ["Paid", "Due", "Overdue"]
-    lease_term_options: list[str] = [
-        "6-month lease",
-        "12-month lease",
-        "Month-to-month",
-    ]
+    # lease_term_options: list[str] = [
+    #     "6-month lease",
+    #     "12-month lease",
+    #     "Month-to-month",
+    # ]
     relation_options: list[str] = [
         "Sister",
         "Brother",
@@ -138,7 +137,7 @@ class RecordState(rx.State):
     @rx.var
     def dialog_title(self) -> str:
         return (
-            "Edit occupied room" if self.mode == "edit" else "Add occupied room"
+            "Edit occupied room" if self.mode == "edit" else "Alta de contrato"
         )
 
     @rx.var
@@ -148,12 +147,12 @@ class RecordState(rx.State):
                 "Update the resident, lease and payment details for this room."
             )
         return (
-            "Create a new occupied room record with resident and lease details."
+            "Crear un nuevo registro de contrato de alquiler."
         )
 
     @rx.var
     def submit_label(self) -> str:
-        return "Save changes" if self.mode == "edit" else "Create record"
+        return "Guardar cambios" if self.mode == "editar" else "Crear registro"
 
     @rx.var
     def has_delete_target(self) -> bool:
@@ -381,29 +380,30 @@ class RecordState(rx.State):
         self.editing_id = room["id"]
         self.form_values = {
             "room": room["room"],
-            "building": room["building"],
+            # "building": room["building"],
             "floor": str(room["floor"]),
-            "room_type": room["room_type"],
+            "bed_type": room["bed_type"],
             "status": room["status"],
             "tenant": room["tenant"],
+            "tenant_dni": room["tenant_dni"],
             "tenant_email": room["tenant_email"],
             "tenant_phone": room["tenant_phone"],
-            "roommate": roommate,
-            "occupants": str(room["occupants"]),
-            "capacity": str(room["capacity"]),
+            # "roommate": roommate,
+            # "occupants": str(room["occupants"]),
+            # "capacity": str(room["capacity"]),
             "rent": f"{room['rent']:.2f}",
             "deposit": f"{room['deposit']:.2f}",
             "balance": f"{room['balance']:.2f}",
             "payment_status": room["payment_status"],
-            "check_in": _to_input_date(room["check_in"]),
+            # "check_in": _to_input_date(room["check_in"]),
             "lease_start": _to_input_date(room["lease_start"]),
             "lease_end": _to_input_date(room["lease_end"]),
-            "lease_term": room["lease_term"],
+            # "lease_term": room["lease_term"],
             "last_payment": _to_input_date(room["last_payment"]),
             "next_payment": _to_input_date(room["next_payment"]),
-            "emergency_name": room["emergency_name"],
-            "emergency_relation": room["emergency_relation"],
-            "emergency_phone": room["emergency_phone"],
+            # "emergency_name": room["emergency_name"],
+            # "emergency_relation": room["emergency_relation"],
+            # "emergency_phone": room["emergency_phone"],
             "notes": room["notes"],
         }
         self.errors = _blank_errors()
@@ -546,31 +546,32 @@ class RecordState(rx.State):
             record = Room(
                 id=record_id,
                 room=data["room"],
-                building=data["building"],
+                # building=data["building"],
                 floor=int(data["floor"]),
-                room_type=data["room_type"],
+                bed_type=data["bed_type"],
                 tenant=data["tenant"],
+                tenant_dni=data["tenant_dni"],
                 tenant_email=data["tenant_email"],
                 tenant_phone=data["tenant_phone"],
-                occupants=int(data["occupants"]),
-                capacity=int(data["capacity"]),
-                occupant_names=occupant_names,
+                # occupants=int(data["occupants"]),
+                # capacity=int(data["capacity"]),
+                # occupant_names=occupant_names,
                 rent=float(data["rent"]),
                 deposit=float(data["deposit"]),
                 balance=float(data["balance"]),
                 payment_status=data["payment_status"],
                 last_payment=_to_display_date(data["last_payment"]),
                 next_payment=_to_display_date(data["next_payment"]),
-                check_in=_to_display_date(data["check_in"]),
+                # check_in=_to_display_date(data["check_in"]),
                 lease_start=_to_display_date(data["lease_start"]),
                 lease_end=_to_display_date(data["lease_end"]),
-                lease_term=data["lease_term"],
+                # lease_term=data["lease_term"],
                 status=data["status"],
                 notes=data["notes"]
                 or "No occupancy notes recorded for this room yet.",
-                emergency_name=data["emergency_name"],
-                emergency_relation=data["emergency_relation"],
-                emergency_phone=data["emergency_phone"],
+                # emergency_name=data["emergency_name"],
+                # emergency_relation=data["emergency_relation"],
+                # emergency_phone=data["emergency_phone"],
                 record_status="Occupied",
                 termination_date="",
                 termination_reason="",

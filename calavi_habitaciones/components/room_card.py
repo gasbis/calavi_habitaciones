@@ -50,11 +50,11 @@ def room_card(item: Room) -> rx.Component:
                         f"Habitación {item['room']}",
                         class_name="text-base font-semibold tracking-tight text-gray-900",
                     ),
-                    rx.el.p(
-                        f"{item['building']} · Floor {item['floor']}",
-                        class_name="text-sm font-medium text-gray-500",
-                    ),
-                    class_name="min-w-0",
+                    # rx.el.p(
+                    #     f"{item['building']} · Floor {item['floor']}",
+                    #     class_name="text-sm font-medium text-gray-500",
+                    # ),
+                    # class_name="min-w-0",
                 ),
                 class_name="flex items-center gap-3",
             ),
@@ -72,7 +72,7 @@ def room_card(item: Room) -> rx.Component:
                     class_name="truncate text-sm font-semibold text-gray-900",
                 ),
                 rx.el.p(
-                    f"{item['occupants']}/{item['capacity']} occupants · {item['room_type']}",
+                    f"Tipo de cama {item['bed_type']}",
                     class_name="truncate text-xs font-medium text-gray-500",
                 ),
                 class_name="min-w-0",
@@ -80,7 +80,7 @@ def room_card(item: Room) -> rx.Component:
             class_name="mt-4 flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3",
         ),
         rx.el.div(
-            meta_row("calendar-check", "F_inicio", item["check_in"]),
+            meta_row("calendar-check", "F_inicio", item["lease_start"]),
             meta_row("calendar-clock", "F_fin", item["lease_end"]),
             meta_row("banknote", "Renta mensual", f"{item['rent']:,.0f}€"),
             class_name="mt-4 flex flex-col gap-2.5",

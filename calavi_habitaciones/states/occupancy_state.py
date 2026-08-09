@@ -2,9 +2,9 @@ import asyncio
 
 import reflex as rx
 
-from calavi_habitaciones.models import (
-    BUILDINGS as _BUILDINGS,
-)
+# from calavi_habitaciones.models import (
+#     BUILDINGS as _BUILDINGS,
+# )
 from calavi_habitaciones.models import (
     EMPTY_ROOM,
     Room,
@@ -17,9 +17,9 @@ __all__ = ["EMPTY_ROOM", "OccupancyState", "Room"]
 
 class OccupancyState(rx.State):
     rooms: list[Room] = []
-    total_units: int = 16
-    search: str = ""
-    building_filter: str = "All buildings"
+    total_units: int = 7
+    #search: str = ""
+    #building_filter: str = "All buildings"
     is_loading: bool = False
     selected_id: str = ""
     view_mode: str = "active"
@@ -41,7 +41,7 @@ class OccupancyState(rx.State):
         room = self.selected_room
         if room["id"] == "":
             return "Ninguna habit. seleccionada"
-        return f"Habitación {room['room']} · {room['building']}"
+        return f"Habitación {room['room']}"
 
     @rx.var
     def selected_room(self) -> Room:
@@ -91,36 +91,36 @@ class OccupancyState(rx.State):
     def has_selection(self) -> bool:
         return any(r["id"] == self.selected_id for r in self.occupied_rooms)
 
-    @rx.var
-    def buildings(self) -> list[str]:
-        return ["All buildings", *_BUILDINGS]
+    # @rx.var
+    # def buildings(self) -> list[str]:
+    #     return ["All buildings", *_BUILDINGS]
 
     @rx.var
     def filtered_rooms(self) -> list[Room]:
-        query = self.search.strip().lower()
+        #query = self.search.strip().lower()
         result = self.occupied_rooms
-        if self.building_filter != "All buildings":
-            result = [
-                r for r in result if r["building"] == self.building_filter
-            ]
-        if query:
-            result = [
-                r
-                for r in result
-                if query in r["tenant"].lower()
-                or query in r["room"].lower()
-                or query in r["building"].lower()
-                or query in r["room_type"].lower()
-            ]
+        # if self.building_filter != "All buildings":
+        #     result = [
+        #         r for r in result if r["building"] == self.building_filter
+        #     ]
+        # if query:
+        #     result = [
+        #         r
+        #         for r in result
+        #         if query in r["tenant"].lower()
+        #         or query in r["room"].lower()
+        #         # or query in r["building"].lower()
+        #         or query in r["bed_type"].lower()
+        #     ]
         return result
 
     @rx.var
     def occupied_count(self) -> int:
         return len(self.occupied_rooms)
 
-    @rx.var
-    def resident_count(self) -> int:
-        return sum(r["occupants"] for r in self.occupied_rooms)
+    # @rx.var
+    # def resident_count(self) -> int:
+    #     return sum(r["occupants"] for r in self.occupied_rooms)
 
     @rx.var
     def occupancy_rate(self) -> float:
@@ -177,13 +177,13 @@ class OccupancyState(rx.State):
         if auth.is_authenticated:
             self.search = value
 
-    @rx.event
-    async def set_building(self, value: str):
-        from calavi_habitaciones.states.auth_state import AuthState
+    # @rx.event
+    # async def set_building(self, value: str):
+    #     from calavi_habitaciones.states.auth_state import AuthState
 
-        auth = await self.get_state(AuthState)
-        if auth.is_authenticated:
-            self.building_filter = value
+    #     auth = await self.get_state(AuthState)
+    #     if auth.is_authenticated:
+    #         self.building_filter = value
 
     @rx.event
     async def select_room(self, room_id: str):

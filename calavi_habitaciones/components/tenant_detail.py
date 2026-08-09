@@ -92,38 +92,38 @@ def contact_block() -> rx.Component:
     )
 
 
-def occupancy_block() -> rx.Component:
-    return rx.el.div(
-        section_title("users", "Ocupación actual"),
-        rx.el.div(
-            rx.foreach(
-                OccupancyState.selected_room["occupant_names"],
-                lambda name: occupant_chip(name),
-            ),
-            class_name="mt-3 flex flex-wrap gap-2",
-        ),
-        rx.el.div(
+#def occupancy_block() -> rx.Component:
+    # return rx.el.div(
+    #     section_title("users", "Ocupación actual"),
+    #     rx.el.div(
+    #         rx.foreach(
+    #             OccupancyState.selected_room["occupant_names"],
+    #             lambda name: occupant_chip(name),
+    #         ),
+    #         class_name="mt-3 flex flex-wrap gap-2",
+    #     ),
+        #rx.el.div(
             # detail_row(
             #     "Occupants",
             #     f"{OccupancyState.selected_room['occupants']} of {OccupancyState.selected_room['capacity']}",
             # ),
-            detail_row("Tipo de cama", OccupancyState.selected_room["room_type"]),
-            detail_row(
-                "Localización",
-                f"{OccupancyState.selected_room['building']} · Planta {OccupancyState.selected_room['floor']}",
-            ),
-            detail_row("F_inicio", OccupancyState.selected_room["check_in"]),
-            class_name="mt-3 flex flex-col gap-2.5",
-        ),
-        class_name="mt-5 border-t border-gray-100 pt-5",
-    )
+            # detail_row("Tipo de cama", OccupancyState.selected_room["room_type"]),
+            # detail_row(
+            #     "Localización",
+            #     f"{OccupancyState.selected_room['building']} · Planta {OccupancyState.selected_room['floor']}",
+            # ),
+            # detail_row("F_inicio", OccupancyState.selected_room["check_in"]),
+            # class_name="mt-3 flex flex-col gap-2.5",
+        # ),
+        #class_name="mt-5 border-t border-gray-100 pt-5",
+    #)
 
 
 def lease_block() -> rx.Component:
     return rx.el.div(
         section_title("file-text", "Alquiler"),
         rx.el.div(
-            detail_row("Tiempo restante", OccupancyState.selected_room["lease_term"]),
+            #detail_row("Tiempo restante", OccupancyState.selected_room["lease_term"]),
             detail_row("Inicio", OccupancyState.selected_room["lease_start"]),
             detail_row("Finalización", OccupancyState.selected_room["lease_end"]),
             detail_row(
@@ -232,7 +232,7 @@ def detail_header() -> rx.Component:
                     class_name="truncate text-lg font-semibold tracking-tight text-gray-900",
                 ),
                 rx.el.p(
-                    f"Habitación {OccupancyState.selected_room['room']} · {OccupancyState.selected_room['building']}",
+                    f"Habitación {OccupancyState.selected_room['room']}",
                     class_name="truncate text-sm font-medium text-gray-500",
                 ),
                 class_name="min-w-0",
@@ -254,14 +254,14 @@ def detail_content() -> rx.Component:
         detail_header(),
         rx.el.div(
             status_pill(OccupancyState.selected_room["status"]),
-            rx.el.span(
-                OccupancyState.selected_room["lease_term"],
-                class_name="w-fit rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600",
-            ),
+            # rx.el.span(
+            #     OccupancyState.selected_room["lease_term"],
+            #     class_name="w-fit rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600",
+            # ),
             class_name="mt-4 flex flex-wrap items-center gap-2 pb-5",
         ),
         contact_block(),
-        occupancy_block(),
+        #occupancy_block(),
         lease_block(),
         payment_block(),
         rx.el.div(
@@ -313,7 +313,7 @@ def tenant_detail_panel() -> rx.Component:
                     class_name="text-sm font-semibold text-gray-900",
                 ),
                 rx.el.span(
-                    rx.cond(OccupancyState.has_selection, "Selected", "Empty"),
+                    rx.cond(OccupancyState.has_selection, "Seleccionado", "Vacío"),
                     class_name=rx.cond(
                         OccupancyState.has_selection,
                         "w-fit rounded-full border border-violet-200 bg-violet-50 px-2.5 py-0.5 text-xs font-semibold text-violet-700",

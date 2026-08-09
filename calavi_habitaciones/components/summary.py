@@ -72,7 +72,7 @@ def summary_section() -> rx.Component:
             # ),
             stat_card(
                 "Racaudación mensual",
-                f"${OccupancyState.monthly_revenue:,.0f}",
+                f"{OccupancyState.monthly_revenue:,.0f}€",
                 "wallet",
                 "Alquileres cobrados",
             ),

@@ -16,7 +16,7 @@ def history_card(item: Room) -> rx.Component:
                     class_name="text-base font-semibold text-gray-900",
                 ),
                 rx.el.p(
-                    f"{item['building']} · {item['tenant']}",
+                    f"{item['tenant']}",
                     class_name="text-sm font-medium text-gray-500",
                 ),
                 class_name="min-w-0 text-left",
@@ -72,7 +72,7 @@ def history_detail() -> rx.Component:
                             class_name="text-lg font-semibold text-gray-900",
                         ),
                         rx.el.p(
-                            f"Room {OccupancyState.selected_history_room['room']} · {OccupancyState.selected_history_room['building']}",
+                            f"Room {OccupancyState.selected_history_room['room']}",
                             class_name="text-sm font-medium text-gray-500",
                         ),
                     ),

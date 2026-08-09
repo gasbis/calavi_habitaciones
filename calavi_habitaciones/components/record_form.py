@@ -115,72 +115,72 @@ def record_form() -> rx.Component:
     return rx.el.form(
         rx.el.div(
             form_group(
-                "Room",
+                "Habitación",
                 "bed-double",
-                input_field("Room number", "room", "204"),
+                input_field("Número de habitación", "room", "1"),
+                # select_field(
+                #     "Building", "building", RecordState.building_options
+                # ),
+                input_field("Piso", "floor", "0"),
                 select_field(
-                    "Building", "building", RecordState.building_options
+                    "Tipo de cama", "bed_type", RecordState.bed_type_options
                 ),
-                input_field("Floor", "floor", "2", "number"),
-                select_field(
-                    "Room type", "room_type", RecordState.room_type_options
-                ),
-                select_field("Status", "status", RecordState.status_options),
-                select_field(
-                    "Lease term", "lease_term", RecordState.lease_term_options
-                ),
+                select_field("Estado actual", "status", RecordState.status_options),
+                # select_field(
+                #     "Lease term", "lease_term", RecordState.lease_term_options
+                # ),
             ),
             form_group(
-                "Resident",
+                "Inquilino",
                 "user-round",
-                input_field("Primary resident", "tenant", "Jordan Rivera"),
-                input_field("Roommate (optional)", "roommate", "Sam Okafor"),
+                input_field("Nombre y apellidos", "tenant", ""),
+                input_field("Documento de identidad", "tenant_dni", ""),
                 input_field(
-                    "Email", "tenant_email", "jordan.rivera@mail.com", "email"
+                    "Email", "tenant_email", "", "email"
                 ),
                 input_field(
-                    "Phone", "tenant_phone", "+1 (415) 555-0142", "tel"
+                    "Phone", "tenant_phone", "", "tel"
                 ),
-                input_field("Occupants", "occupants", "1", "number"),
-                input_field("Capacity", "capacity", "2", "number"),
+                # input_field("Occupants", "occupants", "1", "number"),
+                # input_field("Capacity", "capacity", "2", "number"),
             ),
             form_group(
-                "Lease & dates",
+                "Contrato",
                 "file-text",
-                input_field("Checked in", "check_in", "", "date"),
-                input_field("Lease start", "lease_start", "", "date"),
-                input_field("Lease end", "lease_end", "", "date"),
-                input_field("Next payment", "next_payment", "", "date"),
+                # input_field("Checked in", "check_in", "", "date"),
+                input_field("Fecha de inicio", "lease_start", "", "date"),
+                input_field("Fecha de finalización", "lease_end", "", "date"),
+                input_field("Próximo pago", "next_payment", "", "date"),
             ),
             form_group(
-                "Rent & payments",
+                "Renta y pagos",
                 "banknote",
-                input_field("Monthly rent", "rent", "1450", "number"),
-                input_field("Deposit held", "deposit", "2175", "number"),
-                input_field("Outstanding balance", "balance", "0", "number"),
+                input_field("Precio mensual", "rent", "400", "number"),
+                input_field("Fianza", "deposit", "400", "number"),
+                input_field("Saldo", "balance", "0", "number"),
                 select_field(
-                    "Payment status",
+                    "Estado de los pagos",
                     "payment_status",
                     RecordState.payment_status_options,
                 ),
-                input_field("Last payment", "last_payment", "", "date"),
+                input_field("Último pago", "last_payment", "", "date"),
             ),
-            form_group(
-                "Emergency contact",
-                "life-buoy",
-                input_field("Contact name", "emergency_name", "Alex Rivera"),
-                select_field(
-                    "Relationship",
-                    "emergency_relation",
-                    RecordState.relation_options,
-                ),
-                input_field(
-                    "Contact phone",
-                    "emergency_phone",
-                    "+1 (628) 555-0199",
-                    "tel",
-                ),
-            ),
+            # form_group(
+            #     "Emergency contact",
+            #     "life-buoy",
+            #     input_field("Contact name", "emergency_name", "Alex Rivera"),
+            #     select_field(
+            #         "Relationship",
+            #         "emergency_relation",
+            #         RecordState.relation_options,
+            #     ),
+            #     input_field(
+            #         "Contact phone",
+            #         "emergency_phone",
+            #         "+1 (628) 555-0199",
+            #         "tel",
+            #     ),
+            # ),
             rx.el.div(
                 notes_field(), class_name="border-t border-gray-100 pt-5"
             ),
