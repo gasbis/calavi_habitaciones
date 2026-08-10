@@ -7,17 +7,17 @@ import reflex as rx
 # )
 from calavi_habitaciones.models import (
     EMPTY_ROOM,
-    Room,
+    Lease,
     #ensure_tables,
     list_rooms,
     #seed_if_empty,
 )
 
-__all__ = ["EMPTY_ROOM", "OccupancyState", "Room"]
+__all__ = ["EMPTY_ROOM", "OccupancyState", "Lease"]
 
 
 class OccupancyState(rx.State):
-    rooms: list[Room] = []
+    rooms: list[Lease] = []
     total_units: int = 7
     #search: str = ""
     #building_filter: str = "All buildings"
@@ -45,18 +45,18 @@ class OccupancyState(rx.State):
         return f"Habitación {room['room']}"
 
     @rx.var
-    def selected_room(self) -> Room:
+    def selected_room(self) -> Lease:
         for room in self.rooms:
             if room["id"] == self.selected_id:
                 return room
         return EMPTY_ROOM
 
     @rx.var
-    def occupied_rooms(self) -> list[Room]:
+    def occupied_rooms(self) -> list[Lease]:
         return [r for r in self.rooms if r["record_status"] != "Terminated"]
 
     @rx.var
-    def terminated_rooms(self) -> list[Room]:
+    def terminated_rooms(self) -> list[Lease]:
         return [r for r in self.rooms if r["record_status"] == "Terminated"]
 
     @rx.var
@@ -64,7 +64,7 @@ class OccupancyState(rx.State):
         return len(self.terminated_rooms)
 
     @rx.var
-    def history_filtered_rooms(self) -> list[Room]:
+    def history_filtered_rooms(self) -> list[Lease]:
         query = self.history_search.strip().lower()
         if not query:
             return self.terminated_rooms
@@ -78,7 +78,7 @@ class OccupancyState(rx.State):
         ]
 
     @rx.var
-    def selected_history_room(self) -> Room:
+    def selected_history_room(self) -> Lease:
         for room in self.terminated_rooms:
             if room["id"] == self.history_selected_id:
                 return room
@@ -97,7 +97,7 @@ class OccupancyState(rx.State):
     #     return ["All buildings", *_BUILDINGS]
 
     @rx.var
-    def filtered_rooms(self) -> list[Room]:
+    def filtered_rooms(self) -> list[Lease]:
         #query = self.search.strip().lower()
         result = self.occupied_rooms
         # if self.building_filter != "All buildings":

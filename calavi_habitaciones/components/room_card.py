@@ -1,6 +1,6 @@
 import reflex as rx
 
-from calavi_habitaciones.states.occupancy_state import OccupancyState, Room
+from calavi_habitaciones.states.occupancy_state import OccupancyState, Lease
 
 
 def status_pill(status: rx.Var[str]) -> rx.Component:
@@ -37,7 +37,8 @@ def meta_row(icon: str, label: str, value: rx.Var | str) -> rx.Component:
     )
 
 
-def room_card(item: Room) -> rx.Component:
+def room_card(item: Lease) -> rx.Component:
+    
     return rx.el.button(
         rx.el.div(
             rx.el.div(

@@ -1,9 +1,9 @@
 import reflex as rx
 
-from calavi_habitaciones.states.occupancy_state import OccupancyState, Room
+from calavi_habitaciones.states.occupancy_state import OccupancyState, Lease
 
 
-def history_card(item: Room) -> rx.Component:
+def history_card(item: Lease) -> rx.Component:
     return rx.el.button(
         rx.el.div(
             rx.el.div(

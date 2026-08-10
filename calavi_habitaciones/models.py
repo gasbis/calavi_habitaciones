@@ -1,86 +1,67 @@
 import hashlib
 import hmac
 import logging
-import random
+#import random
 import secrets
 from typing import TypedDict
 
 import reflex as rx
 import sqlmodel
-from faker import Faker
+#from faker import Faker
 
 
-class Room(TypedDict):
+class Lease(TypedDict):
     id: str
-    room: str
-    # building: str
+    room: int
     floor: int
     bed_type: str
     tenant: str
     tenant_dni: str
     tenant_email: str
-    tenant_phone: str
-    #occupants: int
-    # capacity: int
-    # occupant_names: list[str]
+    tenant_phone: str    
     rent: float
     deposit: float
     balance: float
     payment_status: str
     last_payment: str
     next_payment: str
-    #check_in: str
     lease_start: str
     lease_end: str
-    # lease_term: str
     status: str
     notes: str
-    # emergency_name: str
-    # emergency_relation: str
-    # emergency_phone: str
     record_status: str
     termination_date: str
     termination_reason: str
 
 
-EMPTY_ROOM: Room = Room(
+EMPTY_ROOM: Lease = Lease(
     id="",
     room="",
-    # building="",
-    floor=0,
+    floor="",
     bed_type="",
     tenant="",
     tenant_dni="",
     tenant_email="",
     tenant_phone="",
-    # occupants=0,
-    # capacity=0,
-    # occupant_names=[],
     rent=0.0,
     deposit=0.0,
     balance=0.0,
     payment_status="",
     last_payment="",
     next_payment="",
-    # check_in="",
     lease_start="",
     lease_end="",
-    # lease_term="",
     status="",
     notes="",
-    # emergency_name="",
-    # emergency_relation="",
-    # emergency_phone="",
     record_status="Occupied",
     termination_date="",
     termination_reason="",
+
 )
 
 
-# BUILDINGS: list[str] = ["Aurora Hall", "Birch House", "Cedar Court"]
 _BED_TYPES: list[str] = ["Studio", "Single", "Double", "Suite", "Shared Loft"]
 _STATUSES: list[str] = ["Active", "Ending soon", "Overdue"]
-# _RELATIONS: list[str] = ["Sister", "Father", "Mother", "Partner", "Brother"]
 _NOTES: list[str] = [
     "Quiet tenant, prefers maintenance visits after 5pm. Bike stored in basement rack 4.",
     "Requested extra storage locker. Renewed once, strong payment history.",
@@ -101,105 +82,95 @@ class AdminAccount(rx.Model, table=True):
     active: bool = True
     password_hash: str = ""
 
+class TenantRecord(rx.Model, table=True):
+    """Database-backed tenant record for a room and its resident."""
+
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    tenant: str = ""
+    tenant_dni: str = ""
+    tenant_email: str = ""
+    tenant_phone: str = ""
+    occupancyrecords: list["OccupancyRecord"] = sqlmodel.Relationship(back_populates="tenant")
+    
+class RoomRecord(rx.Model, table=True):
+    """Database-backed room record for a room and its resident."""
+
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    room: str = ""
+    floor: int = 0
+    bed_type: str = ""
+    status: str = "Active"
+    occupancyrecords: list["OccupancyRecord"] = sqlmodel.Relationship(back_populates="room")
 
 class OccupancyRecord(rx.Model, table=True):
     """Database-backed occupancy record for a room and its resident."""
 
     id: int | None = sqlmodel.Field(default=None, primary_key=True)
-    room: str = ""
-    #building: str = ""
-    floor: int = 1
-    bed_type: str = ""
-    tenant: str = ""
-    tenant_dni: str = ""
-    tenant_email: str = ""
-    tenant_phone: str = ""
-    # occupants: int = 1
-    # capacity: int = 1
-    # occupant_names: str = ""
+    room_id: int = sqlmodel.Field(foreign_key="roomrecord.id")
+    room: RoomRecord = sqlmodel.Relationship(back_populates="occupancyrecords")    
+    tenant_id: int = sqlmodel.Field(foreign_key="tenantrecord.id")
+    tenant: TenantRecord = sqlmodel.Relationship(back_populates="occupancyrecords")
     rent: float = 0.0
     deposit: float = 0.0
     balance: float = 0.0
     payment_status: str = "Paid"
     last_payment: str = ""
     next_payment: str = ""
-    #check_in: str = ""
     lease_start: str = ""
     lease_end: str = ""
-    # lease_term: str = ""
-    status: str = "Active"
     notes: str = ""
-    # emergency_name: str = ""
-    # emergency_relation: str = ""
-    # emergency_phone: str = ""
     record_status: str = "Occupied"
     termination_date: str = ""
     termination_reason: str = ""
+    
 
 
-def _record_to_room(record: OccupancyRecord) -> Room:
+def _record_to_room(record: OccupancyRecord) -> Lease:
     # names = [n for n in record.occupant_names.split("|") if n]
-    return Room(
+    return Lease(
         id=f"room-{record.id}",
-        room=record.room,
-        # building=record.building,
-        floor=record.floor,
-        bed_type=record.bed_type,
-        tenant=record.tenant,
-        tenant_dni=record.tenant_dni,
-        tenant_email=record.tenant_email,
-        tenant_phone=record.tenant_phone,
-        # occupants=record.occupants,
-        # capacity=record.capacity,
-        # occupant_names=names or [record.tenant],
+        room=record.room.room,        
+        floor=record.room.floor,
+        bed_type=record.room.bed_type,
+        tenant=record.tenant.tenant,
+        tenant_dni=record.tenant.tenant_dni,
+        tenant_email=record.tenant.tenant_email,
+        tenant_phone=record.tenant.tenant_phone,
         rent=record.rent,
         deposit=record.deposit,
         balance=record.balance,
         payment_status=record.payment_status,
         last_payment=record.last_payment,
         next_payment=record.next_payment,
-        # check_in=record.check_in,
         lease_start=record.lease_start,
         lease_end=record.lease_end,
-        # lease_term=record.lease_term,
-        status=record.status,
+        status=record.room.status,
         notes=record.notes,
-        # emergency_name=record.emergency_name,
-        # emergency_relation=record.emergency_relation,
-        # emergency_phone=record.emergency_phone,
         record_status=record.record_status,
         termination_date=record.termination_date,
         termination_reason=record.termination_reason,
     )
 
+    
 
-def _apply_room(record: OccupancyRecord, data: Room) -> OccupancyRecord:
-    record.room = data["room"]
-    # record.building = data["building"]
-    record.floor = int(data["floor"])
-    record.bed_type = data["bed_type"]
-    record.tenant = data["tenant"]
-    record.tenant_dni= data["tenant_dni"]
-    record.tenant_email = data["tenant_email"]
-    record.tenant_phone = data["tenant_phone"]
-    # record.occupants = int(data["occupants"])
-    # record.capacity = int(data["capacity"])
-    # record.occupant_names = "|".join(data["occupant_names"])
+def _apply_room(record: OccupancyRecord, data: Lease) -> OccupancyRecord:
+    record.room = data["room"]["room"]
+    record.floor = int(data["room"]["floor"])
+    record.bed_type = data["room"]["bed_type"]
+    record.tenant = data["tenant"]["tenant"]
+    record.tenant_dni = data["tenant"]["tenant_dni"]
+    record.tenant_email = data["tenant"]["tenant_email"]
+    record.tenant_phone = data["tenant"]["tenant_phone"]
     record.rent = float(data["rent"])
     record.deposit = float(data["deposit"])
     record.balance = float(data["balance"])
     record.payment_status = data["payment_status"]
     record.last_payment = data["last_payment"]
     record.next_payment = data["next_payment"]
-    # record.check_in = data["check_in"]
     record.lease_start = data["lease_start"]
     record.lease_end = data["lease_end"]
-    # record.lease_term = data["lease_term"]
-    record.status = data["status"]
+    record.status = data["room"]["status"]
     record.notes = data["notes"]
-    # record.emergency_name = data["emergency_name"]
-    # record.emergency_relation = data["emergency_relation"]
-    # record.emergency_phone = data["emergency_phone"]
     record.record_status = data["record_status"]
     record.termination_date = data["termination_date"]
     record.termination_reason = data["termination_reason"]
@@ -427,7 +398,7 @@ def seed_if_empty() -> None:
         logging.exception(f"Error: {e}")
 
 
-def list_rooms() -> list[Room]:
+def list_rooms() -> list[Lease]:
     try:
         with rx.session() as session:
             records = session.exec(
@@ -439,7 +410,7 @@ def list_rooms() -> list[Room]:
         return []
 
 
-def room_exists(room: str, building: str, exclude_id: str = "") -> bool:
+def room_exists(room: str, exclude_id: str = "") -> bool:
     try:
         exclude_pk = _record_pk(exclude_id) if exclude_id else -1
         with rx.session() as session:
@@ -450,7 +421,7 @@ def room_exists(room: str, building: str, exclude_id: str = "") -> bool:
                 )
             ).all()
             return any(
-                record.room.lower() == room.lower() and record.id != exclude_pk
+                record.room.room.lower() == room.lower() and record.id != exclude_pk
                 for record in records
             )
     except Exception as e:
@@ -458,7 +429,7 @@ def room_exists(room: str, building: str, exclude_id: str = "") -> bool:
         return False
 
 
-def create_room(data: Room) -> str:
+def create_room(data: Lease) -> str:
     """Insert a record and return its room id (empty string on failure)."""
     try:
         with rx.session() as session:
@@ -472,7 +443,7 @@ def create_room(data: Room) -> str:
         return ""
 
 
-def update_room(room_id: str, data: Room) -> bool:
+def update_room(room_id: str, data: Lease) -> bool:
     try:
         pk = _record_pk(room_id)
         with rx.session() as session:
@@ -503,7 +474,7 @@ def delete_room(room_id: str) -> bool:
         return False
 
 
-def get_room(room_id: str) -> Room:
+def get_room(room_id: str) -> Lease:
     try:
         pk = _record_pk(room_id)
         with rx.session() as session:

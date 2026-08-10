@@ -5,7 +5,7 @@ import reflex as rx
 
 from calavi_habitaciones.models import (
     EMPTY_ROOM,
-    Room,
+    Lease,
     create_room,
     delete_room,
     get_room,
@@ -18,7 +18,6 @@ _DISPLAY_FORMAT = "%d-%m-%Y"
 
 _FORM_KEYS: list[str] = [
     "room",
-    "building",
     "floor",
     "bed_type",
     "status",
@@ -26,7 +25,6 @@ _FORM_KEYS: list[str] = [
     "tenant_dni",
     "tenant_email",
     "tenant_phone",
-    "roommate",
     # "occupants",
     # "capacity",
     "rent",
@@ -67,7 +65,7 @@ def _blank_errors() -> dict[str, str]:
 
 def _to_input_date(display: str) -> str:
     try:
-        return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%d-%m-%Y")
+        return datetime.strptime(display, "%Y-%m-%d").strftime(_DISPLAY_FORMAT)
     except Exception:
         logging.exception("Unexpected error")
         return ""
@@ -75,7 +73,7 @@ def _to_input_date(display: str) -> str:
 
 def _to_display_date(value: str) -> str:
     try:
-        return datetime.strptime(value, "%d-%m-%Y").strftime(_DISPLAY_FORMAT)
+        return datetime.strptime(value, "%Y-%m-%d").strftime(_DISPLAY_FORMAT)
     except Exception:
         logging.exception("Unexpected error")
         return ""
@@ -106,13 +104,6 @@ class RecordState(rx.State):
     extension_error: str = ""
     extension_notice: str = ""
     extension_end_date: str = ""
-    # extension_options: list[str] = ["30 days", "60 days", "90 days"]
-
-    # building_options: list[str] = [
-    #     "Aurora Hall",
-    #     "Birch House",
-    #     "Cedar Court",
-    # ]
     bed_type_options: list[str] = [
         "0.30",
         "1.35",
@@ -120,31 +111,18 @@ class RecordState(rx.State):
     ]
     status_options: list[str] = ["Ocupada", "Finaliza pronto", "Caducado"]
     payment_status_options: list[str] = ["Paid", "Due", "Overdue"]
-    # lease_term_options: list[str] = [
-    #     "6-month lease",
-    #     "12-month lease",
-    #     "Month-to-month",
-    # ]
-    relation_options: list[str] = [
-        "Sister",
-        "Brother",
-        "Mother",
-        "Father",
-        "Partner",
-        "Friend",
-    ]
 
     @rx.var
     def dialog_title(self) -> str:
         return (
-            "Edit occupied room" if self.mode == "edit" else "Alta de contrato"
+            "Editar contrato" if self.mode == "edit" else "Alta de contrato"
         )
 
     @rx.var
     def dialog_subtitle(self) -> str:
         if self.mode == "edit":
             return (
-                "Update the resident, lease and payment details for this room."
+                "Cambiar datos de pago, residente, etc."
             )
         return (
             "Crear un nuevo registro de contrato de alquiler."
@@ -236,7 +214,7 @@ class RecordState(rx.State):
 
             end_date = datetime.strptime(raw_date, "%Y-%m-%d")
             lease_start = datetime.strptime(
-                room["lease_start"], _DISPLAY_FORMAT
+                room["lease_start"], "%Y-%m-%d"
             )
             if end_date < lease_start:
                 self.termination_error = (
@@ -251,7 +229,7 @@ class RecordState(rx.State):
             updated["termination_reason"] = reason
             if note:
                 updated["notes"] = f"{room['notes']}\nTermination note: {note}"
-            if not update_room(target, Room(**updated)):
+            if not update_room(target, Lease(**updated)):
                 self.termination_error = (
                     "That occupancy record could not be found."
                 )
@@ -302,7 +280,7 @@ class RecordState(rx.State):
                 return
             raw_date = form_data.get("extension_end_date", "").strip()
             option = form_data.get("extension_option", "")
-            current_end = datetime.strptime(room["lease_end"], _DISPLAY_FORMAT)
+            current_end = datetime.strptime(room["lease_end"], "%Y-%m-%d")
             if raw_date:
                 new_end = datetime.strptime(raw_date, "%Y-%m-%d")
             elif option in ("30 days", "60 days", "90 days"):
@@ -323,7 +301,7 @@ class RecordState(rx.State):
                 updated["status"] = "Active"
             if room["payment_status"] == "Overdue" and room["balance"] <= 0:
                 updated["payment_status"] = "Paid"
-            if not update_room(target, Room(**updated)):
+            if not update_room(target, Lease(**updated)):
                 self.extension_error = "The selected room could not be found."
                 return
             occupancy._sync_rooms()
@@ -442,34 +420,11 @@ class RecordState(rx.State):
 
         try:
             floor = int(data["floor"])
-            if floor < 1 or floor > 60:
-                errors["floor"] = "Floor must be between 1 and 60."
+            if floor < 0 or floor > 1:
+                errors["floor"] = "Floor must be between 0 and 1."
         except ValueError:
             errors["floor"] = "Floor must be a whole number."
-
-        occupants = capacity = 0
-        try:
-            capacity = int(data["capacity"])
-            if capacity < 1:
-                errors["capacity"] = "Capacity must be at least 1."
-        except ValueError:
-            errors["capacity"] = "Capacity must be a whole number."
-        try:
-            occupants = int(data["occupants"])
-            if occupants < 1:
-                errors["occupants"] = (
-                    "An occupied room needs at least 1 occupant."
-                )
-        except ValueError:
-            errors["occupants"] = "Occupants must be a whole number."
-
-        if (
-            not errors["occupants"]
-            and not errors["capacity"]
-            and occupants > capacity
-        ):
-            errors["occupants"] = "Occupants cannot exceed room capacity."
-
+        
         for key, label, minimum in (
             ("rent", "Monthly rent", 1.0),
             ("deposit", "Deposit", 0.0),
@@ -483,7 +438,6 @@ class RecordState(rx.State):
                 errors[key] = f"{label} must be a number."
 
         for key, label in (
-            ("check_in", "Check-in date"),
             ("lease_start", "Lease start"),
             ("lease_end", "Lease end"),
             ("last_payment", "Last payment date"),
@@ -498,11 +452,6 @@ class RecordState(rx.State):
             and data["lease_end"] <= data["lease_start"]
         ):
             errors["lease_end"] = "Lease end must be after the lease start."
-
-        if not data["emergency_name"]:
-            errors["emergency_name"] = "Emergency contact name is required."
-        if not data["emergency_phone"]:
-            errors["emergency_phone"] = "Emergency contact phone is required."
 
         return errors
 
@@ -528,7 +477,7 @@ class RecordState(rx.State):
             occupancy = await self.get_state(OccupancyState)
 
             duplicate = room_exists(
-                data["room"], data["building"], self.editing_id
+                data["room"], self.editing_id
             )
             if duplicate:
                 self.errors = {
@@ -543,7 +492,7 @@ class RecordState(rx.State):
                 occupant_names.append(data["roommate"])
 
             record_id = self.editing_id
-            record = Room(
+            record = Lease(
                 id=record_id,
                 room=data["room"],
                 # building=data["building"],

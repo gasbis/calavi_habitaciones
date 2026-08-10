@@ -165,22 +165,6 @@ def record_form() -> rx.Component:
                 ),
                 input_field("Último pago", "last_payment", "", "date"),
             ),
-            # form_group(
-            #     "Emergency contact",
-            #     "life-buoy",
-            #     input_field("Contact name", "emergency_name", "Alex Rivera"),
-            #     select_field(
-            #         "Relationship",
-            #         "emergency_relation",
-            #         RecordState.relation_options,
-            #     ),
-            #     input_field(
-            #         "Contact phone",
-            #         "emergency_phone",
-            #         "+1 (628) 555-0199",
-            #         "tel",
-            #     ),
-            # ),
             rx.el.div(
                 notes_field(), class_name="border-t border-gray-100 pt-5"
             ),
