@@ -8,8 +8,9 @@ import reflex as rx
 from calavi_habitaciones.models import (
     EMPTY_ROOM,
     Room,
+    #ensure_tables,
     list_rooms,
-    seed_if_empty,
+    #seed_if_empty,
 )
 
 __all__ = ["EMPTY_ROOM", "OccupancyState", "Room"]
@@ -242,7 +243,8 @@ class OccupancyState(rx.State):
             return
         self.is_loading = True
         yield
-        seed_if_empty()
+        #seed_if_empty()
+        #ensure_tables()
         await asyncio.sleep(0.4)
         self._sync_rooms()
         self.is_loading = False

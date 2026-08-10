@@ -74,7 +74,7 @@ def occupant_chip(name: rx.Var[str]) -> rx.Component:
 
 def contact_block() -> rx.Component:
     return rx.el.div(
-        section_title("contacto", "Contact"),
+        section_title("contact", "Contacto"),
         rx.el.div(
             contact_link(
                 "mail",

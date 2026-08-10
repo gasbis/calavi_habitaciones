@@ -91,7 +91,7 @@ _NOTES: list[str] = [
 ]
 
 
-class AdminAccount(sqlmodel.SQLModel, table=True):
+class AdminAccount(rx.Model, table=True):
     """Database-backed administrator account with a one-way password hash."""
 
     id: int | None = sqlmodel.Field(default=None, primary_key=True)
@@ -102,7 +102,7 @@ class AdminAccount(sqlmodel.SQLModel, table=True):
     password_hash: str = ""
 
 
-class OccupancyRecord(sqlmodel.SQLModel, table=True):
+class OccupancyRecord(rx.Model, table=True):
     """Database-backed occupancy record for a room and its resident."""
 
     id: int | None = sqlmodel.Field(default=None, primary_key=True)
@@ -293,7 +293,7 @@ def set_admin_active(email: str, active: bool) -> bool:
 
 
 def seed_admin_accounts() -> None:
-    ensure_tables()
+    #ensure_tables()
     try:
         with rx.session() as session:
             if session.exec(sqlmodel.select(AdminAccount)).first() is not None:
@@ -327,99 +327,101 @@ def seed_admin_accounts() -> None:
         logging.exception(f"Error: {e}")
 
 
-def ensure_tables() -> None:
-    """Ensure the configured database schema is available."""
-    try:
-        engine = rx.model.get_engine()
-        sqlmodel.SQLModel.metadata.create_all(engine)
-    except Exception as e:
-        logging.exception(f"Error: {e}")
+# def ensure_tables() -> None:
+#     """Ensure the configured database schema is available."""
+#     try:
+#         # engine = rx.model.get_engine()
+#         # sqlmodel.SQLModel.metadata.create_all(engine)
+#         """Creamos las tablas en la base de datos si no existen"""
+#         rx.Model.metadata.create_all()
+#     except Exception as e:
+#         logging.exception(f"Error: {e}")
 
 
-def _seed_rooms() -> list[Room]:
-    fake = Faker()
-    Faker.seed(7)
-    random.seed(7)
-    rooms: list[Room] = []
-    for i in range(12):
-        #building = BUILDINGS[i % len(BUILDINGS)]
-        floor = (i % 4) + 1
-        room_type = _BED_TYPES[i % len(_BED_TYPES)]
-        capacity = 1 if room_type in ("Studio", "Single") else 2
-        name = fake.name()
-        status = _STATUSES[0]
-        if i in (3, 9):
-            status = _STATUSES[1]
-        if i == 6:
-            status = _STATUSES[2]
-        rent = float(random.randrange(880, 2450, 5))
-        payment_status = "Paid"
-        balance = 0.0
-        if status == _STATUSES[2]:
-            payment_status = "Overdue"
-            balance = rent
-        elif i in (2, 8):
-            payment_status = "Due"
-            balance = round(rent / 2, 2)
-        occupant_names = [name]
-        if capacity > 1:
-            occupant_names.append(fake.name())
-        rooms.append(
-            Room(
-                id="",
-                room=f"{floor}{(i % 6) + 1:02d}",
-                # building=building,
-                floor=floor,
-                bed_type=room_type,
-                tenant=name,
-                tenant_email=f"{name.split(' ')[0].lower()}.{name.split(' ')[-1].lower()}@mail.com",
-                tenant_phone=f"+1 (415) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
-                # occupants=capacity,
-                # capacity=capacity,
-                # occupant_names=occupant_names,
-                rent=rent,
-                deposit=round(rent * 1.5, 2),
-                balance=balance,
-                payment_status=payment_status,
-                last_payment=fake.date_between(
-                    start_date="-45d", end_date="-5d"
-                ).strftime("%b %d, %Y"),
-                next_payment=fake.date_between(
-                    start_date="+3d", end_date="+30d"
-                ).strftime("%b %d, %Y"),
-                # check_in=fake.date_between(
-                #     start_date="-2y", end_date="-3M"
-                # ).strftime("%b %d, %Y"),
-                lease_start=fake.date_between(
-                    start_date="-2y", end_date="-4M"
-                ).strftime("%b %d, %Y"),
-                lease_end=fake.date_between(
-                    start_date="+1M", end_date="+1y"
-                ).strftime("%b %d, %Y"),
-                # lease_term=f"{12 if i % 2 == 0 else 6}-month lease",
-                status=status,
-                notes=_NOTES[i % len(_NOTES)],
-                # emergency_name=fake.name(),
-                # emergency_relation=_RELATIONS[i % len(_RELATIONS)],
-                # emergency_phone=f"+1 (628) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
-                record_status="Occupied",
-                termination_date="",
-                termination_reason="",
-            )
-        )
-    return rooms
+# def _seed_rooms() -> list[Room]:
+#     fake = Faker()
+#     Faker.seed(7)
+#     random.seed(7)
+#     rooms: list[Room] = []
+#     for i in range(12):
+#         #building = BUILDINGS[i % len(BUILDINGS)]
+#         floor = (i % 4) + 1
+#         room_type = _BED_TYPES[i % len(_BED_TYPES)]
+#         capacity = 1 if room_type in ("Studio", "Single") else 2
+#         name = fake.name()
+#         status = _STATUSES[0]
+#         if i in (3, 9):
+#             status = _STATUSES[1]
+#         if i == 6:
+#             status = _STATUSES[2]
+#         rent = float(random.randrange(880, 2450, 5))
+#         payment_status = "Paid"
+#         balance = 0.0
+#         if status == _STATUSES[2]:
+#             payment_status = "Overdue"
+#             balance = rent
+#         elif i in (2, 8):
+#             payment_status = "Due"
+#             balance = round(rent / 2, 2)
+#         occupant_names = [name]
+#         if capacity > 1:
+#             occupant_names.append(fake.name())
+#         rooms.append(
+#             Room(
+#                 id="",
+#                 room=f"{floor}{(i % 6) + 1:02d}",
+#                 # building=building,
+#                 floor=floor,
+#                 bed_type=room_type,
+#                 tenant=name,
+#                 tenant_email=f"{name.split(' ')[0].lower()}.{name.split(' ')[-1].lower()}@mail.com",
+#                 tenant_phone=f"+1 (415) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
+#                 # occupants=capacity,
+#                 # capacity=capacity,
+#                 # occupant_names=occupant_names,
+#                 rent=rent,
+#                 deposit=round(rent * 1.5, 2),
+#                 balance=balance,
+#                 payment_status=payment_status,
+#                 last_payment=fake.date_between(
+#                     start_date="-45d", end_date="-5d"
+#                 ).strftime("%b %d, %Y"),
+#                 next_payment=fake.date_between(
+#                     start_date="+3d", end_date="+30d"
+#                 ).strftime("%b %d, %Y"),
+#                 # check_in=fake.date_between(
+#                 #     start_date="-2y", end_date="-3M"
+#                 # ).strftime("%b %d, %Y"),
+#                 lease_start=fake.date_between(
+#                     start_date="-2y", end_date="-4M"
+#                 ).strftime("%b %d, %Y"),
+#                 lease_end=fake.date_between(
+#                     start_date="+1M", end_date="+1y"
+#                 ).strftime("%b %d, %Y"),
+#                 # lease_term=f"{12 if i % 2 == 0 else 6}-month lease",
+#                 status=status,
+#                 notes=_NOTES[i % len(_NOTES)],
+#                 # emergency_name=fake.name(),
+#                 # emergency_relation=_RELATIONS[i % len(_RELATIONS)],
+#                 # emergency_phone=f"+1 (628) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
+#                 record_status="Occupied",
+#                 termination_date="",
+#                 termination_reason="",
+#             )
+#         )
+#     return rooms
 
 
 def seed_if_empty() -> None:
     """Insert realistic starter records only when the table is empty."""
-    ensure_tables()
+    #ensure_tables()
     try:
         with rx.session() as session:
             existing = session.exec(sqlmodel.select(OccupancyRecord)).first()
             if existing is not None:
                 return
-            for room in _seed_rooms():
-                session.add(_apply_room(OccupancyRecord(), room))
+            # for room in _seed_rooms():
+            #     session.add(_apply_room(OccupancyRecord(), room))
             session.commit()
     except Exception as e:
         logging.exception(f"Error: {e}")
