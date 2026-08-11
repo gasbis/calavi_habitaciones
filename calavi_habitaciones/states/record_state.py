@@ -7,9 +7,15 @@ from calavi_habitaciones.models import (
     EMPTY_ROOM,
     Lease,
     create_room,
+    create_room_record,
+    create_tenant_record,
     delete_room,
     get_room,
-    room_exists,
+    get_room_record,
+    get_tenant_record,
+    list_available_rooms,
+    list_available_tenants,
+    room_number_exists,
     update_room,
 )
 from calavi_habitaciones.states.occupancy_state import OccupancyState
@@ -17,45 +23,15 @@ from calavi_habitaciones.states.occupancy_state import OccupancyState
 _DISPLAY_FORMAT = "%d-%m-%Y"
 
 _FORM_KEYS: list[str] = [
-    "room",
-    "floor",
-    "bed_type",
-    "status",
-    "tenant",
-    "tenant_dni",
-    "tenant_email",
-    "tenant_phone",
-    # "occupants",
-    # "capacity",
-    "rent",
-    "deposit",
-    "balance",
-    "payment_status",
-    # "check_in",
-    "lease_start",
-    "lease_end",
-    # "lease_term",
-    "last_payment",
-    "next_payment",
-    # "emergency_name",
-    # "emergency_relation",
-    # "emergency_phone",
-    "notes",
+    "rent", "deposit", "balance", "payment_status",
+    "lease_start", "lease_end", "last_payment", "next_payment", "notes",
 ]
 
 
 def _blank_form() -> dict[str, str]:
     values = {key: "" for key in _FORM_KEYS}
-    # values["building"] = "Aurora Hall"
-    values["bed_type"] = "Single"
-    values["status"] = "Active"
     values["payment_status"] = "Paid"
-    # values["lease_term"] = "12-month lease"
-    values["floor"] = "1"
-    # values["occupants"] = "1"
-    # values["capacity"] = "1"
     values["balance"] = "0"
-    # values["emergency_relation"] = "Partner"
     return values
 
 
@@ -111,6 +87,36 @@ class RecordState(rx.State):
     ]
     status_options: list[str] = ["Ocupada", "Finaliza pronto", "Caducado"]
     payment_status_options: list[str] = ["Paid", "Due", "Overdue"]
+    room_options: list[dict[str, str]] = []
+    tenant_options: list[dict[str, str]] = []
+    selected_room_id: str = ""   # "" => crear habitación nueva
+    selected_tenant_id: str = ""  # "" => crear inquilino nuevo
+    selected_room_id: str = ""
+    selected_room: dict[str, str] = {}
+    selected_tenant_id: str = ""
+    selected_tenant: dict[str, str] = {}
+
+    room_subform_open: bool = False
+    room_available: list[dict[str, str]] = []
+    room_subform_selected_id: str = ""
+    room_subform_room: str = ""
+    room_subform_floor: str = "1"
+    room_subform_bed_type: str = "Single"
+    room_subform_status: str = "Active"
+    room_subform_error: str = ""
+
+    tenant_subform_open: bool = False
+    tenant_available: list[dict[str, str]] = []
+    tenant_subform_selected_id: str = ""
+    tenant_subform_tenant: str = ""
+    tenant_subform_dni: str = ""
+    tenant_subform_email: str = ""
+    tenant_subform_phone: str = ""
+    tenant_subform_error: str = ""
+    
+    def _load_options(self):
+        self.room_options = list_room_records()
+        self.tenant_options = list_tenant_records()
 
     @rx.var
     def dialog_title(self) -> str:
@@ -130,7 +136,7 @@ class RecordState(rx.State):
 
     @rx.var
     def submit_label(self) -> str:
-        return "Guardar cambios" if self.mode == "editar" else "Crear registro"
+        return "Guardar cambios" if self.mode == "edit" else "Crear registro"
 
     @rx.var
     def has_delete_target(self) -> bool:
@@ -143,6 +149,155 @@ class RecordState(rx.State):
     @rx.var
     def has_extension_target(self) -> bool:
         return self.extension_target_id != ""
+    
+    @rx.event
+    def open_room_subform(self):
+        self.room_available = list_available_rooms(exclude_room_id=self.selected_room_id)
+        self.room_subform_selected_id = self.selected_room_id
+        self.room_subform_room = self.selected_room.get("room", "")
+        self.room_subform_floor = self.selected_room.get("floor", "1")
+        self.room_subform_bed_type = self.selected_room.get("bed_type", "Single")
+        self.room_subform_status = self.selected_room.get("status", "Active")
+        self.room_subform_error = ""
+        self.room_subform_open = True
+
+    @rx.event
+    def close_room_subform(self):
+        self.room_subform_open = False
+        self.room_subform_error = ""
+
+    @rx.event
+    def set_room_subform_selected_id(self, value: str):
+        self.room_subform_selected_id = value
+
+    @rx.event
+    def set_room_subform_room(self, value: str):
+        self.room_subform_room = value
+
+    @rx.event
+    def set_room_subform_floor(self, value: str):
+        self.room_subform_floor = value
+
+    @rx.event
+    def set_room_subform_bed_type(self, value: str):
+        self.room_subform_bed_type = value
+
+    @rx.event
+    def set_room_subform_status(self, value: str):
+        self.room_subform_status = value
+
+    @rx.event
+    def confirm_room_subform(self):
+        if self.room_subform_selected_id:
+            room = get_room_record(self.room_subform_selected_id)
+            if not room:
+                self.room_subform_error = "That room could not be found."
+                return
+            self.selected_room_id = room["id"]
+            self.selected_room = room
+        else:
+            room_number = self.room_subform_room.strip()
+            if not room_number:
+                self.room_subform_error = "Room number is required."
+                return
+            if len(room_number) > 8:
+                self.room_subform_error = "Use a short room label (max 8 characters)."
+                return
+            if room_number_exists(room_number, exclude_id=self.selected_room_id):
+                self.room_subform_error = "That room number already exists."
+                return
+            try:
+                floor = int(self.room_subform_floor)
+            except ValueError:
+                self.room_subform_error = "Floor must be a whole number."
+                return
+            new_id = create_room_record(
+                room=room_number, floor=floor,
+                bed_type=self.room_subform_bed_type, status=self.room_subform_status,
+            )
+            if not new_id:
+                self.room_subform_error = "The room could not be created. Please try again."
+                return
+            self.selected_room_id = new_id
+            self.selected_room = {
+                "id": new_id, "room": room_number, "floor": str(floor),
+                "bed_type": self.room_subform_bed_type, "status": self.room_subform_status,
+            }
+        self.room_subform_open = False
+        self.room_subform_error = ""
+    
+    @rx.event
+    def open_tenant_subform(self):
+        self.tenant_available = list_available_tenants(exclude_tenant_id=self.selected_tenant_id)
+        self.tenant_subform_selected_id = self.selected_tenant_id
+        self.tenant_subform_tenant = self.selected_tenant.get("tenant", "")
+        self.tenant_subform_dni = self.selected_tenant.get("tenant_dni", "")
+        self.tenant_subform_email = self.selected_tenant.get("tenant_email", "")
+        self.tenant_subform_phone = self.selected_tenant.get("tenant_phone", "")
+        self.tenant_subform_error = ""
+        self.tenant_subform_open = True
+
+    @rx.event
+    def close_tenant_subform(self):
+        self.tenant_subform_open = False
+        self.tenant_subform_error = ""
+
+    @rx.event
+    def set_tenant_subform_selected_id(self, value: str):
+        self.tenant_subform_selected_id = value
+
+    @rx.event
+    def set_tenant_subform_tenant(self, value: str):
+        self.tenant_subform_tenant = value
+
+    @rx.event
+    def set_tenant_subform_dni(self, value: str):
+        self.tenant_subform_dni = value
+
+    @rx.event
+    def set_tenant_subform_email(self, value: str):
+        self.tenant_subform_email = value
+
+    @rx.event
+    def set_tenant_subform_phone(self, value: str):
+        self.tenant_subform_phone = value
+
+    @rx.event
+    def confirm_tenant_subform(self):
+        if self.tenant_subform_selected_id:
+            tenant = get_tenant_record(self.tenant_subform_selected_id)
+            if not tenant:
+                self.tenant_subform_error = "That tenant could not be found."
+                return
+            self.selected_tenant_id = tenant["id"]
+            self.selected_tenant = tenant
+        else:
+            name = self.tenant_subform_tenant.strip()
+            email = self.tenant_subform_email.strip()
+            phone = self.tenant_subform_phone.strip()
+            if not name:
+                self.tenant_subform_error = "Tenant name is required."
+                return
+            if not email or "@" not in email or "." not in email.rsplit("@", 1)[-1]:
+                self.tenant_subform_error = "Enter a valid email address."
+                return
+            if not phone:
+                self.tenant_subform_error = "Tenant phone is required."
+                return
+            new_id = create_tenant_record(
+                tenant=name, tenant_dni=self.tenant_subform_dni.strip(),
+                tenant_email=email, tenant_phone=phone,
+            )
+            if not new_id:
+                self.tenant_subform_error = "The tenant could not be created. Please try again."
+                return
+            self.selected_tenant_id = new_id
+            self.selected_tenant = {
+                "id": new_id, "tenant": name, "tenant_dni": self.tenant_subform_dni.strip(),
+                "tenant_email": email, "tenant_phone": phone,
+            }
+        self.tenant_subform_open = False
+        self.tenant_subform_error = ""
 
     @rx.event
     async def request_extend(self):
@@ -337,6 +492,10 @@ class RecordState(rx.State):
         self.delete_target_id = ""
         self.extension_target_id = ""
         self.notice = ""
+        self.selected_room_id = ""
+        self.selected_room = {}
+        self.selected_tenant_id = ""
+        self.selected_tenant = {}
         self.form_key += 1
         self.is_open = True
 
@@ -352,37 +511,28 @@ class RecordState(rx.State):
             self.notice = "Select an occupied room first to edit its record."
             return
 
-        names = list(room["occupant_names"])
-        roommate = names[1] if len(names) > 1 else ""
         self.mode = "edit"
         self.editing_id = room["id"]
         self.form_values = {
-            "room": room["room"],
-            # "building": room["building"],
-            "floor": str(room["floor"]),
-            "bed_type": room["bed_type"],
-            "status": room["status"],
-            "tenant": room["tenant"],
-            "tenant_dni": room["tenant_dni"],
-            "tenant_email": room["tenant_email"],
-            "tenant_phone": room["tenant_phone"],
-            # "roommate": roommate,
-            # "occupants": str(room["occupants"]),
-            # "capacity": str(room["capacity"]),
             "rent": f"{room['rent']:.2f}",
             "deposit": f"{room['deposit']:.2f}",
             "balance": f"{room['balance']:.2f}",
             "payment_status": room["payment_status"],
-            # "check_in": _to_input_date(room["check_in"]),
             "lease_start": _to_input_date(room["lease_start"]),
             "lease_end": _to_input_date(room["lease_end"]),
-            # "lease_term": room["lease_term"],
             "last_payment": _to_input_date(room["last_payment"]),
             "next_payment": _to_input_date(room["next_payment"]),
-            # "emergency_name": room["emergency_name"],
-            # "emergency_relation": room["emergency_relation"],
-            # "emergency_phone": room["emergency_phone"],
             "notes": room["notes"],
+        }
+        self.selected_room_id = room["room_id"]
+        self.selected_room = {
+            "id": room["room_id"], "room": room["room"], "floor": str(room["floor"]),
+            "bed_type": room["bed_type"], "status": room["status"],
+        }
+        self.selected_tenant_id = room["tenant_id"]
+        self.selected_tenant = {
+            "id": room["tenant_id"], "tenant": room["tenant"], "tenant_dni": room["tenant_dni"],
+            "tenant_email": room["tenant_email"], "tenant_phone": room["tenant_phone"],
         }
         self.errors = _blank_errors()
         self.form_error = ""
@@ -390,7 +540,8 @@ class RecordState(rx.State):
         self.extension_target_id = ""
         self.notice = ""
         self.form_key += 1
-        self.is_open = True
+        self.is_open = True        
+    
 
     @rx.event
     def close_dialog(self):
@@ -400,31 +551,6 @@ class RecordState(rx.State):
 
     def _validate(self, data: dict[str, str]) -> dict[str, str]:
         errors = _blank_errors()
-
-        if not data["room"]:
-            errors["room"] = "Room number is required."
-        elif len(data["room"]) > 8:
-            errors["room"] = "Use a short room label (max 8 characters)."
-
-        if not data["tenant"]:
-            errors["tenant"] = "Primary resident name is required."
-
-        email = data["tenant_email"]
-        if not email:
-            errors["tenant_email"] = "Resident email is required."
-        elif "@" not in email or "." not in email.rsplit("@", 1)[-1]:
-            errors["tenant_email"] = "Enter a valid email address."
-
-        if not data["tenant_phone"]:
-            errors["tenant_phone"] = "Resident phone is required."
-
-        try:
-            floor = int(data["floor"])
-            if floor < 0 or floor > 1:
-                errors["floor"] = "Floor must be between 0 and 1."
-        except ValueError:
-            errors["floor"] = "Floor must be a whole number."
-        
         for key, label, minimum in (
             ("rent", "Monthly rent", 1.0),
             ("deposit", "Deposit", 0.0),
@@ -436,7 +562,6 @@ class RecordState(rx.State):
                     errors[key] = f"{label} must be at least {minimum:.0f}."
             except ValueError:
                 errors[key] = f"{label} must be a number."
-
         for key, label in (
             ("lease_start", "Lease start"),
             ("lease_end", "Lease end"),
@@ -445,14 +570,12 @@ class RecordState(rx.State):
         ):
             if not _to_display_date(data[key]):
                 errors[key] = f"{label} is required."
-
         if (
             not errors["lease_start"]
             and not errors["lease_end"]
             and data["lease_end"] <= data["lease_start"]
         ):
             errors["lease_end"] = "Lease end must be after the lease start."
-
         return errors
 
     @rx.event
@@ -460,67 +583,44 @@ class RecordState(rx.State):
         try:
             if not await self._require_admin():
                 return
-            data = {
-                key: str(form_data.get(key, "")).strip() for key in _FORM_KEYS
-            }
+            data = {key: str(form_data.get(key, "")).strip() for key in _FORM_KEYS}
             self.form_values = data
+
+            if not self.selected_room_id or not self.selected_tenant_id:
+                self.form_error = "Selecciona una habitación y un inquilino."
+                return
 
             errors = self._validate(data)
             self.errors = errors
             if any(errors.values()):
-                self.form_error = (
-                    "Please fix the highlighted fields before saving."
-                )
+                self.form_error = "Please fix the highlighted fields before saving."
                 return
             self.form_error = ""
 
             occupancy = await self.get_state(OccupancyState)
 
-            duplicate = room_exists(
-                data["room"], self.editing_id
-            )
-            if duplicate:
-                self.errors = {
-                    **errors,
-                    "room": "That room already exists in this building.",
-                }
-                self.form_error = "This room record already exists."
-                return
-
-            occupant_names = [data["tenant"]]
-            if data["roommate"]:
-                occupant_names.append(data["roommate"])
-
             record_id = self.editing_id
             record = Lease(
                 id=record_id,
-                room=data["room"],
-                # building=data["building"],
-                floor=int(data["floor"]),
-                bed_type=data["bed_type"],
-                tenant=data["tenant"],
-                tenant_dni=data["tenant_dni"],
-                tenant_email=data["tenant_email"],
-                tenant_phone=data["tenant_phone"],
-                # occupants=int(data["occupants"]),
-                # capacity=int(data["capacity"]),
-                # occupant_names=occupant_names,
+                room_id=self.selected_room_id,
+                tenant_id=self.selected_tenant_id,
+                room=self.selected_room.get("room", ""),
+                floor=int(self.selected_room.get("floor", "0") or 0),
+                bed_type=self.selected_room.get("bed_type", ""),
+                tenant=self.selected_tenant.get("tenant", ""),
+                tenant_dni=self.selected_tenant.get("tenant_dni", ""),
+                tenant_email=self.selected_tenant.get("tenant_email", ""),
+                tenant_phone=self.selected_tenant.get("tenant_phone", ""),
                 rent=float(data["rent"]),
                 deposit=float(data["deposit"]),
                 balance=float(data["balance"]),
                 payment_status=data["payment_status"],
                 last_payment=_to_display_date(data["last_payment"]),
                 next_payment=_to_display_date(data["next_payment"]),
-                # check_in=_to_display_date(data["check_in"]),
                 lease_start=_to_display_date(data["lease_start"]),
                 lease_end=_to_display_date(data["lease_end"]),
-                # lease_term=data["lease_term"],
-                status=data["status"],
-                notes=data["notes"]
-                or "No occupancy notes recorded for this room yet.",
-                # emergency_name=data["emergency_name"],
-                # emergency_relation=data["emergency_relation"],
-                # emergency_phone=data["emergency_phone"],
+                status=self.selected_room.get("status", "Active"),
+                notes=data["notes"] or "No occupancy notes recorded for this room yet.",
                 record_status="Occupied",
                 termination_date="",
                 termination_reason="",
@@ -534,9 +634,7 @@ class RecordState(rx.State):
             else:
                 record_id = create_room(record)
                 if record_id == "":
-                    self.form_error = (
-                        "This record could not be saved. Please try again."
-                    )
+                    self.form_error = "This record could not be saved. Please try again."
                     return
                 message = f"Room {record['room']} was added."
 
@@ -549,9 +647,7 @@ class RecordState(rx.State):
             yield rx.toast(message, duration=2500)
         except Exception as e:
             logging.exception(f"Error: {e}")
-            self.form_error = (
-                "This record could not be saved. Please try again."
-            )
+            self.form_error = "This record could not be saved. Please try again."
 
     @rx.event
     async def request_delete(self):

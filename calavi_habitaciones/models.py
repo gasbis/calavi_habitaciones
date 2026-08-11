@@ -12,13 +12,15 @@ import sqlmodel
 
 class Lease(TypedDict):
     id: str
-    room: int
+    room_id: str
+    tenant_id: str
+    room: str
     floor: int
     bed_type: str
     tenant: str
     tenant_dni: str
     tenant_email: str
-    tenant_phone: str    
+    tenant_phone: str
     rent: float
     deposit: float
     balance: float
@@ -36,8 +38,10 @@ class Lease(TypedDict):
 
 EMPTY_ROOM: Lease = Lease(
     id="",
+    room_id="",
+    tenant_id="",
     room="",
-    floor="",
+    floor=0,
     bed_type="",
     tenant="",
     tenant_dni="",
@@ -56,7 +60,6 @@ EMPTY_ROOM: Lease = Lease(
     record_status="Occupied",
     termination_date="",
     termination_reason="",
-
 )
 
 
@@ -126,10 +129,11 @@ class OccupancyRecord(rx.Model, table=True):
 
 
 def _record_to_room(record: OccupancyRecord) -> Lease:
-    # names = [n for n in record.occupant_names.split("|") if n]
     return Lease(
         id=f"room-{record.id}",
-        room=record.room.room,        
+        room_id=str(record.room_id),
+        tenant_id=str(record.tenant_id),
+        room=record.room.room,
         floor=record.room.floor,
         bed_type=record.room.bed_type,
         tenant=record.tenant.tenant,
@@ -176,6 +180,178 @@ def _apply_room(record: OccupancyRecord, data: Lease) -> OccupancyRecord:
     record.termination_reason = data["termination_reason"]
     return record
 
+def _apply_occupancy(record: OccupancyRecord, data: dict) -> OccupancyRecord:
+    """Aplica los datos de contrato/pago. room_id/tenant_id solo se actualizan
+    si vienen informados en `data` (permite reutilizar en extend/terminate,
+    que no tocan la habitación ni el inquilino)."""
+    if data.get("room_id"):
+        record.room_id = int(data["room_id"])
+    if data.get("tenant_id"):
+        record.tenant_id = int(data["tenant_id"])
+    record.rent = float(data["rent"])
+    record.deposit = float(data["deposit"])
+    record.balance = float(data["balance"])
+    record.payment_status = data["payment_status"]
+    record.last_payment = data["last_payment"]
+    record.next_payment = data["next_payment"]
+    record.lease_start = data["lease_start"]
+    record.lease_end = data["lease_end"]
+    record.notes = data["notes"]
+    record.record_status = data["record_status"]
+    record.termination_date = data["termination_date"]
+    record.termination_reason = data["termination_reason"]
+    return record
+
+def list_available_rooms(exclude_room_id: str = "") -> list[dict[str, str]]:
+    try:
+        with rx.session() as session:
+            occupied_ids = {
+                r.room_id
+                for r in session.exec(
+                    sqlmodel.select(OccupancyRecord).where(
+                        OccupancyRecord.record_status == "Occupied"
+                    )
+                ).all()
+            }
+            exclude_pk = int(exclude_room_id) if exclude_room_id.isdigit() else -1
+            rooms = session.exec(
+                sqlmodel.select(RoomRecord).order_by(RoomRecord.room)
+            ).all()
+            return [
+                {
+                    "id": str(r.id), "room": r.room, "floor": str(r.floor),
+                    "bed_type": r.bed_type, "status": r.status,
+                }
+                for r in rooms
+                if r.id not in occupied_ids or r.id == exclude_pk
+            ]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+
+
+def list_available_tenants(exclude_tenant_id: str = "") -> list[dict[str, str]]:
+    try:
+        with rx.session() as session:
+            occupied_ids = {
+                r.tenant_id
+                for r in session.exec(
+                    sqlmodel.select(OccupancyRecord).where(
+                        OccupancyRecord.record_status == "Occupied"
+                    )
+                ).all()
+            }
+            exclude_pk = int(exclude_tenant_id) if exclude_tenant_id.isdigit() else -1
+            tenants = session.exec(
+                sqlmodel.select(TenantRecord).order_by(TenantRecord.tenant)
+            ).all()
+            return [
+                {
+                    "id": str(t.id), "tenant": t.tenant, "tenant_dni": t.tenant_dni,
+                    "tenant_email": t.tenant_email, "tenant_phone": t.tenant_phone,
+                }
+                for t in tenants
+                if t.id not in occupied_ids or t.id == exclude_pk
+            ]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+
+
+def get_room_record(room_id: str) -> dict[str, str]:
+    try:
+        with rx.session() as session:
+            r = session.get(RoomRecord, int(room_id))
+            if r is None:
+                return {}
+            return {
+                "id": str(r.id), "room": r.room, "floor": str(r.floor),
+                "bed_type": r.bed_type, "status": r.status,
+            }
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return {}
+
+
+def get_tenant_record(tenant_id: str) -> dict[str, str]:
+    try:
+        with rx.session() as session:
+            t = session.get(TenantRecord, int(tenant_id))
+            if t is None:
+                return {}
+            return {
+                "id": str(t.id), "tenant": t.tenant, "tenant_dni": t.tenant_dni,
+                "tenant_email": t.tenant_email, "tenant_phone": t.tenant_phone,
+            }
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return {}
+
+def list_room_records() -> list[dict[str, str]]:
+    try:
+        with rx.session() as session:
+            records = session.exec(
+                sqlmodel.select(RoomRecord).order_by(RoomRecord.room)
+            ).all()
+            return [
+                {"id": str(r.id), "room": r.room, "floor": str(r.floor), "bed_type": r.bed_type}
+                for r in records
+            ]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+    
+def list_tenant_records() -> list[dict[str, str]]:
+    try:
+        with rx.session() as session:
+            records = session.exec(
+                sqlmodel.select(TenantRecord).order_by(TenantRecord.tenant)
+            ).all()
+            return [{"id": str(r.id), "tenant": r.tenant} for r in records]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+    
+def room_number_exists(room: str, exclude_id: str = "") -> bool:
+    """Comprueba duplicados sobre RoomRecord, no sobre OccupancyRecord."""
+    try:
+        with rx.session() as session:
+            records = session.exec(sqlmodel.select(RoomRecord)).all()
+            return any(
+                r.room.lower() == room.lower() and str(r.id) != exclude_id
+                for r in records
+            )
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+    
+def create_room_record(room: str, floor: int, bed_type: str, status: str) -> str:
+    try:
+        with rx.session() as session:
+            record = RoomRecord(room=room, floor=floor, bed_type=bed_type, status=status)
+            session.add(record)
+            session.commit()
+            session.refresh(record)
+            return str(record.id)
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return ""
+
+
+def create_tenant_record(tenant: str, tenant_dni: str, tenant_email: str, tenant_phone: str) -> str:
+    try:
+        with rx.session() as session:
+            record = TenantRecord(
+                tenant=tenant, tenant_dni=tenant_dni,
+                tenant_email=tenant_email, tenant_phone=tenant_phone,
+            )
+            session.add(record)
+            session.commit()
+            session.refresh(record)
+            return str(record.id)
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return ""
 
 def _record_pk(room_id: str) -> int:
     suffix = room_id.rsplit("-", 1)[-1]
@@ -298,91 +474,6 @@ def seed_admin_accounts() -> None:
         logging.exception(f"Error: {e}")
 
 
-# def ensure_tables() -> None:
-#     """Ensure the configured database schema is available."""
-#     try:
-#         # engine = rx.model.get_engine()
-#         # sqlmodel.SQLModel.metadata.create_all(engine)
-#         """Creamos las tablas en la base de datos si no existen"""
-#         rx.Model.metadata.create_all()
-#     except Exception as e:
-#         logging.exception(f"Error: {e}")
-
-
-# def _seed_rooms() -> list[Room]:
-#     fake = Faker()
-#     Faker.seed(7)
-#     random.seed(7)
-#     rooms: list[Room] = []
-#     for i in range(12):
-#         #building = BUILDINGS[i % len(BUILDINGS)]
-#         floor = (i % 4) + 1
-#         room_type = _BED_TYPES[i % len(_BED_TYPES)]
-#         capacity = 1 if room_type in ("Studio", "Single") else 2
-#         name = fake.name()
-#         status = _STATUSES[0]
-#         if i in (3, 9):
-#             status = _STATUSES[1]
-#         if i == 6:
-#             status = _STATUSES[2]
-#         rent = float(random.randrange(880, 2450, 5))
-#         payment_status = "Paid"
-#         balance = 0.0
-#         if status == _STATUSES[2]:
-#             payment_status = "Overdue"
-#             balance = rent
-#         elif i in (2, 8):
-#             payment_status = "Due"
-#             balance = round(rent / 2, 2)
-#         occupant_names = [name]
-#         if capacity > 1:
-#             occupant_names.append(fake.name())
-#         rooms.append(
-#             Room(
-#                 id="",
-#                 room=f"{floor}{(i % 6) + 1:02d}",
-#                 # building=building,
-#                 floor=floor,
-#                 bed_type=room_type,
-#                 tenant=name,
-#                 tenant_email=f"{name.split(' ')[0].lower()}.{name.split(' ')[-1].lower()}@mail.com",
-#                 tenant_phone=f"+1 (415) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
-#                 # occupants=capacity,
-#                 # capacity=capacity,
-#                 # occupant_names=occupant_names,
-#                 rent=rent,
-#                 deposit=round(rent * 1.5, 2),
-#                 balance=balance,
-#                 payment_status=payment_status,
-#                 last_payment=fake.date_between(
-#                     start_date="-45d", end_date="-5d"
-#                 ).strftime("%b %d, %Y"),
-#                 next_payment=fake.date_between(
-#                     start_date="+3d", end_date="+30d"
-#                 ).strftime("%b %d, %Y"),
-#                 # check_in=fake.date_between(
-#                 #     start_date="-2y", end_date="-3M"
-#                 # ).strftime("%b %d, %Y"),
-#                 lease_start=fake.date_between(
-#                     start_date="-2y", end_date="-4M"
-#                 ).strftime("%b %d, %Y"),
-#                 lease_end=fake.date_between(
-#                     start_date="+1M", end_date="+1y"
-#                 ).strftime("%b %d, %Y"),
-#                 # lease_term=f"{12 if i % 2 == 0 else 6}-month lease",
-#                 status=status,
-#                 notes=_NOTES[i % len(_NOTES)],
-#                 # emergency_name=fake.name(),
-#                 # emergency_relation=_RELATIONS[i % len(_RELATIONS)],
-#                 # emergency_phone=f"+1 (628) {random.randint(200, 989)}-{random.randint(1000, 9999)}",
-#                 record_status="Occupied",
-#                 termination_date="",
-#                 termination_reason="",
-#             )
-#         )
-#     return rooms
-
-
 def seed_if_empty() -> None:
     """Insert realistic starter records only when the table is empty."""
     #ensure_tables()
@@ -430,10 +521,9 @@ def room_exists(room: str, exclude_id: str = "") -> bool:
 
 
 def create_room(data: Lease) -> str:
-    """Insert a record and return its room id (empty string on failure)."""
     try:
         with rx.session() as session:
-            record = _apply_room(OccupancyRecord(), data)
+            record = _apply_occupancy(OccupancyRecord(), data)
             session.add(record)
             session.commit()
             session.refresh(record)
@@ -450,7 +540,7 @@ def update_room(room_id: str, data: Lease) -> bool:
             record = session.get(OccupancyRecord, pk)
             if record is None:
                 return False
-            _apply_room(record, data)
+            _apply_occupancy(record, data)
             session.add(record)
             session.commit()
             return True
