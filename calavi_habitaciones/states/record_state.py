@@ -342,7 +342,7 @@ class RecordState(rx.State):
         self.termination_error = ""
 
     @rx.event
-    async def confirm_terminate(self, form_data: dict[str, str]):
+    async def confirm_terminate(self, form_data: dict):
         try:
             if not await self._require_admin():
                 return
@@ -418,7 +418,7 @@ class RecordState(rx.State):
             )
 
     @rx.event
-    async def extend_contract(self, form_data: dict[str, str]):
+    async def extend_contract(self, form_data: dict):
         try:
             if not await self._require_admin():
                 return
@@ -579,7 +579,7 @@ class RecordState(rx.State):
         return errors
 
     @rx.event
-    async def submit_record(self, form_data: dict[str, str]):
+    async def submit_record(self, form_data: dict):
         try:
             if not await self._require_admin():
                 return

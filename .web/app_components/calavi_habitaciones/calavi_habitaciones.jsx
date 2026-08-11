@@ -3,12 +3,12 @@ import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
@@ -962,14 +962,14 @@ const reflex___state____state__calavi_habitaciones___states___record_state____re
     )
 });
 
-export const Valuenumberinput_input_96c76489afcad1182c13e6e847a892be_81e687a6 = memo(({children}) => {
-    const on_change_4aef2ddbfca86c1bda8af2bab08fb749 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_room_subform_floor", ({ ["value"] : (Number(_e?.["target"]?.["value"])) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+export const Input_input_447bf929ef8158e5786376fc18bdc89b_81e687a6 = memo(({children}) => {
+    const on_change_e5a6bd2caf18da67f9fa4f9a53b271b5 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_room_subform_floor", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_floor_rx_state_,onChange:on_change_4aef2ddbfca86c1bda8af2bab08fb749,type:"number"},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_floor_rx_state_,onChange:on_change_e5a6bd2caf18da67f9fa4f9a53b271b5},)
     )
 });
 

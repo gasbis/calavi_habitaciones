@@ -51,7 +51,7 @@ class AuthState(rx.State):
     management_notice: str = ""
 
     @rx.event
-    async def sign_in(self, form_data: dict[str, str]):
+    async def sign_in(self, form_data: dict):
         self.email_error = ""
         self.password_error = ""
         self.auth_error = ""

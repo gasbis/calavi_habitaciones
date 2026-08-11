@@ -236,7 +236,7 @@ def room_subform_dialog() -> rx.Component:
                                 rx.el.input(
                                     default_value=RecordState.room_subform_floor,
                                     on_change=RecordState.set_room_subform_floor,
-                                    type="number",
+                                    #type="number",
                                     class_name="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",
                                 ),
                                 class_name="flex flex-col",

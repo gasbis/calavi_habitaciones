@@ -6,5 +6,9 @@ load_dotenv()
 config = rx.Config(
     app_name="calavi_habitaciones",
     db_url=os.environ.get("DATABASE_URL"),
-    plugins=[rx.plugins.SitemapPlugin(), rx.plugins.TailwindV4Plugin()],
+    plugins=[
+        rx.plugins.SitemapPlugin(),
+        rx.plugins.TailwindV4Plugin(),
+        rx.plugins.RadixThemesPlugin(theme=rx.theme(appearance="dark")),
+        ],
 )

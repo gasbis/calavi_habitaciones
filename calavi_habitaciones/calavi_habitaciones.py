@@ -56,8 +56,7 @@ def index() -> rx.Component:
     return rx.cond(AuthState.is_authenticated, occupancy_page(), login_screen())
 
 
-app = rx.App(
-    theme=rx.theme(appearance="light"),
+app = rx.App(    
     head_components=[
         rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
         rx.el.link(
