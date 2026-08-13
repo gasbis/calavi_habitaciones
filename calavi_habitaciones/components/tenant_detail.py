@@ -10,15 +10,15 @@ def payment_pill(status: rx.Var[str]) -> rx.Component:
         class_name=rx.match(
             status,
             (
-                "Paid",
+                "Pgado",
                 "w-fit rounded-full border border-green-200 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700",
             ),
             (
-                "Due",
+                "Pendiente",
                 "w-fit rounded-full border border-yellow-200 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-700",
             ),
             (
-                "Overdue",
+                "Atrasado",
                 "w-fit rounded-full border border-red-200 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700",
             ),
             "w-fit rounded-full border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700",
@@ -157,7 +157,7 @@ def payment_block() -> rx.Component:
         rx.el.div(
             detail_row(
                 "Saldo pendiente",
-                f"${OccupancyState.selected_room['balance']:,.2f}",
+                f"{OccupancyState.selected_room['balance']:,.2f}€",
             ),
             detail_row(
                 "Último pago", OccupancyState.selected_room["last_payment"]
@@ -253,7 +253,7 @@ def detail_content() -> rx.Component:
     return rx.el.div(
         detail_header(),
         rx.el.div(
-            status_pill(OccupancyState.selected_room["status"]),
+            status_pill(OccupancyState.selected_room["record_status"]),
             # rx.el.span(
             #     OccupancyState.selected_room["lease_term"],
             #     class_name="w-fit rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600",

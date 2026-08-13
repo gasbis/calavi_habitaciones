@@ -1,23 +1,24 @@
 import reflex as rx
 
+from calavi_habitaciones.models import _RECORD_STATUSES
 from calavi_habitaciones.states.occupancy_state import OccupancyState, Lease
 
 
-def status_pill(status: rx.Var[str]) -> rx.Component:
+def status_pill(rec_status: rx.Var[str]) -> rx.Component:
     return rx.el.span(
-        status,
+        rec_status,
         class_name=rx.match(
-            status,
+            rec_status,
             (
-                "Active",
+                _RECORD_STATUSES[0],
                 "w-fit rounded-full border border-green-200 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700",
             ),
             (
-                "Ending soon",
+                _RECORD_STATUSES[1],
                 "w-fit rounded-full border border-yellow-200 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-700",
             ),
             (
-                "Overdue",
+                _RECORD_STATUSES[2],
                 "w-fit rounded-full border border-red-200 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700",
             ),
             "w-fit rounded-full border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700",
@@ -51,15 +52,10 @@ def room_card(item: Lease) -> rx.Component:
                         f"Habitación {item['room']}",
                         class_name="text-base font-semibold tracking-tight text-gray-900",
                     ),
-                    # rx.el.p(
-                    #     f"{item['building']} · Floor {item['floor']}",
-                    #     class_name="text-sm font-medium text-gray-500",
-                    # ),
-                    # class_name="min-w-0",
                 ),
                 class_name="flex items-center gap-3",
             ),
-            status_pill(item["status"]),
+            status_pill(item["record_status"]),
             class_name="flex items-start justify-between gap-3",
         ),
         rx.el.div(
@@ -88,7 +84,7 @@ def room_card(item: Lease) -> rx.Component:
         ),
         rx.el.div(
             rx.el.span(
-                "Ocupada",
+                "",
                 class_name="text-xs font-semibold uppercase tracking-wide text-gray-400",
             ),
             rx.el.div(
@@ -96,7 +92,7 @@ def room_card(item: Lease) -> rx.Component:
                     rx.cond(
                         OccupancyState.selected_id == item["id"],
                         "Viendo inquilino",
-                        "Ver inquilino",
+                        "Ver detalles del inquilino",
                     ),
                     class_name="text-sm font-semibold",
                 ),

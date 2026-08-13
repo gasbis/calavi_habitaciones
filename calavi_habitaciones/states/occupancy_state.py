@@ -1,4 +1,6 @@
 import asyncio
+from datetime import date, timedelta, datetime
+
 
 import reflex as rx
 
@@ -6,6 +8,7 @@ import reflex as rx
 #     BUILDINGS as _BUILDINGS,
 # )
 from calavi_habitaciones.models import (
+    _RECORD_STATUSES,
     EMPTY_ROOM,
     Lease,
     #ensure_tables,
@@ -19,8 +22,6 @@ __all__ = ["EMPTY_ROOM", "OccupancyState", "Lease"]
 class OccupancyState(rx.State):
     rooms: list[Lease] = []
     total_units: int = 7
-    #search: str = ""
-    #building_filter: str = "All buildings"
     is_loading: bool = False
     selected_id: str = ""
     view_mode: str = "active"
@@ -52,34 +53,34 @@ class OccupancyState(rx.State):
         return EMPTY_ROOM
 
     @rx.var
-    def occupied_rooms(self) -> list[Lease]:
-        return [r for r in self.rooms if r["record_status"] != "Terminated"]
+    def occupied_lease(self) -> list[Lease]:
+        return [r for r in self.rooms if r["record_status"] != _RECORD_STATUSES[3]]
 
     @rx.var
-    def terminated_rooms(self) -> list[Lease]:
-        return [r for r in self.rooms if r["record_status"] == "Terminated"]
+    def terminated_lease(self) -> list[Lease]:
+        return [r for r in self.rooms if r["record_status"] == _RECORD_STATUSES[3]]
 
     @rx.var
     def terminated_count(self) -> int:
-        return len(self.terminated_rooms)
+        return len(self.terminated_lease)
 
     @rx.var
     def history_filtered_rooms(self) -> list[Lease]:
         query = self.history_search.strip().lower()
         if not query:
-            return self.terminated_rooms
+            return self.terminated_lease
         return [
             room
-            for room in self.terminated_rooms
+            for room in self.terminated_lease
             if query in room["room"].lower()
-            or query in room["building"].lower()
+            #or query in room["building"].lower()
             or query in room["tenant"].lower()
-            or query in room["termination_reason"].lower()
+            # or query in room["termination_reason"].lower()
         ]
 
     @rx.var
     def selected_history_room(self) -> Lease:
-        for room in self.terminated_rooms:
+        for room in self.terminated_lease:
             if room["id"] == self.history_selected_id:
                 return room
         return EMPTY_ROOM
@@ -90,7 +91,7 @@ class OccupancyState(rx.State):
 
     @rx.var
     def has_selection(self) -> bool:
-        return any(r["id"] == self.selected_id for r in self.occupied_rooms)
+        return any(r["id"] == self.selected_id for r in self.occupied_lease)
 
     # @rx.var
     # def buildings(self) -> list[str]:
@@ -98,26 +99,33 @@ class OccupancyState(rx.State):
 
     @rx.var
     def filtered_rooms(self) -> list[Lease]:
-        #query = self.search.strip().lower()
-        result = self.occupied_rooms
-        # if self.building_filter != "All buildings":
-        #     result = [
-        #         r for r in result if r["building"] == self.building_filter
-        #     ]
-        # if query:
-        #     result = [
-        #         r
-        #         for r in result
-        #         if query in r["tenant"].lower()
-        #         or query in r["room"].lower()
-        #         # or query in r["building"].lower()
-        #         or query in r["bed_type"].lower()
-        #     ]
-        return result
+        result = self.occupied_lease
+        today = date.today()
+        computed: list[Lease] = []
+        for r in result:
+            result = self.occupied_lease
+        today = date.today()
+        computed: list[Lease] = []
+        for r in result:
+            room = dict(r)  # copia, no tocamos el original
+            try:
+                date_end = datetime.strptime(r["lease_end"], "%d-%m-%Y").date()
+            except ValueError:
+                computed.append(room)
+                continue
+            days_left = (date_end - today).days
+            if days_left < 0:
+                room["record_status"] = _RECORD_STATUSES[2]  # vencido
+            elif days_left <= 30:
+                room["record_status"] = _RECORD_STATUSES[1]  # próximo a vencer
+            else:
+                room["record_status"] = _RECORD_STATUSES[0]  # activo
+            computed.append(room)
+        return computed
 
     @rx.var
     def occupied_count(self) -> int:
-        return len(self.occupied_rooms)
+        return len(self.occupied_lease)
 
     # @rx.var
     # def resident_count(self) -> int:
@@ -127,15 +135,15 @@ class OccupancyState(rx.State):
     def occupancy_rate(self) -> float:
         if self.total_units == 0:
             return 0.0
-        return round(len(self.occupied_rooms) / self.total_units * 100, 1)
+        return round(len(self.occupied_lease) / self.total_units * 100, 1)
 
     @rx.var
     def monthly_revenue(self) -> float:
-        return float(sum(r["rent"] for r in self.occupied_rooms))
+        return float(sum(r["rent"] for r in self.occupied_lease))
 
     @rx.var
     def attention_count(self) -> int:
-        return len([r for r in self.occupied_rooms if r["status"] != "Active"])
+        return len([r for r in self.filtered_rooms if r["record_status"] != _RECORD_STATUSES[0]])
 
     @rx.var
     def result_label(self) -> str:

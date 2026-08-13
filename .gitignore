@@ -1,1 +1,12 @@
 .env
+*.db
+*.py[cod]
+.web
+.states
+# Python-generated files
+__pycache__/
+*.py[oc]
+
+# Virtual environments
+.venv
+

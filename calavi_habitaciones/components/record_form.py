@@ -16,17 +16,18 @@ def field_error(name: str) -> rx.Component:
 def room_summary_field() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            rx.el.span(
-                "Habitación",
-                class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
-            ),
+            # rx.el.span(
+            #     "Habitación",
+            #     class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
+            # ),
             rx.el.button(
-                "Seleccionar / crear",
+                rx.icon("plus", stroke_width=3, size=20),
+                "",
                 type="button",
                 on_click=RecordState.open_room_subform,
-                class_name="text-xs font-semibold text-violet-600 hover:text-violet-700",
+                class_name="w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",
             ),
-            class_name="flex items-center justify-between",
+            class_name="flex items-center justify-center",
         ),
         rx.cond(
             RecordState.selected_room_id != "",
@@ -35,10 +36,9 @@ def room_summary_field() -> rx.Component:
                     RecordState.selected_room["room"],
                     class_name="text-sm font-semibold text-gray-900",
                 ),
-                rx.el.p(
-                    "Piso " + RecordState.selected_room["floor"]
-                    + " · " + RecordState.selected_room["bed_type"]
-                    + " · " + RecordState.selected_room["status"],
+                rx.el.p(                    
+                    "Piso: " + RecordState.selected_room["floor"]
+                    + " · Tipo de cama: " + RecordState.selected_room["bed_type"],
                     class_name="text-xs text-gray-500",
                 ),
                 class_name="mt-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2",
@@ -55,17 +55,18 @@ def room_summary_field() -> rx.Component:
 def tenant_summary_field() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            rx.el.span(
-                "Inquilino",
-                class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
-            ),
+            # rx.el.span(
+            #     "Inquilino",
+            #     class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
+            # ),
             rx.el.button(
-                "Seleccionar / crear",
-                type="button",
-                on_click=RecordState.open_tenant_subform,
-                class_name="text-xs font-semibold text-violet-600 hover:text-violet-700",
+                rx.icon("plus", stroke_width=3, size=20),
+                    "",
+                    type="button",
+                    on_click=RecordState.open_tenant_subform,
+                    class_name="w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",
             ),
-            class_name="flex items-center justify-between",
+            class_name="flex items-center justify-center",
         ),
         rx.cond(
             RecordState.selected_tenant_id != "",
@@ -75,10 +76,16 @@ def tenant_summary_field() -> rx.Component:
                     class_name="text-sm font-semibold text-gray-900",
                 ),
                 rx.el.p(
-                    RecordState.selected_tenant["tenant_dni"]
-                    + " · " + RecordState.selected_tenant["tenant_email"]
-                    + " · " + RecordState.selected_tenant["tenant_phone"],
-                    class_name="text-xs text-gray-500",
+                    rx.hstack(
+                        rx.icon("file-user", size=20),
+                        RecordState.selected_tenant["tenant_dni"],
+                        rx.icon("mail", size=20),
+                        RecordState.selected_tenant["tenant_email"],
+                        rx.icon("phone", size=20),
+                        RecordState.selected_tenant["tenant_phone"],
+                        class_name="text-xs text-gray-500",
+                        align="center"
+                    ),
                 ),
                 class_name="mt-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2",
             ),
@@ -152,7 +159,7 @@ def select_field(
 def notes_field() -> rx.Component:
     return rx.el.div(
         rx.el.label(
-            "Occupancy notes",
+            "Observaciones",
             html_for="record-notes",
             class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
         ),
@@ -160,7 +167,7 @@ def notes_field() -> rx.Component:
             id="record-notes",
             name="notes",
             rows="3",
-            placeholder="Access instructions, maintenance preferences, roommate arrangements...",
+            placeholder="",
             default_value=RecordState.form_values["notes"],
             key=f"notes-{RecordState.form_key}",
             class_name="mt-2 w-full resize-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden",
@@ -208,7 +215,7 @@ def room_subform_dialog() -> rx.Component:
                             class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
                         ),
                         rx.el.select(
-                            rx.el.option("-- Crear nueva habitación --", value=""),
+                            rx.el.option("-- Alta nueva habitación --", value=""),
                             rx.foreach(
                                 RecordState.room_available,
                                 lambda r: rx.el.option(r["room"], value=r["id"]),
@@ -251,17 +258,17 @@ def room_subform_dialog() -> rx.Component:
                                 ),
                                 class_name="flex flex-col",
                             ),
-                            rx.el.div(
-                                rx.el.label("Estado", class_name="text-xs font-semibold uppercase tracking-wide text-gray-500"),
-                                rx.el.select(
-                                    rx.foreach(RecordState.status_options, lambda o: rx.el.option(o, value=o)),
-                                    value=RecordState.room_subform_status,
-                                    on_change=RecordState.set_room_subform_status,
-                                    class_name="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",
-                                ),
-                                class_name="flex flex-col",
-                            ),
-                            class_name="mt-4 grid grid-cols-2 gap-3",
+                            # rx.el.div(
+                            #     rx.el.label("Estado", class_name="text-xs font-semibold uppercase tracking-wide text-gray-500"),
+                            #     rx.el.select(
+                            #         rx.foreach(RecordState.status_options, lambda o: rx.el.option(o, value=o)),
+                            #         value=RecordState.room_subform_status,
+                            #         on_change=RecordState.set_room_subform_status,
+                            #         class_name="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",
+                            #     ),
+                            #     class_name="flex flex-col",
+                            # ),
+                            # class_name="mt-4 grid grid-cols-2 gap-3",
                         ),
                         rx.el.div(),
                     ),
@@ -313,7 +320,7 @@ def tenant_subform_dialog() -> rx.Component:
                             class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
                         ),
                         rx.el.select(
-                            rx.el.option("-- Crear nuevo inquilino --", value=""),
+                            rx.el.option("-- Alta nuevo inquilino --", value=""),
                             rx.foreach(
                                 RecordState.tenant_available,
                                 lambda t: rx.el.option(t["tenant"], value=t["id"]),
@@ -402,23 +409,22 @@ def record_form() -> rx.Component:
             form_group(
                 "Contrato",
                 "file-text",
-                # input_field("Checked in", "check_in", "", "date"),
                 input_field("Fecha de inicio", "lease_start", "", "date"),
                 input_field("Fecha de finalización", "lease_end", "", "date"),
-                input_field("Próximo pago", "next_payment", "", "date"),
             ),
             form_group(
                 "Renta y pagos",
                 "banknote",
-                input_field("Precio mensual", "rent", "400", "number"),
-                input_field("Fianza", "deposit", "400", "number"),
+                input_field("Precio mensual", "rent", "", "number"),
+                input_field("Fianza", "deposit", "", "number"),
                 input_field("Saldo", "balance", "0", "number"),
                 select_field(
                     "Estado de los pagos",
                     "payment_status",
                     RecordState.payment_status_options,
                 ),
-                input_field("Último pago", "last_payment", "", "date"),
+                input_field("Último pago", "last_payment", "", "date"),                
+                input_field("Próximo pago", "next_payment", "", "date"),
             ),
             rx.el.div(
                 notes_field(), class_name="border-t border-gray-100 pt-5"

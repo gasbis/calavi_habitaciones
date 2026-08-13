@@ -67,7 +67,7 @@ def termination_confirmation() -> rx.Component:
                     class_name="text-sm font-semibold text-amber-800",
                 ),
                 rx.el.p(
-                    "El registro desaparece de la vista de habitaciones ocupadas. No se borra. El registro sigue disponible en el histórico.",
+                    "El registro desaparece de la vista de habitaciones ocupadas. No se borra, sigue disponible en el histórico.",
                     class_name="mt-1 text-sm font-medium text-amber-700",
                 ),
                 class_name="min-w-0",
@@ -88,52 +88,27 @@ def termination_confirmation() -> rx.Component:
                         name="termination_date",
                         class_name="mt-2 w-full rounded-lg border border-amber-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
                     ),
-                    class_name="flex w-full flex-col",
+                    class_name="col-span-1",
                 ),
                 rx.el.div(
                     rx.el.label(
-                        "Motivo",
-                        html_for="termination-reason",
+                        "Comentario",
+                        html_for="termination-note",
                         class_name="text-xs font-semibold uppercase tracking-wide text-amber-700",
                     ),
-                    rx.el.div(
-                        rx.el.select(
-                            rx.el.option("Selecciona el motivo", value=""),
-                            rx.foreach(
-                                RecordState.termination_reason_options,
-                                lambda option: rx.el.option(
-                                    option, value=option
-                                ),
-                            ),
-                            id="termination-reason",
-                            name="termination_reason",
-                            class_name="w-full appearance-none rounded-lg border border-amber-200 bg-white py-2 pl-3 pr-9 text-sm font-medium text-gray-900 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
-                        ),
-                        rx.icon(
-                            "chevron-down",
-                            class_name="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-amber-500",
-                        ),
-                        class_name="relative mt-2 w-full",
+                    rx.el.textarea(
+                        id="termination-note",
+                        name="termination_note",
+                        rows="2",
+                        placeholder="Estado de la habitación, gestión de la fianza, etc...",
+                        class_name="mt-2 w-full resize-none rounded-lg border border-amber-200 bg-white px-3 py-0.5 text-sm font-medium text-gray-900 placeholder:text-gray-400 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
                     ),
-                    class_name="flex w-full flex-col",
+                    class_name="col-span-3",
+                    
                 ),
-                class_name="grid grid-cols-1 gap-3 sm:grid-cols-2",
+                class_name="grid grid-cols-4 gap-4",
             ),
-            rx.el.div(
-                rx.el.label(
-                    "Comentario",
-                    html_for="termination-note",
-                    class_name="text-xs font-semibold uppercase tracking-wide text-amber-700",
-                ),
-                rx.el.textarea(
-                    id="termination-note",
-                    name="termination_note",
-                    rows="2",
-                    placeholder="Estado de la habitación, gestión de la fianza, etc...",
-                    class_name="mt-2 w-full resize-none rounded-lg border border-amber-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
-                ),
-                class_name="mt-3 flex w-full flex-col",
-            ),
+            
             rx.cond(
                 RecordState.termination_error != "",
                 rx.el.p(
@@ -192,7 +167,7 @@ def extension_controls() -> rx.Component:
                     class_name="text-sm font-semibold text-gray-900",
                 ),
                 rx.el.p(
-                    f"Fecha final actual {OccupancyState.selected_room['lease_end']} · {OccupancyState.selected_room['status']}",
+                    f"Fecha final actual {OccupancyState.selected_room['lease_end']}",
                     class_name="mt-0.5 text-xs font-medium text-gray-500",
                 ),
                 class_name="min-w-0",
