@@ -3,6 +3,7 @@ import reflex as rx
 from calavi_habitaciones.components.record_form import record_dialog
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.record_state import RecordState
+#from calavi_habitaciones.components.record_form import room_subform_dialog
 
 
 def delete_confirmation() -> rx.Component:
@@ -223,22 +224,82 @@ def extension_controls() -> rx.Component:
         class_name="rounded-lg border border-violet-100 bg-violet-50/50 p-4",
     )
 
-
-def manager_notice() -> rx.Component:
-    return rx.cond(
-        RecordState.notice != "",
-        rx.el.div(
-            rx.icon(
-                "circle-check", class_name="h-4 w-4 shrink-0 text-violet-600"
+def change_room_controls() -> rx.Component:
+    return rx.el.div(
+            rx.el.div(
+                rx.icon("bed_double", class_name="h-4 w-4 text-violet-600"),
+                rx.el.div(
+                    rx.el.p(
+                        "Cambiar habitación",
+                        class_name="text-sm font-semibold text-gray-900",
+                    ),
+                    rx.el.p(
+                        f"Habitación actual {OccupancyState.selected_room['room']}",
+                        class_name="mt-0.5 text-xs font-medium text-gray-500",
+                    ),
+                    class_name="min-w-0",
+                ),
+                class_name="flex items-start gap-2",
             ),
-            rx.el.p(
-                RecordState.notice,
-                class_name="text-sm font-medium text-violet-700",
+            rx.el.form(
+                rx.el.div(
+                    # rx.el.select(
+                    #     rx.el.option("Selecciona habitación", value=""),
+                    #     # rx.foreach(
+                    #     #     RecordState.extension_options,
+                    #     #     lambda option: rx.el.option(option, value=option),
+                    #     # ),
+                    #     # name="extension_option",
+                    #     class_name="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
+                    # ),
+                    rx.el.div(
+                        rx.el.label(
+                            "Habitación existente (sin arrendamiento activo)",
+                            class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
+                        ),
+                        rx.el.select(
+                            rx.el.option("-- Selecciona habitación --", value=""),
+                            rx.foreach(
+                                RecordState.room_available,
+                                lambda r: rx.el.option(r["room"], value=r["id"]),
+                            ),
+                            value=RecordState.room_subform_selected_id,
+                            on_change=RecordState.set_room_subform_selected_id,
+                            class_name="mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-hidden",
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    class_name="grid grid-cols-1 gap-2 sm:grid-cols-2",
+                ),
+                rx.cond(
+                    RecordState.change_room_error != "",
+                    rx.el.p(
+                        RecordState.change_room_error,
+                        class_name="mt-2 text-xs font-medium text-red-600",
+                    ),
+                    rx.el.div(),
+                ),
+                rx.el.div(
+                    rx.el.button(
+                        rx.icon("door_open", class_name="h-4 w-4"),
+                        "Confirmar habitación",
+                        type="submit",
+                        class_name="flex w-fit items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-violet-700",
+                    ),
+                    rx.el.button(
+                        "Cancelar",
+                        type="button",
+                        on_click=RecordState.cancel_change_room,
+                        class_name="rounded-lg border border-violet-200 bg-white px-3 py-2 text-xs font-semibold text-violet-700 transition-colors hover:bg-violet-100",
+                    ),
+                    class_name="mt-3 flex flex-wrap items-center gap-2",
+                ),
+                on_submit=RecordState.change_room,
+                reset_on_submit=False,
+                class_name="mt-3",
             ),
-            class_name="flex items-start gap-2 rounded-lg border border-violet-200 bg-violet-50 p-3",
-        ),
-        rx.el.div(),
-    )
+            class_name="rounded-lg border border-violet-100 bg-violet-50/50 p-4",
+        )
 
 
 def record_manager_section() -> rx.Component:
@@ -253,11 +314,11 @@ def record_manager_section() -> rx.Component:
                 ),
                 rx.el.div(
                     rx.el.h2(
-                        "Gestión de los registros de alquiler",
+                        "Gestión de los contratos de alquiler",
                         class_name="text-xl font-semibold tracking-tight text-gray-900",
                     ),
                     rx.el.p(
-                        "Crea, edita o elimina registros de habitaciones ocupadas. Los cambios actualizan instantáneamente las fichas, los filtros, los resúmenes y los detalles de los inquilinos.",
+                        "Alta, baja, prórroga y cambio de habitación de cualquiera de los contratos en vigor.",
                         class_name="mt-1 text-sm font-medium text-gray-500",
                     ),
                     class_name="min-w-0",
@@ -267,14 +328,21 @@ def record_manager_section() -> rx.Component:
             rx.el.div(
                 rx.el.button(
                     rx.icon("plus", class_name="h-4 w-4"),
-                    rx.el.span("Alta alquiler"),
+                    rx.el.span("Nuevo alquiler"),
                     on_click=RecordState.open_create,
                     class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",
                 ),
                 rx.el.button(
-                    rx.icon("pencil", class_name="h-4 w-4"),
-                    rx.el.span("Editar contrato"),
-                    on_click=RecordState.open_edit,
+                    rx.icon("calendar-plus", class_name="h-4 w-4"),
+                    rx.el.span("Prórroga contrato"),
+                    on_click=RecordState.request_extend,
+                    disabled=~OccupancyState.has_selection,
+                    class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
+                ),
+                rx.el.button(
+                    rx.icon("bed_double", class_name="h-4 w-4"),
+                    rx.el.span("Cambio de habitación"),
+                    on_click=RecordState.request_change_room,
                     disabled=~OccupancyState.has_selection,
                     class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
                 ),
@@ -284,14 +352,7 @@ def record_manager_section() -> rx.Component:
                     on_click=RecordState.request_terminate,
                     disabled=~OccupancyState.has_selection,
                     class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
-                ),
-                rx.el.button(
-                    rx.icon("calendar-plus", class_name="h-4 w-4"),
-                    rx.el.span("Prórroga contrato"),
-                    on_click=RecordState.request_extend,
-                    disabled=~OccupancyState.has_selection,
-                    class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
-                ),
+                ),                
                 rx.el.button(
                     rx.icon("trash-2", class_name="h-4 w-4"),
                     rx.el.span("Borrar registro"),
@@ -323,7 +384,7 @@ def record_manager_section() -> rx.Component:
                 ),
                 class_name="flex w-fit items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2",
             ),
-            manager_notice(),
+            # manager_notice(),
             termination_notice(),
             extension_notice(),
             rx.cond(
@@ -334,6 +395,11 @@ def record_manager_section() -> rx.Component:
             rx.cond(
                 RecordState.has_extension_target,
                 extension_controls(),
+                rx.el.div(),
+            ),
+            rx.cond(
+                RecordState.has_change_room_target,
+                change_room_controls(),
                 rx.el.div(),
             ),
             rx.cond(

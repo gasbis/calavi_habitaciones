@@ -72,6 +72,8 @@ class RecordState(rx.State):
     termination_error: str = ""
     termination_notice: str = ""
     extension_target_id: str = ""
+    change_room_target_id: str = ""
+    
     # termination_reason_options: list[str] = [
     #     "Contrato ",
     #     "Tenant moved out early",
@@ -83,6 +85,8 @@ class RecordState(rx.State):
     extension_error: str = ""
     extension_notice: str = ""
     extension_end_date: str = ""
+    change_room_error: str = ""
+    change_room_notice: str = ""
     bed_type_options: list[str] = _BED_TYPES
     #status_options: list[str] = _STATUSES
     payment_status_options: list[str] = ["Pagado", "Pendiente", "Atrasado"]
@@ -149,6 +153,10 @@ class RecordState(rx.State):
     def has_extension_target(self) -> bool:
         return self.extension_target_id != ""
     
+    @rx.var
+    def has_change_room_target(self) -> bool:
+        return self.change_room_target_id != ""
+    
     @rx.event
     def open_room_subform(self):
         self.room_available = list_available_rooms(exclude_room_id=self.selected_room_id)
@@ -190,20 +198,20 @@ class RecordState(rx.State):
         if self.room_subform_selected_id:
             room = get_room_record(self.room_subform_selected_id)
             if not room:
-                self.room_subform_error = "That room could not be found."
+                self.room_subform_error = "Esta habitación  no se encuentra."
                 return
             self.selected_room_id = room["id"]
             self.selected_room = room
         else:
             room_number = self.room_subform_room.strip()
             if not room_number:
-                self.room_subform_error = "Room number is required."
+                self.room_subform_error = "Se requiere un número de habitación."
                 return
             if len(room_number) > 8:
-                self.room_subform_error = "Use a short room label (max 8 characters)."
+                self.room_subform_error = "Use un nombre corto (max 8 characters)."
                 return
             if room_number_exists(room_number, exclude_id=self.selected_room_id):
-                self.room_subform_error = "That room number already exists."
+                self.room_subform_error = "Esta habitación ya existe."
                 return
             try:
                 floor = int(self.room_subform_floor)
@@ -215,7 +223,7 @@ class RecordState(rx.State):
                 bed_type=self.room_subform_bed_type, status=self.room_subform_status,
             )
             if not new_id:
-                self.room_subform_error = "The room could not be created. Please try again."
+                self.room_subform_error = "LA habitación no se ha dado de alta. Inténtelo de nuevo."
                 return
             self.selected_room_id = new_id
             self.selected_room = {
@@ -464,7 +472,7 @@ class RecordState(rx.State):
             self.extension_target_id = ""
             self.extension_error = ""
             self.extension_end_date = ""
-            self.extension_notice = f"Room {room['room']} was extended through {updated['lease_end']}."
+            self.extension_notice = f"El contrato de la habitación {room['room']} se ha prorrogado hasta {updated['lease_end']}."
             self.notice = self.extension_notice
             yield rx.toast(self.extension_notice, duration=3000)
         except ValueError:
@@ -472,8 +480,75 @@ class RecordState(rx.State):
         except Exception as e:
             logging.exception(f"Error: {e}")
             self.extension_error = (
-                "The contract could not be extended. Please try again."
+                "El contrato no puede ha podido ser prorrogado. Por favor, inténtelo de nuevo."
             )
+            
+    @rx.event
+    async def request_change_room(self):
+        if not await self._require_admin():
+            return
+        occupancy = await self.get_state(OccupancyState)
+        if occupancy.selected_id == "":
+            self.notice = (
+                "Seleccione un contrato en vigor para poder cambiar la habitación."
+            )
+            return
+        room = get_room(occupancy.selected_id)
+        self.room_available = list_available_rooms(exclude_room_id=room["room_id"])
+        self.room_subform_selected_id = ""
+        self.notice = ""
+        self.change_room_error = ""
+        self.change_room_notice = ""
+        self.change_room_target_id = occupancy.selected_id
+
+    @rx.event
+    def cancel_change_room(self):
+        self.change_room_target_id = ""
+        self.change_room_error = ""
+        
+    @rx.event
+    async def change_room(self, form_data: dict):
+        try:
+            if not await self._require_admin():
+                return
+            occupancy = await self.get_state(OccupancyState)
+            target = occupancy.selected_id
+            if target == "":
+                self.change_room_error = "Selecciona un contrato en vigor para hacer el cambio."
+                return
+            room = get_room(target)
+            if room["id"] == "":
+                self.change_room_error = "No encuentro este contrato."
+                return
+
+            new_room_id = self.room_subform_selected_id
+            if not new_room_id:
+                self.change_room_error = "Selecciona la nueva habitación."
+                return
+            if new_room_id == room["room_id"]:
+                self.change_room_error = "Selecciona una habitación distinta a la actual."
+                return
+
+            new_room = get_room_record(new_room_id)
+            if not new_room:
+                self.change_room_error = "La habitación seleccionada ya no existe."
+                return
+
+            updated = dict(room)
+            updated["room_id"] = new_room_id
+            if not update_room(target, Lease(**updated)):
+                self.change_room_error = "No encuentro el contrato seleccionado."
+                return
+
+            occupancy._sync_rooms()
+            self.change_room_target_id = ""
+            self.change_room_error = ""
+            self.change_room_notice = f"El contrato pasó de la habitación {room['room']} a la {new_room['room']}."
+            self.notice = self.change_room_notice
+            yield rx.toast(self.change_room_notice, duration=3000)
+        except Exception as e:
+            logging.exception(f"Error: {e}")
+            self.change_room_error = "No se ha podido cambiar la habitación. Inténtelo de nuevo."
 
     async def _require_admin(self) -> bool:
         from calavi_habitaciones.states.auth_state import AuthState
@@ -509,7 +584,7 @@ class RecordState(rx.State):
         if occupancy.selected_id != "":
             room = get_room(occupancy.selected_id)
         if room["id"] == "":
-            self.notice = "Select an occupied room first to edit its record."
+            self.notice = "Seleccione un contrato en vigor para editarlo."
             return
 
         self.mode = "edit"

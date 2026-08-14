@@ -264,14 +264,14 @@ def detail_content() -> rx.Component:
         #occupancy_block(),
         lease_block(),
         payment_block(),
-        rx.el.div(
-            rx.icon("calendar-check", class_name="h-4 w-4 text-violet-600"),
-            rx.el.span(
-                f"Contrato prorrogado hasta {OccupancyState.selected_room['lease_end']}",
-                class_name="text-sm font-semibold text-violet-700",
-            ),
-            class_name="mt-5 flex items-center gap-2 rounded-lg border border-violet-100 bg-violet-50 p-3",
-        ),
+        # rx.el.div(
+        #     rx.icon("calendar-check", class_name="h-4 w-4 text-violet-600"),
+        #     rx.el.span(
+        #         f"Contrato prorrogado hasta {OccupancyState.selected_room['lease_end']}",
+        #         class_name="text-sm font-semibold text-violet-700",
+        #     ),
+        #     class_name="mt-5 flex items-center gap-2 rounded-lg border border-violet-100 bg-violet-50 p-3",
+        # ),
         #emergency_block(),
         notes_block(),
         class_name="flex w-full flex-col",
