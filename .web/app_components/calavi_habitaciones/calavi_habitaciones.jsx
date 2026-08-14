@@ -3,13 +3,13 @@ import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
 
@@ -1552,34 +1552,34 @@ export const Cond_comp_8d1710821124dcb16377177e688658ce_81e687a6 = memo(({childr
     )
 });
 
-export const Bare_comp_ed0445275ebc6c7b125384d4ea899d1d_81e687a6 = memo(({children}) => {
+export const Bare_comp_a4b00be7ef9d7d2c37a8a23f3eef5718_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.terminated_count_rx_state_+" preserved record(s), hidden from active occupancy.")
+        (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.terminated_count_rx_state_+" contratos finalizados guardados en el hist\u00f3rico.")
     )
 });
 
-export const Input_input_d8ed380b76c10050744fae8af84b51a8_81e687a6 = memo(({children}) => {
+export const Input_input_24899a0ab8218b2a813425b9bf561116_81e687a6 = memo(({children}) => {
     const on_change_9df2d193b49192af3c23dd4ff66f65a7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.set_history_search", ({ ["value"] : _e?.["target"]?.["value"] }), ({ ["debounce"] : 300 })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("input",{className:"w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-3 text-sm outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_search_rx_state_,onChange:on_change_9df2d193b49192af3c23dd4ff66f65a7,placeholder:"Search room, building, tenant or reason"},)
+        jsx("input",{className:"w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-3 text-sm outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_search_rx_state_,onChange:on_change_9df2d193b49192af3c23dd4ff66f65a7,placeholder:"Buscar por habitaci\u00f3n, inquilino..."},)
     )
 });
 
-export const Foreach_comp_7df6df2a32109c76c91d8cbafffd2ac9_81e687a6 = memo(({children}) => {
+export const Foreach_comp_e2bce27930196dab7b24fb47f8a04329_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_filtered_rooms_rx_state_ ?? [],((item_rx_state_,index_e6868048d980e7aba495eb73640dd072)=>(jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex w-full flex-col rounded-xl border-2 border-violet-500 bg-white p-5 text-left ring-2 ring-violet-100" : "flex w-full flex-col rounded-xl border border-gray-200 bg-white p-5 text-left transition-colors hover:border-violet-300"),key:index_e6868048d980e7aba495eb73640dd072,onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.select_history_room", ({ ["room_id"] : item_rx_state_?.["id"] }), ({  })))], [_e], ({  })))),type:"button"},jsx("div",{className:"flex items-center gap-3"},jsx("div",{className:"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-amber-100 bg-amber-50"},jsx(LucideArchive,{className:"h-5 w-5 text-amber-600"},)),jsx("div",{className:"min-w-0 text-left"},jsx("p",{className:"text-base font-semibold text-gray-900"},("Room "+item_rx_state_?.["room"])),jsx("p",{className:"text-sm font-medium text-gray-500"},item_rx_state_?.["tenant"]))),jsx("div",{className:"mt-4 border-t border-gray-100 pt-4"},jsx("span",{className:"w-fit rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700"},"Terminated"),jsx("p",{className:"mt-3 text-left text-xs font-medium text-gray-500"},item_rx_state_?.["termination_date"]))))))
+        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_filtered_rooms_rx_state_ ?? [],((item_rx_state_,index_e6868048d980e7aba495eb73640dd072)=>(jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex w-full flex-col rounded-xl border-2 border-violet-500 bg-white p-5 text-left ring-2 ring-violet-100" : "flex w-full flex-col rounded-xl border border-gray-200 bg-white p-5 text-left transition-colors hover:border-violet-300"),key:index_e6868048d980e7aba495eb73640dd072,onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.select_history_room", ({ ["room_id"] : item_rx_state_?.["id"] }), ({  })))], [_e], ({  })))),type:"button"},jsx("div",{className:"flex items-center gap-3"},jsx("div",{className:"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-amber-100 bg-amber-50"},jsx(LucideArchive,{className:"h-5 w-5 text-amber-600"},)),jsx("div",{className:"min-w-0 text-left"},jsx("p",{className:"text-base font-semibold text-gray-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])),jsx("p",{className:"text-sm font-medium text-gray-500"},item_rx_state_?.["tenant"]))),jsx("div",{className:"mt-4 border-t border-gray-100 pt-4"},jsx("span",{className:"w-fit rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700"},"Finalizado"),jsx("p",{className:"mt-3 text-left text-xs font-medium text-gray-500"},item_rx_state_?.["termination_date"]))))))
     )
 });
 
@@ -1613,23 +1613,33 @@ export const Bare_comp_a0c04b75742403c5c4f84baf7d52a63f_81e687a6 = memo(({childr
     )
 });
 
-export const Bare_comp_96d11fb04b682e0965616961c89acae4_81e687a6 = memo(({children}) => {
+export const Bare_comp_1db277ed6a88ff68ca00a753f3d2f48f_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        ("Room "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["room"])
+        ("Habitaci\u00f3n "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["room"])
     )
 });
 
-export const Bare_comp_3d5b503f284b439ada9bfdcc8c611452_81e687a6 = memo(({children}) => {
+export const Bare_comp_43c8ae9680f5b47d0a5f16ce1acd301d_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        ("Ended "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["termination_date"])
+        ("Inicio "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["lease_start"])
+    )
+});
+
+export const Bare_comp_a5d65a0eeb415d55fd063986993efed0_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        ("Fin   "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["termination_date"])
     )
 });
 

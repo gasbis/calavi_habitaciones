@@ -12,7 +12,7 @@ def history_card(item: Lease) -> rx.Component:
             ),
             rx.el.div(
                 rx.el.p(
-                    f"Room {item['room']}",
+                    f"Habitación {item['room']}",
                     class_name="text-base font-semibold text-gray-900",
                 ),
                 rx.el.p(
@@ -25,7 +25,7 @@ def history_card(item: Lease) -> rx.Component:
         ),
         rx.el.div(
             rx.el.span(
-                "Terminated",
+                "Finalizado",
                 class_name="w-fit rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700",
             ),
             rx.el.p(
@@ -49,7 +49,7 @@ def history_detail() -> rx.Component:
         rx.el.div(
             rx.el.div(
                 rx.el.span(
-                    "Past tenant details",
+                    "Datos del contrato",
                     class_name="text-sm font-semibold text-gray-900",
                 ),
                 rx.el.button(
@@ -72,7 +72,7 @@ def history_detail() -> rx.Component:
                             class_name="text-lg font-semibold text-gray-900",
                         ),
                         rx.el.p(
-                            f"Room {OccupancyState.selected_history_room['room']}",
+                            f"Habitación {OccupancyState.selected_history_room['room']}",
                             class_name="text-sm font-medium text-gray-500",
                         ),
                     ),
@@ -80,11 +80,15 @@ def history_detail() -> rx.Component:
                 ),
                 rx.el.div(
                     rx.el.span(
-                        "Terminated",
+                        "Finalizado",
                         class_name="w-fit rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700",
                     ),
                     rx.el.p(
-                        f"Ended {OccupancyState.selected_history_room['termination_date']}",
+                        f"Inicio {OccupancyState.selected_history_room['lease_start']}",
+                        class_name="mt-2 text-sm font-semibold text-gray-700",
+                    ),
+                    rx.el.p(
+                        f"Fin   {OccupancyState.selected_history_room['termination_date']}",
                         class_name="mt-2 text-sm font-semibold text-gray-700",
                     ),
                     # rx.el.p(
@@ -95,7 +99,7 @@ def history_detail() -> rx.Component:
                 ),
                 rx.el.div(
                     rx.el.p(
-                        "Contact",
+                        "Contacto",
                         class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
                     ),
                     rx.el.p(
@@ -127,11 +131,11 @@ def history_view() -> rx.Component:
                 rx.icon("archive", class_name="h-5 w-5 text-violet-600"),
                 rx.el.div(
                     rx.el.h2(
-                        "Terminated history",
+                        "Contratos finalizados",
                         class_name="text-xl font-semibold text-gray-900",
                     ),
                     rx.el.p(
-                        f"{OccupancyState.terminated_count} preserved record(s), hidden from active occupancy.",
+                        f"{OccupancyState.terminated_count} contratos finalizados guardados en el histórico.",
                         class_name="mt-1 text-sm font-medium text-gray-500",
                     ),
                 ),
@@ -143,7 +147,7 @@ def history_view() -> rx.Component:
                     class_name="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400",
                 ),
                 rx.el.input(
-                    placeholder="Search room, building, tenant or reason",
+                    placeholder="Buscar por habitación, inquilino...",
                     default_value=OccupancyState.history_search,
                     on_change=OccupancyState.set_history_search.debounce(300),
                     class_name="w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-3 text-sm outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
