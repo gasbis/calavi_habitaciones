@@ -128,7 +128,7 @@ def lease_block() -> rx.Component:
             detail_row("Finalización", OccupancyState.selected_room["lease_end"]),
             detail_row(
                 "Fianza depositada",
-                f"{OccupancyState.selected_room['deposit']:,.0f}€",
+                OccupancyState.selected_room['deposit_display'],
             ),
             class_name="mt-3 flex flex-col gap-2.5",
         ),
@@ -145,7 +145,7 @@ def payment_block() -> rx.Component:
         ),
         rx.el.div(
             rx.el.p(
-                f"{OccupancyState.selected_room['rent']:,.0f}€",
+                OccupancyState.selected_room['rent_display'],
                 class_name="text-2xl font-semibold tracking-tight text-gray-900",
             ),
             rx.el.span(
@@ -157,7 +157,7 @@ def payment_block() -> rx.Component:
         rx.el.div(
             detail_row(
                 "Saldo pendiente",
-                f"{OccupancyState.selected_room['balance']:,.2f}€",
+                OccupancyState.selected_room['balance_display'],
             ),
             detail_row(
                 "Último pago", OccupancyState.selected_room["last_payment"]

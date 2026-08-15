@@ -51,11 +51,11 @@ def login_screen() -> rx.Component:
                 ),
                 rx.el.div(
                     rx.el.h1(
-                        "Occupancy",
+                        "Calavi",
                         class_name="text-lg font-semibold tracking-tight text-gray-900",
                     ),
                     rx.el.p(
-                        "Administrator access",
+                        "Control de acceso",
                         class_name="text-xs font-medium text-gray-500",
                     ),
                     class_name="flex flex-col",
@@ -70,26 +70,26 @@ def login_screen() -> rx.Component:
                     class_name="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50",
                 ),
                 rx.el.h2(
-                    "Sign in to continue",
+                    "Inicia sesión para continuar",
                     class_name="mt-5 text-2xl font-semibold tracking-tight text-gray-900",
                 ),
                 rx.el.p(
-                    "Use an administrator account to view room occupancy and tenant details.",
+                    "Usa tu cuenta de administrador para ver y editar los contratos de alquiler.",
                     class_name="mt-2 text-sm font-medium leading-relaxed text-gray-500",
                 ),
                 rx.el.form(
                     login_field(
-                        "Email address",
+                        "Correo electrónico",
                         "email",
-                        "manager@occupancy.app",
+                        "manager@calavi.app",
                         "email",
                         AuthState.email_error,
                         "mail",
                     ),
                     login_field(
-                        "Password",
+                        "Contraseña",
                         "password",
-                        "Enter your password",
+                        "escribe tu contraseña",
                         "password",
                         AuthState.password_error,
                         "key-round",
@@ -111,7 +111,7 @@ def login_screen() -> rx.Component:
                     ),
                     rx.el.button(
                         rx.icon("log-in", class_name="h-4 w-4"),
-                        "Sign in",
+                        "Acceder",
                         type="submit",
                         class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus:ring-2 focus:ring-violet-200 outline-hidden",
                     ),
@@ -125,7 +125,7 @@ def login_screen() -> rx.Component:
                         class_name="h-4 w-4 shrink-0 text-gray-400",
                     ),
                     rx.el.p(
-                        "Access is managed by your occupancy administrator. Public registration is not available.",
+                        "El acceso es administrado por la propietaria. No hay registro público disponible.",
                         class_name="text-xs font-medium leading-relaxed text-gray-500",
                     ),
                     class_name="mt-6 flex items-start gap-2 border-t border-gray-100 pt-5",

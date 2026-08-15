@@ -1,5 +1,6 @@
 import asyncio
 from datetime import date, timedelta, datetime
+from calavi_habitaciones.models import format_eur
 
 
 import reflex as rx
@@ -140,6 +141,10 @@ class OccupancyState(rx.State):
     @rx.var
     def monthly_revenue(self) -> float:
         return float(sum(r["rent"] for r in self.occupied_lease))
+    
+    @rx.var
+    def monthly_revenue_display(self) -> str:
+        return format_eur(self.monthly_revenue)
 
     @rx.var
     def attention_count(self) -> int:

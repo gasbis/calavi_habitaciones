@@ -79,7 +79,7 @@ def room_card(item: Lease) -> rx.Component:
         rx.el.div(
             meta_row("calendar-check", "F_inicio", item["lease_start"]),
             meta_row("calendar-clock", "F_fin", item["lease_end"]),
-            meta_row("banknote", "Renta mensual", f"{item['rent']:,.0f}€"),
+            meta_row("banknote", "Renta mensual", item["rent_display"]),
             class_name="mt-4 flex flex-col gap-2.5",
         ),
         rx.el.div(

@@ -4,11 +4,13 @@ from typing import TypedDict
 import reflex as rx
 
 from calavi_habitaciones.models import (
+    create_admin_account,
+    email_exists,
     get_admin_account,
     hash_password,
     list_admin_accounts,
-    seed_admin_accounts,
     set_admin_active,
+    set_admin_password,
     verify_password,
 )
 
@@ -49,6 +51,112 @@ class AuthState(rx.State):
     password_error: str = ""
     auth_error: str = ""
     management_notice: str = ""
+    
+    new_admin_open: bool = False
+    new_admin_email_error: str = ""
+    new_admin_password_error: str = ""
+    new_admin_error: str = ""
+
+    change_password_open: bool = False
+    change_password_current_error: str = ""
+    change_password_new_error: str = ""
+    change_password_error: str = ""
+    change_password_notice: str = ""
+    
+    @rx.event
+    def open_new_admin(self):
+        if not self.is_authenticated:
+            return
+        self.new_admin_email_error = ""
+        self.new_admin_password_error = ""
+        self.new_admin_error = ""
+        self.new_admin_open = True
+
+    @rx.event
+    def close_new_admin(self):
+        self.new_admin_open = False
+
+    @rx.event
+    def create_admin(self, form_data: dict):
+        self.new_admin_email_error = ""
+        self.new_admin_password_error = ""
+        self.new_admin_error = ""
+        if not self.is_authenticated:
+            self.new_admin_error = "Se requiere acceso de administrador."
+            return
+
+        email = form_data.get("email", "").strip().lower()
+        name = form_data.get("name", "").strip()
+        role = form_data.get("role", "").strip()
+        password = form_data.get("password", "")
+        confirm = form_data.get("confirm_password", "")
+
+        if not email or "@" not in email or "." not in email.rsplit("@", 1)[-1]:
+            self.new_admin_email_error = "Introduce un correo válido."
+        elif email_exists(email):
+            self.new_admin_email_error = "Ya existe un administrador con ese correo."
+
+        if len(password) < 8:
+            self.new_admin_password_error = "La contraseña debe tener al menos 8 caracteres."
+        elif password != confirm:
+            self.new_admin_password_error = "Las contraseñas no coinciden."
+
+        if self.new_admin_email_error or self.new_admin_password_error:
+            return
+
+        if not create_admin_account(email, name, role, password):
+            self.new_admin_error = "No se ha podido crear el administrador. Inténtalo de nuevo."
+            return
+
+        self.admin_users = [AdminDirectoryEntry(**user) for user in list_admin_accounts()]
+        self.new_admin_open = False
+        self.management_notice = f"{name or email} ha sido añadido como administrador."
+        
+    @rx.event
+    def open_change_password(self):
+        if not self.is_authenticated:
+            return
+        self.change_password_current_error = ""
+        self.change_password_new_error = ""
+        self.change_password_error = ""
+        self.change_password_notice = ""
+        self.change_password_open = True
+
+    @rx.event
+    def close_change_password(self):
+        self.change_password_open = False
+
+    @rx.event
+    def submit_change_password(self, form_data: dict):
+        self.change_password_current_error = ""
+        self.change_password_new_error = ""
+        self.change_password_error = ""
+        if not self.is_authenticated:
+            self.change_password_error = "Debes iniciar sesión."
+            return
+
+        current_password = form_data.get("current_password", "")
+        new_password = form_data.get("new_password", "")
+        confirm_password = form_data.get("confirm_password", "")
+
+        credential = get_admin_account(self.current_user["email"])
+        if credential is None or not verify_password(current_password, credential.password_hash):
+            self.change_password_current_error = "La contraseña actual no es correcta."
+            return
+
+        if len(new_password) < 8:
+            self.change_password_new_error = "La nueva contraseña debe tener al menos 8 caracteres."
+            return
+        if new_password != confirm_password:
+            self.change_password_new_error = "Las contraseñas no coinciden."
+            return
+
+        if not set_admin_password(self.current_user["email"], hash_password(new_password)):
+            self.change_password_error = "No se ha podido actualizar la contraseña. Inténtalo de nuevo."
+            return
+
+        self.change_password_open = False
+        self.change_password_notice = "Tu contraseña se ha actualizado correctamente."
 
     @rx.event
     async def sign_in(self, form_data: dict):
@@ -60,17 +168,17 @@ class AuthState(rx.State):
             password = form_data.get("password", "")
 
             if not email:
-                self.email_error = "Enter your administrator email."
+                self.email_error = "Introduzce tu correo electrónico."
             elif "@" not in email or "." not in email.rsplit("@", 1)[-1]:
-                self.email_error = "Enter a valid email address."
+                self.email_error = "Entra un correo válido."
 
             if not password:
-                self.password_error = "Enter your password."
+                self.password_error = "Ingresa tu contraseña."
 
             if self.email_error or self.password_error:
                 return
 
-            seed_admin_accounts()
+            # seed_admin_accounts()
             credential = get_admin_account(email)
             if (
                 credential is None
@@ -78,7 +186,7 @@ class AuthState(rx.State):
                 or not verify_password(password, credential.password_hash)
             ):
                 self.auth_error = (
-                    "We couldn't verify those administrator credentials."
+                    "No hemos podido verificar tus credenciales de administrador."
                 )
                 self.is_authenticated = False
                 self.current_user = EMPTY_ADMIN_USER
@@ -93,10 +201,10 @@ class AuthState(rx.State):
             self.admin_users = [
                 AdminDirectoryEntry(**user) for user in list_admin_accounts()
             ]
-            from calavi_habitaciones.models import seed_if_empty
+            # from calavi_habitaciones.models import seed_if_empty
             from calavi_habitaciones.states.occupancy_state import OccupancyState
 
-            seed_if_empty()
+            # seed_if_empty()
             occupancy = await self.get_state(OccupancyState)
             occupancy._sync_rooms()
         except Exception as e:
@@ -109,26 +217,26 @@ class AuthState(rx.State):
         try:
             if not self.is_authenticated:
                 self.management_notice = (
-                    "Administrator access is required to manage users."
+                    "Se requiere acceso de administrador para gestionar usuarios."
                 )
                 return
             if email == self.current_user["email"]:
                 self.management_notice = (
-                    "Your own administrator access cannot be changed here."
+                    "Tu acceso de administrador no puede modificarse aquí."
                 )
                 return
 
             credential = get_admin_account(email)
             if credential is None:
                 self.management_notice = (
-                    "That administrator could not be found."
+                    "Este administrador no ha podido ser encontrado."
                 )
                 return
 
             next_active = not credential.active
             if not set_admin_active(email, next_active):
                 self.management_notice = (
-                    "Access could not be updated. Please try again."
+                    "No se ha podido actualizar el acceso. Por favor, inténtalo de nuevo."
                 )
                 return
 
@@ -144,18 +252,18 @@ class AuthState(rx.State):
                 for user in self.admin_users
             ]
             self.admin_users = updated_users
-            state_label = "enabled" if next_active else "disabled"
+            state_label = "activado" if next_active else "desactivado"
             self.management_notice = (
-                f"{credential.name}'s access is now {state_label}."
+                f"{credential.name} tu usuario está ahora {state_label}."
             )
         except Exception as e:
             logging.exception(f"Error: {e}")
             self.management_notice = (
-                "Access could not be updated. Please try again."
+                "No se ha podido actualizar el acceso. Por favor, inténtalo de nuevo."
             )
 
             self.auth_error = (
-                "Sign-in is temporarily unavailable. Please try again."
+                "Acceso no disponible en este momento. Inténtelo de nuevo."
             )
 
     @rx.event

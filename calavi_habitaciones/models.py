@@ -7,6 +7,7 @@ from typing import TypedDict
 
 import reflex as rx
 import sqlmodel
+from calavi_habitaciones.utils.formatting import format_eur
 #from faker import Faker
 
 
@@ -33,6 +34,9 @@ class Lease(TypedDict):
     notes: str
     record_status: str
     termination_date: str
+    rent_display: str
+    deposit_display: str
+    balance_display: str
     #termination_reason: str
 
 _BED_TYPES: list[str] = ["0.85", "1.35", "1.50"]
@@ -65,6 +69,9 @@ EMPTY_ROOM: Lease = Lease(
     record_status=_RECORD_STATUSES[0],
     termination_date="",
     #termination_reason="",
+    rent_display="0€",
+    deposit_display="0€",
+    balance_display="0,00€",
 )
 
 
@@ -147,6 +154,9 @@ def _record_to_room(record: OccupancyRecord) -> Lease:
         rent=record.rent,
         deposit=record.deposit,
         balance=record.balance,
+        rent_display=format_eur(record.rent),
+        deposit_display=format_eur(record.deposit),
+        balance_display=format_eur(record.balance, decimals=2),
         payment_status=record.payment_status,
         last_payment=record.last_payment,
         next_payment=record.next_payment,
@@ -157,6 +167,7 @@ def _record_to_room(record: OccupancyRecord) -> Lease:
         record_status=record.record_status,
         termination_date=record.termination_date,
         #termination_reason=record.termination_reason,
+        
     )
 
     
@@ -361,6 +372,49 @@ def _record_pk(room_id: str) -> int:
     suffix = room_id.rsplit("-", 1)[-1]
     return int(suffix) if suffix.isdigit() else -1
 
+def email_exists(email: str) -> bool:
+    try:
+        with rx.session() as session:
+            record = session.exec(
+                sqlmodel.select(AdminAccount).where(AdminAccount.email == email)
+            ).first()
+            return record is not None
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def create_admin_account(email: str, name: str, role: str, password: str) -> bool:
+    try:
+        with rx.session() as session:
+            record = AdminAccount(
+                email=email, name=name, role=role, active=True,
+                password_hash=hash_password(password),
+            )
+            session.add(record)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def set_admin_password(email: str, new_password_hash: str) -> bool:
+    try:
+        with rx.session() as session:
+            record = session.exec(
+                sqlmodel.select(AdminAccount).where(AdminAccount.email == email)
+            ).first()
+            if record is None:
+                return False
+            record.password_hash = new_password_hash
+            session.add(record)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
 
 def hash_password(password: str) -> str:
     try:
@@ -443,54 +497,54 @@ def set_admin_active(email: str, active: bool) -> bool:
         return False
 
 
-def seed_admin_accounts() -> None:
-    #ensure_tables()
-    try:
-        with rx.session() as session:
-            if session.exec(sqlmodel.select(AdminAccount)).first() is not None:
-                return
-            starter_accounts = [
-                (
-                    "manager@occupancy.app",
-                    "Maya Chen",
-                    "Property Manager",
-                    "HarborView!2025",
-                ),
-                (
-                    "operations@occupancy.app",
-                    "Jordan Ellis",
-                    "Operations Admin",
-                    "OccupancyOps!2025",
-                ),
-            ]
-            for email, name, role, password in starter_accounts:
-                session.add(
-                    AdminAccount(
-                        email=email,
-                        name=name,
-                        role=role,
-                        active=True,
-                        password_hash=hash_password(password),
-                    )
-                )
-            session.commit()
-    except Exception as e:
-        logging.exception(f"Error: {e}")
+# def seed_admin_accounts() -> None:
+#     #ensure_tables()
+#     try:
+#         with rx.session() as session:
+#             if session.exec(sqlmodel.select(AdminAccount)).first() is not None:
+#                 return
+#             starter_accounts = [
+#                 (
+#                     "manager@occupancy.app",
+#                     "Maya Chen",
+#                     "Property Manager",
+#                     "HarborView!2025",
+#                 ),
+#                 (
+#                     "operations@occupancy.app",
+#                     "Jordan Ellis",
+#                     "Operations Admin",
+#                     "OccupancyOps!2025",
+#                 ),
+#             ]
+#             for email, name, role, password in starter_accounts:
+#                 session.add(
+#                     AdminAccount(
+#                         email=email,
+#                         name=name,
+#                         role=role,
+#                         active=True,
+#                         password_hash=hash_password(password),
+#                     )
+#                 )
+#             session.commit()
+#     except Exception as e:
+#         logging.exception(f"Error: {e}")
 
 
-def seed_if_empty() -> None:
-    """Insert realistic starter records only when the table is empty."""
-    #ensure_tables()
-    try:
-        with rx.session() as session:
-            existing = session.exec(sqlmodel.select(OccupancyRecord)).first()
-            if existing is not None:
-                return
-            # for room in _seed_rooms():
-            #     session.add(_apply_room(OccupancyRecord(), room))
-            session.commit()
-    except Exception as e:
-        logging.exception(f"Error: {e}")
+# def seed_if_empty() -> None:
+#     """Insert realistic starter records only when the table is empty."""
+#     #ensure_tables()
+#     try:
+#         with rx.session() as session:
+#             existing = session.exec(sqlmodel.select(OccupancyRecord)).first()
+#             if existing is not None:
+#                 return
+#             # for room in _seed_rooms():
+#             #     session.add(_apply_room(OccupancyRecord(), room))
+#             session.commit()
+#     except Exception as e:
+#         logging.exception(f"Error: {e}")
 
 
 def list_rooms() -> list[Lease]:

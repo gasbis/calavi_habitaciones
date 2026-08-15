@@ -2,7 +2,6 @@ import reflex as rx
 
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
-
 def stat_card(
     label: str, value: rx.Var | str, icon: str, hint: rx.Var | str
 ) -> rx.Component:
@@ -71,10 +70,10 @@ def summary_section() -> rx.Component:
             #     "Checked in tenants",
             # ),
             stat_card(
-                "Racaudación mensual",
-                f"{OccupancyState.monthly_revenue:,.0f}€",
+                "Recaudación mensual",
+                OccupancyState.monthly_revenue_display,
                 "wallet",
-                "Alquileres cobrados",
+                "Teórica según habitaciones alquiladas y precio.",
             ),
             stat_card(
                 "Necesita atención",
