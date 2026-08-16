@@ -87,6 +87,7 @@ def termination_confirmation() -> rx.Component:
                         id="termination-date",
                         type="date",
                         name="termination_date",
+                        default_value=RecordState.termination_date_default,
                         class_name="mt-2 w-full rounded-lg border border-amber-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
                     ),
                     class_name="col-span-1",
@@ -177,19 +178,11 @@ def extension_controls() -> rx.Component:
         ),
         rx.el.form(
             rx.el.div(
-                # rx.el.select(
-                #     rx.el.option("Selecciona extensión", value=""),
-                #     rx.foreach(
-                #         RecordState.extension_options,
-                #         lambda option: rx.el.option(option, value=option),
-                #     ),
-                #     name="extension_option",
-                #     class_name="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
-                # ),
                 rx.el.input(
                     type="date",
                     name="extension_end_date",
                     placeholder="Or choose a new end date",
+                    default_value=OccupancyState.selected_room_lease_end_iso,
                     class_name="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
                 ),
                 class_name="grid grid-cols-1 gap-2 sm:grid-cols-2",

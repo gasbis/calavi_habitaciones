@@ -24,10 +24,10 @@ class Lease(TypedDict):
     tenant_phone: str
     rent: float
     deposit: float
-    balance: float
-    payment_status: str
-    last_payment: str
-    next_payment: str
+    # balance: float
+    # payment_status: str
+    # last_payment: str
+    # next_payment: str
     lease_start: str
     lease_end: str
     #status: str
@@ -36,12 +36,14 @@ class Lease(TypedDict):
     termination_date: str
     rent_display: str
     deposit_display: str
-    balance_display: str
+    # balance_display: str
     #termination_reason: str
 
 _BED_TYPES: list[str] = ["0.85", "1.35", "1.50"]
 
 #_STATUSES: list[str] = ["Ocupada", "Libre"]
+
+_DISPLAY_FORMAT = "%d-%m-%Y"
 
 _RECORD_STATUSES: list[str] = ["Activo", "Caduca pronto", "Caducado", "Rescindido"]
 
@@ -58,10 +60,10 @@ EMPTY_ROOM: Lease = Lease(
     tenant_phone="",
     rent=0.0,
     deposit=0.0,
-    balance=0.0,
-    payment_status="",
-    last_payment="",
-    next_payment="",
+    # balance=0.0,
+    # payment_status="",
+    # last_payment="",
+    # next_payment="",
     lease_start="",
     lease_end="",
     #status="",
@@ -71,7 +73,7 @@ EMPTY_ROOM: Lease = Lease(
     #termination_reason="",
     rent_display="0€",
     deposit_display="0€",
-    balance_display="0,00€",
+    # balance_display="0,00€",
 )
 
 
@@ -126,10 +128,10 @@ class OccupancyRecord(rx.Model, table=True):
     tenant: TenantRecord = sqlmodel.Relationship(back_populates="occupancyrecords")
     rent: float = 0.0
     deposit: float = 0.0
-    balance: float = 0.0
-    payment_status: str = "Pagado"
-    last_payment: str = ""
-    next_payment: str = ""
+    # balance: float = 0.0
+    # payment_status: str = "Pagado"
+    # last_payment: str = ""
+    # next_payment: str = ""
     lease_start: str = ""
     lease_end: str = ""
     notes: str = ""
@@ -153,13 +155,13 @@ def _record_to_room(record: OccupancyRecord) -> Lease:
         tenant_phone=record.tenant.tenant_phone,
         rent=record.rent,
         deposit=record.deposit,
-        balance=record.balance,
+        # balance=record.balance,
         rent_display=format_eur(record.rent),
         deposit_display=format_eur(record.deposit),
-        balance_display=format_eur(record.balance, decimals=2),
-        payment_status=record.payment_status,
-        last_payment=record.last_payment,
-        next_payment=record.next_payment,
+        # balance_display=format_eur(record.balance, decimals=2),
+        # payment_status=record.payment_status,
+        # last_payment=record.last_payment,
+        # next_payment=record.next_payment,
         lease_start=record.lease_start,
         lease_end=record.lease_end,
         #status=record.room.status,
@@ -182,10 +184,10 @@ def _apply_room(record: OccupancyRecord, data: Lease) -> OccupancyRecord:
     record.tenant_phone = data["tenant"]["tenant_phone"]
     record.rent = float(data["rent"])
     record.deposit = float(data["deposit"])
-    record.balance = float(data["balance"])
-    record.payment_status = data["payment_status"]
-    record.last_payment = data["last_payment"]
-    record.next_payment = data["next_payment"]
+    # record.balance = float(data["balance"])
+    # record.payment_status = data["payment_status"]
+    # record.last_payment = data["last_payment"]
+    # record.next_payment = data["next_payment"]
     record.lease_start = data["lease_start"]
     record.lease_end = data["lease_end"]
     #record.status = data["room"]["status"]
@@ -205,10 +207,10 @@ def _apply_occupancy(record: OccupancyRecord, data: dict) -> OccupancyRecord:
         record.tenant_id = int(data["tenant_id"])
     record.rent = float(data["rent"])
     record.deposit = float(data["deposit"])
-    record.balance = float(data["balance"])
-    record.payment_status = data["payment_status"]
-    record.last_payment = data["last_payment"]
-    record.next_payment = data["next_payment"]
+    # record.balance = float(data["balance"])
+    # record.payment_status = data["payment_status"]
+    # record.last_payment = data["last_payment"]
+    # record.next_payment = data["next_payment"]
     record.lease_start = data["lease_start"]
     record.lease_end = data["lease_end"]
     record.notes = data["notes"]

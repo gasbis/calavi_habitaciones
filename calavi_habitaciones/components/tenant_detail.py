@@ -127,48 +127,53 @@ def lease_block() -> rx.Component:
             detail_row("Inicio", OccupancyState.selected_room["lease_start"]),
             detail_row("Finalización", OccupancyState.selected_room["lease_end"]),
             detail_row(
+                "Alquiler mensual",
+                OccupancyState.selected_room['rent_display'],
+            ),
+            detail_row(
                 "Fianza depositada",
                 OccupancyState.selected_room['deposit_display'],
             ),
+            
             class_name="mt-3 flex flex-col gap-2.5",
         ),
         class_name="mt-5 border-t border-gray-100 pt-5",
     )
 
 
-def payment_block() -> rx.Component:
-    return rx.el.div(
-        rx.el.div(
-            section_title("banknote", "renta y pagos"),
-            payment_pill(OccupancyState.selected_room["payment_status"]),
-            class_name="flex items-center justify-between gap-3",
-        ),
-        rx.el.div(
-            rx.el.p(
-                OccupancyState.selected_room['rent_display'],
-                class_name="text-2xl font-semibold tracking-tight text-gray-900",
-            ),
-            rx.el.span(
-                "mensuales",
-                class_name="text-sm font-medium text-gray-500",
-            ),
-            class_name="mt-3 flex items-baseline gap-2",
-        ),
-        rx.el.div(
-            detail_row(
-                "Saldo pendiente",
-                OccupancyState.selected_room['balance_display'],
-            ),
-            detail_row(
-                "Último pago", OccupancyState.selected_room["last_payment"]
-            ),
-            detail_row(
-                "Próximo vencimiento", OccupancyState.selected_room["next_payment"]
-            ),
-            class_name="mt-3 flex flex-col gap-2.5",
-        ),
-        class_name="mt-5 border-t border-gray-100 pt-5",
-    )
+# def payment_block() -> rx.Component:
+#     return rx.el.div(
+#         # rx.el.div(
+#         #     section_title("banknote", "renta y pagos"),
+#         #     payment_pill(OccupancyState.selected_room["payment_status"]),
+#         #     class_name="flex items-center justify-between gap-3",
+#         # ),
+#         rx.el.div(
+#             rx.el.p(
+#                 OccupancyState.selected_room['rent_display'],
+#                 class_name="text-2xl font-semibold tracking-tight text-gray-900",
+#             ),
+#             rx.el.span(
+#                 "mensuales",
+#                 class_name="text-sm font-medium text-gray-500",
+#             ),
+#             class_name="mt-3 flex items-baseline gap-2",
+#         ),
+#         # rx.el.div(
+#         #     detail_row(
+#         #         "Saldo pendiente",
+#         #         OccupancyState.selected_room['balance_display'],
+#         #     ),
+#         #     detail_row(
+#         #         "Último pago", OccupancyState.selected_room["last_payment"]
+#         #     ),
+#         #     detail_row(
+#         #         "Próximo vencimiento", OccupancyState.selected_room["next_payment"]
+#         #     ),
+#         #     class_name="mt-3 flex flex-col gap-2.5",
+#         # ),
+#         class_name="mt-5 border-t border-gray-100 pt-5",
+#     )
 
 
 # def emergency_block() -> rx.Component:
@@ -263,7 +268,7 @@ def detail_content() -> rx.Component:
         contact_block(),
         #occupancy_block(),
         lease_block(),
-        payment_block(),
+        # payment_block(),
         # rx.el.div(
         #     rx.icon("calendar-check", class_name="h-4 w-4 text-violet-600"),
         #     rx.el.span(

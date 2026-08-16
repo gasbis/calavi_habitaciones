@@ -1,7 +1,8 @@
 import logging
-from datetime import datetime, timedelta
-
+from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 import reflex as rx
+from calavi_habitaciones.models import _DISPLAY_FORMAT
 
 from calavi_habitaciones.models import (
     _RECORD_STATUSES,
@@ -23,18 +24,17 @@ from calavi_habitaciones.models import (
 )
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
-_DISPLAY_FORMAT = "%d-%m-%Y"
+
 
 _FORM_KEYS: list[str] = [
-    "rent", "deposit", "balance", "payment_status",
-    "lease_start", "lease_end", "last_payment", "next_payment", "notes",
+    "rent", "deposit", "lease_start", "lease_end", "notes",
 ]
 
 
 def _blank_form() -> dict[str, str]:
     values = {key: "" for key in _FORM_KEYS}
-    values["payment_status"] = "Pagado"
-    values["balance"] = "0"
+    # values["payment_status"] = "Pagado"
+    # values["balance"] = "0"
     return values
 
 
@@ -89,7 +89,7 @@ class RecordState(rx.State):
     change_room_notice: str = ""
     bed_type_options: list[str] = _BED_TYPES
     #status_options: list[str] = _STATUSES
-    payment_status_options: list[str] = ["Pagado", "Pendiente", "Atrasado"]
+    #payment_status_options: list[str] = ["Pagado", "Pendiente", "Atrasado"]
     room_options: list[dict[str, str]] = []
     tenant_options: list[dict[str, str]] = []
     selected_room_id: str = ""   # "" => crear habitación nueva
@@ -117,9 +117,11 @@ class RecordState(rx.State):
     tenant_subform_phone: str = ""
     tenant_subform_error: str = ""
     
+    lease_end_key: int = 0 #fuerza el remount solo del campo lease end (para fecha calculada)
     # def _load_options(self):
     #     self.room_options = list_room_records()
     #     self.tenant_options = list_tenant_records()
+    termination_date_default: str = ""
 
     @rx.var
     def dialog_title(self) -> str:
@@ -156,6 +158,15 @@ class RecordState(rx.State):
     @rx.var
     def has_change_room_target(self) -> bool:
         return self.change_room_target_id != ""
+    
+    @rx.event
+    def set_lease_start(self, value: str):
+        self.form_values["lease_start"] = value
+        if value:
+            start = datetime.strptime(value, "%Y-%m-%d")
+            end = start + relativedelta(days=364)
+            self.form_values["lease_end"] = end.strftime("%Y-%m-%d")
+            self.lease_end_key += 1
     
     @rx.event
     def open_room_subform(self):
@@ -342,6 +353,7 @@ class RecordState(rx.State):
         self.extension_target_id = ""
         self.delete_target_id = ""
         self.termination_target_id = occupancy.selected_id
+        self.termination_date_default = date.today().strftime("%Y-%m-%d")
 
     @rx.event
     def cancel_terminate(self):
@@ -463,8 +475,8 @@ class RecordState(rx.State):
                 updated["record_status"] = _RECORD_STATUSES[0]
             elif room["record_status"] == _RECORD_STATUSES[2]:
                 updated["record_status"] = _RECORD_STATUSES[0]
-            if room["payment_status"] == "Overdue" and room["balance"] <= 0:
-                updated["payment_status"] = "Paid"
+            # if room["payment_status"] == "Overdue" and room["balance"] <= 0:
+            #     updated["payment_status"] = "Paid"
             if not update_room(target, Lease(**updated)):
                 self.extension_error = "No encuentro la habitación seleccionada."
                 return
@@ -563,6 +575,7 @@ class RecordState(rx.State):
         self.mode = "create"
         self.editing_id = ""
         self.form_values = _blank_form()
+        self.set_lease_start(date.today().strftime("%Y-%m-%d")) 
         self.errors = _blank_errors()
         self.form_error = ""
         self.delete_target_id = ""
@@ -592,12 +605,12 @@ class RecordState(rx.State):
         self.form_values = {
             "rent": f"{room['rent']:.2f}",
             "deposit": f"{room['deposit']:.2f}",
-            "balance": f"{room['balance']:.2f}",
-            "payment_status": room["payment_status"],
+            # "balance": f"{room['balance']:.2f}",
+            # "payment_status": room["payment_status"],
             "lease_start": _to_input_date(room["lease_start"]),
             "lease_end": _to_input_date(room["lease_end"]),
-            "last_payment": _to_input_date(room["last_payment"]),
-            "next_payment": _to_input_date(room["next_payment"]),
+            # "last_payment": _to_input_date(room["last_payment"]),
+            # "next_payment": _to_input_date(room["next_payment"]),
             "notes": room["notes"],
         }
         self.selected_room_id = room["room_id"]
@@ -630,7 +643,7 @@ class RecordState(rx.State):
         for key, label, minimum in (
             ("rent", "Monthly rent", 1.0),
             ("deposit", "Deposit", 0.0),
-            ("balance", "Balance", 0.0),
+            # ("balance", "Balance", 0.0),
         ):
             try:
                 amount = float(data[key])
@@ -641,8 +654,8 @@ class RecordState(rx.State):
         for key, label in (
             ("lease_start", "Lease start"),
             ("lease_end", "Lease end"),
-            ("last_payment", "Last payment date"),
-            ("next_payment", "Next payment date"),
+            # ("last_payment", "Last payment date"),
+            # ("next_payment", "Next payment date"),
         ):
             if not _to_display_date(data[key]):
                 errors[key] = f"{label} is required."
@@ -689,10 +702,10 @@ class RecordState(rx.State):
                 tenant_phone=self.selected_tenant.get("tenant_phone", ""),
                 rent=float(data["rent"]),
                 deposit=float(data["deposit"]),
-                balance=float(data["balance"]),
-                payment_status=data["payment_status"],
-                last_payment=_to_display_date(data["last_payment"]),
-                next_payment=_to_display_date(data["next_payment"]),
+                # balance=float(data["balance"]),
+                # payment_status=data["payment_status"],
+                # last_payment=_to_display_date(data["last_payment"]),
+                # next_payment=_to_display_date(data["next_payment"]),
                 lease_start=_to_display_date(data["lease_start"]),
                 lease_end=_to_display_date(data["lease_end"]),
                 #status=self.selected_room.get("status", _STATUSES[0]),

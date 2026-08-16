@@ -102,6 +102,8 @@ def input_field(
     name: str,
     placeholder: str = "",
     input_type: str = "text",
+    on_change: rx.EventHandler | None = None,
+    field_key: rx.Var | str | None = None,
 ) -> rx.Component:
     return rx.el.div(
         rx.el.label(
@@ -115,7 +117,8 @@ def input_field(
             type=input_type,
             placeholder=placeholder,
             default_value=RecordState.form_values[name],
-            key=f"{name}-{RecordState.form_key}",
+            key=field_key if field_key is not None else f"{name}-{RecordState.form_key}",
+            on_change=on_change,
             class_name=rx.cond(
                 RecordState.errors[name] != "",
                 "mt-2 w-full rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-hidden",
@@ -409,23 +412,24 @@ def record_form() -> rx.Component:
             form_group(
                 "Contrato",
                 "file-text",
-                input_field("Fecha de inicio", "lease_start", "", "date"),
-                input_field("Fecha de finalización", "lease_end", "", "date"),
-            ),
-            form_group(
-                "Renta y pagos",
-                "banknote",
+                input_field("Fecha de inicio", "lease_start", "", "date", on_change=RecordState.set_lease_start),
+                input_field("Fecha de finalización", "lease_end", "", "date", field_key=f"lease_end-{RecordState.lease_end_key}"),
                 input_field("Precio mensual", "rent", "", "number"),
                 input_field("Fianza", "deposit", "", "number"),
-                input_field("Saldo", "balance", "0", "number"),
-                select_field(
-                    "Estado de los pagos",
-                    "payment_status",
-                    RecordState.payment_status_options,
-                ),
-                input_field("Último pago", "last_payment", "", "date"),                
-                input_field("Próximo pago", "next_payment", "", "date"),
             ),
+            # form_group(
+            #     "Renta y pagos",
+            #     "banknote",
+                
+            #     input_field("Saldo", "balance", "0", "number"),
+            #     select_field(
+            #         "Estado de los pagos",
+            #         "payment_status",
+            #         RecordState.payment_status_options,
+            #     ),
+            #     input_field("Último pago", "last_payment", "", "date"),                
+            #     input_field("Próximo pago", "next_payment", "", "date"),
+            # ),
             rx.el.div(
                 notes_field(), class_name="border-t border-gray-100 pt-5"
             ),
