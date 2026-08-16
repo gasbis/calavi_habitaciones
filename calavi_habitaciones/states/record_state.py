@@ -8,7 +8,6 @@ from calavi_habitaciones.models import (
     _RECORD_STATUSES,
     EMPTY_ROOM,
     _BED_TYPES,
-    #_STATUSES,
     Lease,
     create_room,
     create_room_record,
@@ -33,8 +32,6 @@ _FORM_KEYS: list[str] = [
 
 def _blank_form() -> dict[str, str]:
     values = {key: "" for key in _FORM_KEYS}
-    # values["payment_status"] = "Pagado"
-    # values["balance"] = "0"
     return values
 
 
@@ -72,31 +69,22 @@ class RecordState(rx.State):
     termination_error: str = ""
     termination_notice: str = ""
     extension_target_id: str = ""
+    extension_error: str = ""
+    extension_notice: str = ""
     change_room_target_id: str = ""
-    
-    # termination_reason_options: list[str] = [
-    #     "Contrato ",
-    #     "Tenant moved out early",
-    #     "Transferred to another room",
-    #     "Non-payment",
-    #     "Policy violation",
-    #     "Other",
-    # ]
     extension_error: str = ""
     extension_notice: str = ""
     extension_end_date: str = ""
     change_room_error: str = ""
     change_room_notice: str = ""
     bed_type_options: list[str] = _BED_TYPES
-    #status_options: list[str] = _STATUSES
-    #payment_status_options: list[str] = ["Pagado", "Pendiente", "Atrasado"]
-    room_options: list[dict[str, str]] = []
-    tenant_options: list[dict[str, str]] = []
+    #room_options: list[dict[str, str]] = []
+    #tenant_options: list[dict[str, str]] = []
     selected_room_id: str = ""   # "" => crear habitación nueva
     selected_tenant_id: str = ""  # "" => crear inquilino nuevo
-    selected_room_id: str = ""
+    #selected_room_id: str = ""
     selected_room: dict[str, str] = {}
-    selected_tenant_id: str = ""
+    #selected_tenant_id: str = ""
     selected_tenant: dict[str, str] = {}
 
     room_subform_open: bool = False
@@ -105,7 +93,6 @@ class RecordState(rx.State):
     room_subform_room: str = ""
     room_subform_floor: str = "1"
     room_subform_bed_type: str = _BED_TYPES[0]
-    #room_subform_status: str = _STATUSES[0]
     room_subform_error: str = ""
 
     tenant_subform_open: bool = False
@@ -118,9 +105,6 @@ class RecordState(rx.State):
     tenant_subform_error: str = ""
     
     lease_end_key: int = 0 #fuerza el remount solo del campo lease end (para fecha calculada)
-    # def _load_options(self):
-    #     self.room_options = list_room_records()
-    #     self.tenant_options = list_tenant_records()
     termination_date_default: str = ""
 
     @rx.var
@@ -175,7 +159,6 @@ class RecordState(rx.State):
         self.room_subform_room = self.selected_room.get("room", "")
         self.room_subform_floor = self.selected_room.get("floor", "0")
         self.room_subform_bed_type = self.selected_room.get("bed_type", "Single")
-        #self.room_subform_status = self.selected_room.get("status", _STATUSES[0])
         self.room_subform_error = ""
         self.room_subform_open = True
 
@@ -200,9 +183,9 @@ class RecordState(rx.State):
     def set_room_subform_bed_type(self, value: str):
         self.room_subform_bed_type = value
 
-    @rx.event
-    def set_room_subform_status(self, value: str):
-        self.room_subform_status = value
+    # @rx.event
+    # def set_room_subform_status(self, value: str):
+    #     self.room_subform_status = value
 
     @rx.event
     def confirm_room_subform(self):
@@ -376,12 +359,8 @@ class RecordState(rx.State):
                 return
 
             raw_date = form_data.get("termination_date", "").strip()
-            #reason = form_data.get("termination_reason", "").strip()
             note = form_data.get("termination_note", "")
 
-            # if not reason:
-            #     self.termination_error = "Choose a termination reason."
-            #     return
             if not raw_date:
                 self.termination_error = "Enter the termination date."
                 return
@@ -398,9 +377,7 @@ class RecordState(rx.State):
 
             updated = dict(room)
             updated["record_status"] = _RECORD_STATUSES[3]
-            #updated["status"] = _STATUSES[1]
             updated["termination_date"] = end_date.strftime(_DISPLAY_FORMAT)
-            # updated["termination_reason"] = reason
             if note:
                 updated["notes"] = f"{room['notes']}\nTermination note: {note}"
             if not update_room(target, Lease(**updated)):
@@ -419,21 +396,20 @@ class RecordState(rx.State):
             self.termination_error = ""
             self.extension_notice = ""
             self.termination_notice = (
-                f"Room {room['room']} was terminated on "
-                # f"{updated['termination_date']} ({reason}). "
-                "The record is preserved in history."
+                f"Ha finalizado el contrato de la habitación {room['room']}. "
+                "El registro queda guardado en histórico."
             )
             self.notice = ""
             yield rx.toast(
-                f"Room {room['room']} moved to terminated history",
+                f"EL regisgtro de la habitación {room['room']} pasa al histórico.",
                 duration=3000,
             )
         except ValueError:
-            self.termination_error = "Enter a valid termination date."
+            self.termination_error = "Ingrese una fecha válida de finalización."
         except Exception as e:
             logging.exception(f"Error: {e}")
             self.termination_error = (
-                "This contract could not be terminated. Please try again."
+                "No se ha rescindido el contrato. Por favor inténtelo de nuevo"
             )
 
     @rx.event
@@ -453,12 +429,9 @@ class RecordState(rx.State):
                 self.extension_error = "No encuentro esta habitación."
                 return
             raw_date = form_data.get("extension_end_date", "").strip()
-            # option = form_data.get("extension_option", "")
             current_end = datetime.strptime(room["lease_end"], _DISPLAY_FORMAT)
             if raw_date:
                 new_end = datetime.strptime(raw_date, "%Y-%m-%d")
-            # elif option in ("30 days", "60 days", "90 days"):
-            #     new_end = current_end + timedelta(days=int(option.split()[0]))
             else:
                 self.extension_error = (
                     "Introduzca la nueva fecha de finalización."
@@ -475,8 +448,6 @@ class RecordState(rx.State):
                 updated["record_status"] = _RECORD_STATUSES[0]
             elif room["record_status"] == _RECORD_STATUSES[2]:
                 updated["record_status"] = _RECORD_STATUSES[0]
-            # if room["payment_status"] == "Overdue" and room["balance"] <= 0:
-            #     updated["payment_status"] = "Paid"
             if not update_room(target, Lease(**updated)):
                 self.extension_error = "No encuentro la habitación seleccionada."
                 return
@@ -588,48 +559,44 @@ class RecordState(rx.State):
         self.form_key += 1
         self.is_open = True
 
-    @rx.event
-    async def open_edit(self):
-        if not await self._require_admin():
-            return
-        occupancy = await self.get_state(OccupancyState)
-        room = EMPTY_ROOM
-        if occupancy.selected_id != "":
-            room = get_room(occupancy.selected_id)
-        if room["id"] == "":
-            self.notice = "Seleccione un contrato en vigor para editarlo."
-            return
+    # @rx.event
+    # async def open_edit(self):
+    #     if not await self._require_admin():
+    #         return
+    #     occupancy = await self.get_state(OccupancyState)
+    #     room = EMPTY_ROOM
+    #     if occupancy.selected_id != "":
+    #         room = get_room(occupancy.selected_id)
+    #     if room["id"] == "":
+    #         self.notice = "Seleccione un contrato en vigor para editarlo."
+    #         return
 
-        self.mode = "edit"
-        self.editing_id = room["id"]
-        self.form_values = {
-            "rent": f"{room['rent']:.2f}",
-            "deposit": f"{room['deposit']:.2f}",
-            # "balance": f"{room['balance']:.2f}",
-            # "payment_status": room["payment_status"],
-            "lease_start": _to_input_date(room["lease_start"]),
-            "lease_end": _to_input_date(room["lease_end"]),
-            # "last_payment": _to_input_date(room["last_payment"]),
-            # "next_payment": _to_input_date(room["next_payment"]),
-            "notes": room["notes"],
-        }
-        self.selected_room_id = room["room_id"]
-        self.selected_room = {
-            "id": room["room_id"], "room": room["room"], "floor": str(room["floor"]),
-            "bed_type": room["bed_type"],
-        }
-        self.selected_tenant_id = room["tenant_id"]
-        self.selected_tenant = {
-            "id": room["tenant_id"], "tenant": room["tenant"], "tenant_dni": room["tenant_dni"],
-            "tenant_email": room["tenant_email"], "tenant_phone": room["tenant_phone"],
-        }
-        self.errors = _blank_errors()
-        self.form_error = ""
-        self.delete_target_id = ""
-        self.extension_target_id = ""
-        self.notice = ""
-        self.form_key += 1
-        self.is_open = True        
+    #     self.mode = "edit"
+    #     self.editing_id = room["id"]
+    #     self.form_values = {
+    #         "rent": f"{room['rent']:.2f}",
+    #         "deposit": f"{room['deposit']:.2f}",
+    #         "lease_start": _to_input_date(room["lease_start"]),
+    #         "lease_end": _to_input_date(room["lease_end"]),
+    #         "notes": room["notes"],
+    #     }
+    #     self.selected_room_id = room["room_id"]
+    #     self.selected_room = {
+    #         "id": room["room_id"], "room": room["room"], "floor": str(room["floor"]),
+    #         "bed_type": room["bed_type"],
+    #     }
+    #     self.selected_tenant_id = room["tenant_id"]
+    #     self.selected_tenant = {
+    #         "id": room["tenant_id"], "tenant": room["tenant"], "tenant_dni": room["tenant_dni"],
+    #         "tenant_email": room["tenant_email"], "tenant_phone": room["tenant_phone"],
+    #     }
+    #     self.errors = _blank_errors()
+    #     self.form_error = ""
+    #     self.delete_target_id = ""
+    #     self.extension_target_id = ""
+    #     self.notice = ""
+    #     self.form_key += 1
+    #     self.is_open = True        
     
 
     @rx.event
@@ -643,19 +610,16 @@ class RecordState(rx.State):
         for key, label, minimum in (
             ("rent", "Monthly rent", 1.0),
             ("deposit", "Deposit", 0.0),
-            # ("balance", "Balance", 0.0),
         ):
             try:
                 amount = float(data[key])
                 if amount < minimum:
-                    errors[key] = f"{label} must be at least {minimum:.0f}."
+                    errors[key] = f"{label} no puede ser menor de {minimum:.0f}."
             except ValueError:
-                errors[key] = f"{label} must be a number."
+                errors[key] = f"{label} debe ser un número."
         for key, label in (
             ("lease_start", "Lease start"),
             ("lease_end", "Lease end"),
-            # ("last_payment", "Last payment date"),
-            # ("next_payment", "Next payment date"),
         ):
             if not _to_display_date(data[key]):
                 errors[key] = f"{label} is required."
@@ -664,7 +628,7 @@ class RecordState(rx.State):
             and not errors["lease_end"]
             and data["lease_end"] <= data["lease_start"]
         ):
-            errors["lease_end"] = "Lease end must be after the lease start."
+            errors["lease_end"] = "La fecha de finalización del contrato no puede ser anterior a la fecha de inicio."
         return errors
 
     @rx.event
@@ -702,30 +666,24 @@ class RecordState(rx.State):
                 tenant_phone=self.selected_tenant.get("tenant_phone", ""),
                 rent=float(data["rent"]),
                 deposit=float(data["deposit"]),
-                # balance=float(data["balance"]),
-                # payment_status=data["payment_status"],
-                # last_payment=_to_display_date(data["last_payment"]),
-                # next_payment=_to_display_date(data["next_payment"]),
                 lease_start=_to_display_date(data["lease_start"]),
                 lease_end=_to_display_date(data["lease_end"]),
-                #status=self.selected_room.get("status", _STATUSES[0]),
                 notes=data["notes"],
                 record_status=_RECORD_STATUSES[0],
                 termination_date="",
-                # termination_reason="",
             )
 
             if self.mode == "edit":
                 if not update_room(record_id, record):
-                    self.form_error = "That occupancy record no longer exists."
+                    self.form_error = "Este registro no existe."
                     return
-                message = f"Room {record['room']} was updated."
+                message = f"El contrato de la habitación {record['room']} se ha guardado."
             else:
                 record_id = create_room(record)
                 if record_id == "":
-                    self.form_error = "This record could not be saved. Please try again."
+                    self.form_error = "El registro no se ha guardado. Por favor inténtalo de nuevo."
                     return
-                message = f"Room {record['room']} was added."
+                message = f"El contrato de la habitación {record['room']} ha sido dado de alta."
 
             occupancy._sync_rooms()
             occupancy.selected_id = record_id
@@ -736,7 +694,7 @@ class RecordState(rx.State):
             yield rx.toast(message, duration=2500)
         except Exception as e:
             logging.exception(f"Error: {e}")
-            self.form_error = "This record could not be saved. Please try again."
+            self.form_error = "El registro no se ha guardado. Por favor inténtalo de nuevo."
 
     @rx.event
     async def request_delete(self):
@@ -744,7 +702,7 @@ class RecordState(rx.State):
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
-            self.notice = "Select an occupied room first to remove its record."
+            self.notice = "Selecciona un registro antes de borrarlo."
             return
         self.notice = ""
         self.termination_target_id = ""
@@ -766,7 +724,7 @@ class RecordState(rx.State):
             label = room["room"]
             if room["id"] == "" or not delete_room(target):
                 self.delete_target_id = ""
-                self.notice = "That room record no longer exists."
+                self.notice = "Este registro no existe."
                 return
 
             occupancy._sync_rooms()
@@ -782,4 +740,4 @@ class RecordState(rx.State):
         except Exception as e:
             logging.exception(f"Error: {e}")
             self.delete_target_id = ""
-            self.notice = "That record could not be removed. Please try again."
+            self.notice = "El registro no se ha borrado. Por favor inténtalo de nuevo."

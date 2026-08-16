@@ -178,7 +178,6 @@ class AuthState(rx.State):
             if self.email_error or self.password_error:
                 return
 
-            # seed_admin_accounts()
             credential = get_admin_account(email)
             if (
                 credential is None
@@ -201,10 +200,8 @@ class AuthState(rx.State):
             self.admin_users = [
                 AdminDirectoryEntry(**user) for user in list_admin_accounts()
             ]
-            # from calavi_habitaciones.models import seed_if_empty
             from calavi_habitaciones.states.occupancy_state import OccupancyState
 
-            # seed_if_empty()
             occupancy = await self.get_state(OccupancyState)
             occupancy._sync_rooms()
         except Exception as e:

@@ -3,7 +3,6 @@ import reflex as rx
 from calavi_habitaciones.components.record_form import record_dialog
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.record_state import RecordState
-#from calavi_habitaciones.components.record_form import room_subform_dialog
 
 
 def delete_confirmation() -> rx.Component:
@@ -54,6 +53,19 @@ def termination_notice() -> rx.Component:
         rx.el.div(),
     )
 
+def notice() -> rx.Component:
+    return rx.cond(
+        RecordState.notice != "",
+        rx.el.div(
+            rx.icon("archive", class_name="h-4 w-4 shrink-0 text-violet-600"),
+            rx.el.p(
+                RecordState.notice,
+                class_name="text-sm font-medium text-violet-700",
+            ),
+            class_name="flex items-start gap-2 rounded-lg border border-violet-200 bg-violet-50 p-3",
+        ),
+        rx.el.div(),
+    )
 
 def termination_confirmation() -> rx.Component:
     return rx.el.div(
@@ -236,15 +248,6 @@ def change_room_controls() -> rx.Component:
             ),
             rx.el.form(
                 rx.el.div(
-                    # rx.el.select(
-                    #     rx.el.option("Selecciona habitación", value=""),
-                    #     # rx.foreach(
-                    #     #     RecordState.extension_options,
-                    #     #     lambda option: rx.el.option(option, value=option),
-                    #     # ),
-                    #     # name="extension_option",
-                    #     class_name="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",
-                    # ),
                     rx.el.div(
                         rx.el.label(
                             "Habitación existente (sin arrendamiento activo)",
@@ -377,7 +380,7 @@ def record_manager_section() -> rx.Component:
                 ),
                 class_name="flex w-fit items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2",
             ),
-            # manager_notice(),
+            notice(),
             termination_notice(),
             extension_notice(),
             rx.cond(

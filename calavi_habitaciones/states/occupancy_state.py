@@ -6,16 +6,11 @@ from calavi_habitaciones.models import _DISPLAY_FORMAT
 
 import reflex as rx
 
-# from calavi_habitaciones.models import (
-#     BUILDINGS as _BUILDINGS,
-# )
 from calavi_habitaciones.models import (
     _RECORD_STATUSES,
     EMPTY_ROOM,
     Lease,
-    #ensure_tables,
     list_rooms,
-    #seed_if_empty,
 )
 
 __all__ = ["EMPTY_ROOM", "OccupancyState", "Lease"]
@@ -36,9 +31,9 @@ class OccupancyState(rx.State):
         if self.total_units < len(self.rooms):
             self.total_units = len(self.rooms)
 
-    @rx.event
-    def reload_rooms(self):
-        self._sync_rooms()
+    # @rx.event
+    # def reload_rooms(self):
+    #     self._sync_rooms()
 
     @rx.var
     def selected_room_label(self) -> str:
@@ -75,9 +70,7 @@ class OccupancyState(rx.State):
             room
             for room in self.terminated_lease
             if query in room["room"].lower()
-            #or query in room["building"].lower()
             or query in room["tenant"].lower()
-            # or query in room["termination_reason"].lower()
         ]
 
     @rx.var
@@ -87,17 +80,13 @@ class OccupancyState(rx.State):
                 return room
         return EMPTY_ROOM
 
-    @rx.var
-    def has_history_selection(self) -> bool:
-        return self.selected_history_room["id"] != ""
+    # @rx.var
+    # def has_history_selection(self) -> bool:
+    #     return self.selected_history_room["id"] != ""
 
     @rx.var
     def has_selection(self) -> bool:
         return any(r["id"] == self.selected_id for r in self.occupied_lease)
-
-    # @rx.var
-    # def buildings(self) -> list[str]:
-    #     return ["All buildings", *_BUILDINGS]
 
     @rx.var
     def filtered_rooms(self) -> list[Lease]:
@@ -129,10 +118,6 @@ class OccupancyState(rx.State):
     def occupied_count(self) -> int:
         return len(self.occupied_lease)
 
-    # @rx.var
-    # def resident_count(self) -> int:
-    #     return sum(r["occupants"] for r in self.occupied_rooms)
-    
     @rx.var
     def selected_room_lease_end_iso(self) -> str:
         try:
@@ -193,21 +178,13 @@ class OccupancyState(rx.State):
     def clear_history_selection(self):
         self.history_selected_id = ""
 
-    @rx.event
-    async def set_search(self, value: str):
-        from calavi_habitaciones.states.auth_state import AuthState
-
-        auth = await self.get_state(AuthState)
-        if auth.is_authenticated:
-            self.search = value
-
     # @rx.event
-    # async def set_building(self, value: str):
+    # async def set_search(self, value: str):
     #     from calavi_habitaciones.states.auth_state import AuthState
 
     #     auth = await self.get_state(AuthState)
     #     if auth.is_authenticated:
-    #         self.building_filter = value
+    #         self.search = value
 
     @rx.event
     async def select_room(self, room_id: str):
@@ -233,14 +210,14 @@ class OccupancyState(rx.State):
             record_state.extension_target_id = ""
             record_state.extension_error = ""
 
-    @rx.event
-    async def clear_filters(self):
-        from calavi_habitaciones.states.auth_state import AuthState
+    # @rx.event
+    # async def clear_filters(self):
+    #     from calavi_habitaciones.states.auth_state import AuthState
 
-        auth = await self.get_state(AuthState)
-        if auth.is_authenticated:
-            self.search = ""
-            self.building_filter = "All buildings"
+    #     auth = await self.get_state(AuthState)
+    #     if auth.is_authenticated:
+    #         self.search = ""
+    #         self.building_filter = "All buildings"
 
     @rx.event
     async def refresh(self):
@@ -266,8 +243,6 @@ class OccupancyState(rx.State):
             return
         self.is_loading = True
         yield
-        #seed_if_empty()
-        #ensure_tables()
         await asyncio.sleep(0.4)
         self._sync_rooms()
         self.is_loading = False

@@ -29,7 +29,7 @@ def history_card(item: Lease) -> rx.Component:
                 class_name="w-fit rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700",
             ),
             rx.el.p(
-                f"{item['termination_date']}",# · {item['termination_reason']}",
+                f"{item['termination_date']}",
                 class_name="mt-3 text-left text-xs font-medium text-gray-500",
             ),
             class_name="mt-4 border-t border-gray-100 pt-4",
@@ -91,11 +91,6 @@ def history_detail() -> rx.Component:
                         f"Fin   {OccupancyState.selected_history_room['termination_date']}",
                         class_name="mt-2 text-sm font-semibold text-gray-700",
                     ),
-                    # rx.el.p(
-                    #     f"Reason: {OccupancyState.selected_history_room['termination_reason']}",
-                    #     class_name="mt-1 text-sm font-medium text-gray-500",
-                    # ),
-                    # class_name="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-3",
                 ),
                 rx.el.div(
                     rx.el.p(

@@ -63,12 +63,6 @@ def summary_section() -> rx.Component:
                 "door-open",
                 "Ocupación actual de la casa",
             ),
-            # stat_card(
-            #     "Residents",
-            #     OccupancyState.resident_count.to_string(),
-            #     "users",
-            #     "Checked in tenants",
-            # ),
             stat_card(
                 "Recaudación mensual",
                 OccupancyState.monthly_revenue_display,

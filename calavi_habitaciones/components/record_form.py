@@ -16,10 +16,6 @@ def field_error(name: str) -> rx.Component:
 def room_summary_field() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            # rx.el.span(
-            #     "Habitación",
-            #     class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
-            # ),
             rx.el.button(
                 rx.icon("plus", stroke_width=3, size=20),
                 "",
@@ -55,10 +51,6 @@ def room_summary_field() -> rx.Component:
 def tenant_summary_field() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            # rx.el.span(
-            #     "Inquilino",
-            #     class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
-            # ),
             rx.el.button(
                 rx.icon("plus", stroke_width=3, size=20),
                     "",
@@ -130,33 +122,33 @@ def input_field(
     )
 
 
-def select_field(
-    label: str, name: str, options: rx.Var[list[str]]
-) -> rx.Component:
-    return rx.el.div(
-        rx.el.label(
-            label,
-            html_for=f"record-{name}",
-            class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
-        ),
-        rx.el.div(
-            rx.el.select(
-                rx.foreach(options, lambda o: rx.el.option(o, value=o)),
-                id=f"record-{name}",
-                name=name,
-                default_value=RecordState.form_values[name],
-                key=f"{name}-{RecordState.form_key}",
-                class_name="w-full appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-3 pr-9 text-sm font-medium text-gray-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden",
-            ),
-            rx.icon(
-                "chevron-down",
-                class_name="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400",
-            ),
-            class_name="relative mt-2 w-full",
-        ),
-        field_error(name),
-        class_name="flex w-full flex-col",
-    )
+# def select_field(
+#     label: str, name: str, options: rx.Var[list[str]]
+# ) -> rx.Component:
+#     return rx.el.div(
+#         rx.el.label(
+#             label,
+#             html_for=f"record-{name}",
+#             class_name="text-xs font-semibold uppercase tracking-wide text-gray-500",
+#         ),
+#         rx.el.div(
+#             rx.el.select(
+#                 rx.foreach(options, lambda o: rx.el.option(o, value=o)),
+#                 id=f"record-{name}",
+#                 name=name,
+#                 default_value=RecordState.form_values[name],
+#                 key=f"{name}-{RecordState.form_key}",
+#                 class_name="w-full appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-3 pr-9 text-sm font-medium text-gray-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden",
+#             ),
+#             rx.icon(
+#                 "chevron-down",
+#                 class_name="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400",
+#             ),
+#             class_name="relative mt-2 w-full",
+#         ),
+#         field_error(name),
+#         class_name="flex w-full flex-col",
+#     )
 
 
 def notes_field() -> rx.Component:
@@ -246,7 +238,6 @@ def room_subform_dialog() -> rx.Component:
                                 rx.el.input(
                                     default_value=RecordState.room_subform_floor,
                                     on_change=RecordState.set_room_subform_floor,
-                                    #type="number",
                                     class_name="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",
                                 ),
                                 class_name="flex flex-col",
@@ -261,17 +252,6 @@ def room_subform_dialog() -> rx.Component:
                                 ),
                                 class_name="flex flex-col",
                             ),
-                            # rx.el.div(
-                            #     rx.el.label("Estado", class_name="text-xs font-semibold uppercase tracking-wide text-gray-500"),
-                            #     rx.el.select(
-                            #         rx.foreach(RecordState.status_options, lambda o: rx.el.option(o, value=o)),
-                            #         value=RecordState.room_subform_status,
-                            #         on_change=RecordState.set_room_subform_status,
-                            #         class_name="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",
-                            #     ),
-                            #     class_name="flex flex-col",
-                            # ),
-                            # class_name="mt-4 grid grid-cols-2 gap-3",
                         ),
                         rx.el.div(),
                     ),
@@ -417,19 +397,6 @@ def record_form() -> rx.Component:
                 input_field("Precio mensual", "rent", "", "number"),
                 input_field("Fianza", "deposit", "", "number"),
             ),
-            # form_group(
-            #     "Renta y pagos",
-            #     "banknote",
-                
-            #     input_field("Saldo", "balance", "0", "number"),
-            #     select_field(
-            #         "Estado de los pagos",
-            #         "payment_status",
-            #         RecordState.payment_status_options,
-            #     ),
-            #     input_field("Último pago", "last_payment", "", "date"),                
-            #     input_field("Próximo pago", "next_payment", "", "date"),
-            # ),
             rx.el.div(
                 notes_field(), class_name="border-t border-gray-100 pt-5"
             ),

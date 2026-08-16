@@ -19,35 +19,6 @@ def toolbar() -> rx.Component:
             class_name="flex flex-col gap-0.5",
         ),
         rx.el.div(
-            # rx.el.div(
-            #     rx.icon(
-            #         "search",
-            #         class_name="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400",
-            #     ),
-            #     rx.el.input(
-            #         placeholder="Busca habitación o inquilino",
-            #         default_value=OccupancyState.search,
-            #         on_change=OccupancyState.set_search.debounce(300),
-            #         class_name="w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-3 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden",
-            #     ),
-            #     class_name="relative w-full sm:w-72",
-            # ),
-            # rx.el.div(
-            #     rx.el.select(
-            #         rx.foreach(
-            #             OccupancyState.buildings,
-            #             lambda b: rx.el.option(b, value=b),
-            #         ),
-            #         value=OccupancyState.building_filter,
-            #         on_change=OccupancyState.set_building,
-            #         class_name="w-full appearance-none rounded-lg border border-gray-300 bg-white py-2 pl-3 pr-9 text-sm font-medium text-gray-900 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden",
-            #     ),
-            #     rx.icon(
-            #         "chevron-down",
-            #         class_name="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400",
-            #     ),
-            #     class_name="relative w-full sm:w-48",
-            # ),
             rx.el.button(
                 rx.icon("refresh-cw", class_name="h-4 w-4"),
                 rx.el.span("Refrescar", class_name="hidden sm:inline"),
@@ -71,15 +42,6 @@ def empty_state() -> rx.Component:
             "Ninguna habitación ocupada actualmente",
             class_name="mt-4 text-base font-semibold text-gray-900",
         ),
-        # rx.el.p(
-        #     "Try a different building or clear the search to see every occupied room.",
-        #     class_name="mt-1 max-w-sm text-center text-sm font-medium text-gray-500",
-        # ),
-        # rx.el.button(
-        #     "Borrar filtros",
-        #     on_click=OccupancyState.clear_filters,
-        #     class_name="mt-5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700",
-        # ),
         class_name="flex w-full flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white px-6 py-16",
     )
 

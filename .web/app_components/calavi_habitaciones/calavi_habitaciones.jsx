@@ -3,13 +3,13 @@ import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
 
@@ -344,6 +344,26 @@ export const Bare_comp_7df0a89e68ad54b4640daeb8df9ae757_81e687a6 = memo(({childr
 
     return(
         (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.terminated_count_rx_state_+" registros en hist\u00f3rico")
+    )
+});
+
+export const Bare_comp_7fe9b060e28bd5d7fcb602a290c1721b_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        reflex___state____state__calavi_habitaciones___states___record_state____record_state.notice_rx_state_
+    )
+});
+
+export const Cond_comp_8c6e204e5b424cb5bc7abe624f863cd1_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        (!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.notice_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
     )
 });
 
