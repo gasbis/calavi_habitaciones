@@ -1,18 +1,18 @@
 
 
 
-import plugin1 from "@tailwindcss/typography";
+
 
 
 
 export default {
     content: ["./app/**/*.{js,ts,jsx,tsx}", "./utils/**/*.{js,ts,jsx,tsx}"],
-    theme: {},
+    theme: {"extend": {"colors": {"brand": {"50": "#fedbd6", "100": "#fcbeb5", "200": "#fba194", "300": "#fa8879", "400": "#f97563", "500": "#f96e5b", "600": "#cb5d4d", "700": "#9d4c3f"}, "success": {"50": "#f0fdf4", "100": "#dcfce7", "200": "#bbf7d0", "500": "#22c55e", "600": "#16a34a", "700": "#15803d"}, "warning": {"50": "#fefce8", "100": "#fef9c3", "200": "#fef08a", "600": "#ca8a04", "700": "#a16207"}, "danger": {"50": "#fef2f2", "100": "#fee2e2", "200": "#fecaca", "300": "#fca5a5", "500": "#ef4444", "600": "#dc2626", "700": "#b91c1c"}, "neutral": {"50": "#e2f0f3", "100": "#bcdce3", "200": "#8cc2ce", "300": "#5ca9ba", "400": "#3d94a6", "500": "#3f9aae", "600": "#347a88", "700": "#2a5961", "800": "#213f42", "900": "#1a2c2b"}, "archive": {"50": "#fffbeb", "100": "#fef3c7", "200": "#fde68a", "300": "#fcd34d", "600": "#d97706", "700": "#b45309", "800": "#92400e"}}}},
     
     
     
     
     
     
-    plugins: [plugin1]
+    plugins: []
 };

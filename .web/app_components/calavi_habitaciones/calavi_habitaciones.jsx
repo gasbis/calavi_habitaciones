@@ -3,13 +3,13 @@ import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
 
@@ -39,33 +39,33 @@ export const Bare_comp_df0c08eb96d32ede689f6eaf2fe1b2d9_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_c491a4f965578af99a0e975317680e33_81e687a6 = memo(({children}) => {
+export const Button_button_b0abf5e14a783e33e1093c8d78576730_81e687a6 = memo(({children}) => {
     const on_click_60a0911a6b5726023958bd3163e142bd = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.open_change_password", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50",onClick:on_click_60a0911a6b5726023958bd3163e142bd,type:"button"},children)
+        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_60a0911a6b5726023958bd3163e142bd,type:"button"},children)
     )
 });
 
-export const Button_button_51b289045fe8b5443a053eb121c1e5ca_81e687a6 = memo(({children}) => {
+export const Button_button_29fbb7ac90d10fc0300ac854d4873c67_81e687a6 = memo(({children}) => {
     const on_click_b3969c7f6e8551dfd4600bcc9287dbd3 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.logout", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900",onClick:on_click_b3969c7f6e8551dfd4600bcc9287dbd3},children)
+        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900",onClick:on_click_b3969c7f6e8551dfd4600bcc9287dbd3},children)
     )
 });
 
-export const Button_button_a8ea5497ac8f50850d2f3cc6f1cdc542_81e687a6 = memo(({children}) => {
+export const Button_button_1d15a05391ce4307be17aa604c14e6a6_81e687a6 = memo(({children}) => {
     const on_click_52da0d502c2edfad99c41fae51d5b1b0 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.close_change_password", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50",onClick:on_click_52da0d502c2edfad99c41fae51d5b1b0,type:"button"},children)
+        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 hover:bg-neutral-50",onClick:on_click_52da0d502c2edfad99c41fae51d5b1b0,type:"button"},children)
     )
 });
 
@@ -129,13 +129,13 @@ export const Cond_comp_889609ea41f597292eee99e7f0e2ebe3_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_8536526ba5f3a36f1b03302d6562ff9d_81e687a6 = memo(({children}) => {
+export const Button_button_7ad799f057b710be3a720b569a47433f_81e687a6 = memo(({children}) => {
     const on_click_52da0d502c2edfad99c41fae51d5b1b0 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.close_change_password", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50",onClick:on_click_52da0d502c2edfad99c41fae51d5b1b0,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_52da0d502c2edfad99c41fae51d5b1b0,type:"button"},children)
     )
 });
 
@@ -221,13 +221,13 @@ export const Bare_comp_75f69a355e6aff418b0a20b78dfafa0d_81e687a6 = memo(({childr
     )
 });
 
-export const Div_div_9158b6dded80dd5c2adb6c0b6e1a6421_81e687a6 = memo(({children}) => {
+export const Div_div_9e400e64ba090da3e244cbeefa46e330_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("div",{className:"h-full rounded-full bg-violet-600 transition-all duration-500",css:({ ["width"] : (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupancy_rate_rx_state_+"%") })},)
+        jsx("div",{className:"h-full rounded-full bg-brand-600 transition-all duration-500",css:({ ["width"] : (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupancy_rate_rx_state_+"%") })},)
     )
 });
 
@@ -241,14 +241,14 @@ export const Bare_comp_c7d1bc5d520946c3f85de8151f0c9bce_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_be40fc5562803b3c34effd1b186f5e39_81e687a6 = memo(({children}) => {
+export const Button_button_20186ef232931b218a0bbc8a3feda1a9_81e687a6 = memo(({children}) => {
     const on_click_84b720c2064447ab93d591a23a5e1a98 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.show_active_view", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.view_mode_rx_state_?.valueOf?.() === "active"?.valueOf?.()) ? "flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white" : "flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700"),onClick:on_click_84b720c2064447ab93d591a23a5e1a98},children)
+        jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.view_mode_rx_state_?.valueOf?.() === "active"?.valueOf?.()) ? "flex items-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white" : "flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700"),onClick:on_click_84b720c2064447ab93d591a23a5e1a98},children)
     )
 });
 
@@ -262,68 +262,79 @@ export const Bare_comp_cf43961435fcbc62921dfd3c65c18c6d_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_b76371ccfad431f2d82c1261e448c496_81e687a6 = memo(({children}) => {
+export const Button_button_2426be1cb9808751a03f53d011393069_81e687a6 = memo(({children}) => {
     const on_click_5093cf4b1a459cbcc90d92340e1c2fa0 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.show_history_view", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.view_mode_rx_state_?.valueOf?.() === "history"?.valueOf?.()) ? "flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white" : "flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700"),onClick:on_click_5093cf4b1a459cbcc90d92340e1c2fa0},children)
+        jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.view_mode_rx_state_?.valueOf?.() === "history"?.valueOf?.()) ? "flex items-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white" : "flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700"),onClick:on_click_5093cf4b1a459cbcc90d92340e1c2fa0},children)
     )
 });
 
-export const Button_button_277c349714f2c1cf5f2653523043dbe5_81e687a6 = memo(({children}) => {
+export const Button_button_7444905cd9d586c4b98feb9a76260f86_81e687a6 = memo(({children}) => {
     const on_click_6afa99742e7befc5abce3ca6f11da450 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.open_create", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",onClick:on_click_6afa99742e7befc5abce3ca6f11da450},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",onClick:on_click_6afa99742e7befc5abce3ca6f11da450},children)
     )
 });
 
-export const Button_button_33c7f0368a8c2b8644a0b93b9a1f45dc_81e687a6 = memo(({children}) => {
+export const Button_button_408de6fa6350f57293dcbde2eb961034_81e687a6 = memo(({children}) => {
+    const on_click_75a6c4a17ec7f33948c49c93b463bf62 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.request_notes", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_75a6c4a17ec7f33948c49c93b463bf62},children)
+    )
+});
+
+export const Button_button_eb2b6f803056e336fb51b0d4f5a0005d_81e687a6 = memo(({children}) => {
     const on_click_627a8928fbe78f1f15457a861adeb8d9 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.request_extend", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_627a8928fbe78f1f15457a861adeb8d9},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_627a8928fbe78f1f15457a861adeb8d9},children)
     )
 });
 
-export const Button_button_88fbc868fd165f89342336824fc3fdc4_81e687a6 = memo(({children}) => {
+export const Button_button_09a563a9fe98b8ad1ab9a835e9bec0d8_81e687a6 = memo(({children}) => {
     const on_click_33ade355a9ab3ecefaa3e209e7f470b5 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.request_change_room", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_33ade355a9ab3ecefaa3e209e7f470b5},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_33ade355a9ab3ecefaa3e209e7f470b5},children)
     )
 });
 
-export const Button_button_34709768a18e782b274b6c7a1c665da1_81e687a6 = memo(({children}) => {
+export const Button_button_017efd38c7856f11f53477d1aaf2685f_81e687a6 = memo(({children}) => {
     const on_click_addd7fabc9da4f618f6ef8662817eb96 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.request_terminate", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_addd7fabc9da4f618f6ef8662817eb96},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-archive-300 hover:bg-archive-50 hover:text-archive-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_addd7fabc9da4f618f6ef8662817eb96},children)
     )
 });
 
-export const Button_button_895b61f8c958e79bf3014660878164d0_81e687a6 = memo(({children}) => {
+export const Button_button_4c5d39a62e7831774fb265b37725ad27_81e687a6 = memo(({children}) => {
     const on_click_8e6f93315d25c8ca59f913e377f1a64a = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.request_delete", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_8e6f93315d25c8ca59f913e377f1a64a},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-danger-300 hover:bg-danger-50 hover:text-danger-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:!(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_),onClick:on_click_8e6f93315d25c8ca59f913e377f1a64a},children)
     )
 });
 
@@ -407,6 +418,26 @@ export const Cond_comp_ba9fa6e0ea41846fe4dadd193b72a092_81e687a6 = memo(({childr
     )
 });
 
+export const Bare_comp_a5967afe87eed24fe8b29a3fe605fb44_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        reflex___state____state__calavi_habitaciones___states___record_state____record_state.notes_notice_rx_state_
+    )
+});
+
+export const Cond_comp_aed152215b290c5d5c5c22749b48d4a7_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        (!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.notes_notice_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
+    )
+});
+
 export const Bare_comp_67457b913e277d63cf965ddada62cc9c_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
@@ -417,14 +448,14 @@ export const Bare_comp_67457b913e277d63cf965ddada62cc9c_81e687a6 = memo(({childr
     )
 });
 
-export const Input_input_28e9db201561feb4b0afbdffff604459_81e687a6 = memo(({children}) => {
+export const Input_input_995e562fc9b5b1227cc85dfc396eceb0_81e687a6 = memo(({children}) => {
     const ref_termination_date = useRef(null); refs["ref_termination_date"] = ref_termination_date;
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-amber-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.termination_date_default_rx_state_,id:"termination-date",name:"termination_date",ref:ref_termination_date,type:"date"},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-archive-200 bg-white px-3 py-2 text-sm font-medium text-neutral-900 outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.termination_date_default_rx_state_,id:"termination-date",name:"termination_date",ref:ref_termination_date,type:"date"},)
     )
 });
 
@@ -448,13 +479,13 @@ export const Cond_comp_d5fef0acd14f1ed48c144db7f5561a74_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_209f1f00bf552466e01a6bfed5c9142b_81e687a6 = memo(({children}) => {
+export const Button_button_a738f5a8df1b5d8941c5a663b22fefbf_81e687a6 = memo(({children}) => {
     const on_click_9fdef5b9dd2d12a65cbde87d561a9db2 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.cancel_terminate", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-amber-200 bg-white px-3 py-2 text-xs font-semibold text-amber-700 transition-colors hover:bg-amber-100",onClick:on_click_9fdef5b9dd2d12a65cbde87d561a9db2,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-archive-200 bg-white px-3 py-2 text-xs font-semibold text-archive-700 transition-colors hover:bg-archive-100",onClick:on_click_9fdef5b9dd2d12a65cbde87d561a9db2,type:"button"},children)
     )
 });
 
@@ -490,6 +521,88 @@ export const Cond_comp_972f9dff49904d95e1273590b0d7500d_81e687a6 = memo(({childr
     )
 });
 
+export const Bare_comp_db01c4771b5823d4de941efd28eb41f0_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        ("Observaciones "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["notes"])
+    )
+});
+
+export const Input_input_82fa34bbb0b28a6687c54c0d702c6fb3_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        jsx("input",{className:"w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["notes"],name:"edit_notes",placeholder:"",type:"text"},)
+    )
+});
+
+export const Bare_comp_cf95ef2ef6bba8ef3ddb2255621e39a1_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        reflex___state____state__calavi_habitaciones___states___record_state____record_state.notes_error_rx_state_
+    )
+});
+
+export const Cond_comp_442f4d0a49e4fb5ce002a748162404db_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        (!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.notes_error_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
+    )
+});
+
+export const Button_button_409b11ee832bcce6a2a22090942ec783_81e687a6 = memo(({children}) => {
+    const on_click_53c9fbdb83f704ccf614ab39be192423 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.cancel_notes", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+
+
+    return(
+        jsx("button",{className:"rounded-lg border border-brand-200 bg-white px-3 py-2 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-100",onClick:on_click_53c9fbdb83f704ccf614ab39be192423,type:"button"},children)
+    )
+});
+
+export const Form_form_66032643b3eeb1b2ef923c59679cc8ad_81e687a6 = memo(({children}) => {
+    
+
+    const handleSubmit_d3043451aed58106c6db160c24017664 = useCallback((ev) => {
+        const $form = ev.target
+        ev.preventDefault()
+        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...({  })};
+
+        (((...args) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.confirm_notes", ({ ["form_data"] : form_data }), ({  })))], args, ({  }))))(ev));
+
+        if (false) {
+            $form.reset()
+        }
+    })
+    
+
+
+    return(
+        jsx("form",{className:"mt-3",onSubmit:handleSubmit_d3043451aed58106c6db160c24017664},children)
+    )
+});
+
+export const Cond_comp_582ab7c8a53f1eb754c0ae0d754440db_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        (reflex___state____state__calavi_habitaciones___states___record_state____record_state.has_notes_target_rx_state_?(children?.at?.(0)):(children?.at?.(1)))
+    )
+});
+
 export const Bare_comp_5b1283285489da6bd4564848189779fb_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
@@ -500,13 +613,13 @@ export const Bare_comp_5b1283285489da6bd4564848189779fb_81e687a6 = memo(({childr
     )
 });
 
-export const Input_input_317988477a489fcbac77d4e0b3838656_81e687a6 = memo(({children}) => {
+export const Input_input_1f44ec966551934a6a95892162ca118e_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("input",{className:"w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_lease_end_iso_rx_state_,name:"extension_end_date",placeholder:"Or choose a new end date",type:"date"},)
+        jsx("input",{className:"w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-700 outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_lease_end_iso_rx_state_,name:"extension_end_date",placeholder:"Or choose a new end date",type:"date"},)
     )
 });
 
@@ -530,13 +643,13 @@ export const Cond_comp_9071d87e86f380f87086347a02bcb8f9_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_30ac20b7950240e1d58a739d54556db1_81e687a6 = memo(({children}) => {
+export const Button_button_e075253ec37ea9fc9f1115f2feb92494_81e687a6 = memo(({children}) => {
     const on_click_2df2a6882ebd3751eebc69da80f1718e = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.cancel_extend", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-violet-200 bg-white px-3 py-2 text-xs font-semibold text-violet-700 transition-colors hover:bg-violet-100",onClick:on_click_2df2a6882ebd3751eebc69da80f1718e,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-brand-200 bg-white px-3 py-2 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-100",onClick:on_click_2df2a6882ebd3751eebc69da80f1718e,type:"button"},children)
     )
 });
 
@@ -592,14 +705,14 @@ export const Foreach_comp_4c3eb440da241aca17e84340fe78296a_81e687a6 = memo(({chi
     )
 });
 
-export const Select_select_094ee8f86ce655a53797744580517415_81e687a6 = memo(({children}) => {
+export const Select_select_e90e22f19ae9676484c88ae6d170d867_81e687a6 = memo(({children}) => {
     const on_change_1cea3caa9ec7b164c5287068c6563312 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_room_subform_selected_id", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("select",{className:"mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-hidden",onChange:on_change_1cea3caa9ec7b164c5287068c6563312,value:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_selected_id_rx_state_},children)
+        jsx("select",{className:"mt-2 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm outline-hidden",onChange:on_change_1cea3caa9ec7b164c5287068c6563312,value:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_selected_id_rx_state_},children)
     )
 });
 
@@ -623,13 +736,13 @@ export const Cond_comp_55a1fb80164540b5ed2504e0758644cb_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_d2d3d0fe379d3ce489976163dcdcc472_81e687a6 = memo(({children}) => {
+export const Button_button_bbc4dac8b8d890335e88ab22704a9d47_81e687a6 = memo(({children}) => {
     const on_click_02d65ffc6b83961060768b4e79c49936 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.cancel_change_room", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-violet-200 bg-white px-3 py-2 text-xs font-semibold text-violet-700 transition-colors hover:bg-violet-100",onClick:on_click_02d65ffc6b83961060768b4e79c49936,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-brand-200 bg-white px-3 py-2 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-100",onClick:on_click_02d65ffc6b83961060768b4e79c49936,type:"button"},children)
     )
 });
 
@@ -675,23 +788,23 @@ export const Bare_comp_7b11bb4da1355a93432f34e339c84e21_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_a7ebd04b57ee9fcf1fccba782a793028_81e687a6 = memo(({children}) => {
+export const Button_button_b9dbb18647b32ad01b3abeb6362d616d_81e687a6 = memo(({children}) => {
     const on_click_923c099ae321f0988a4ffdb6e140efd0 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.confirm_delete", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-red-700",onClick:on_click_923c099ae321f0988a4ffdb6e140efd0},children)
+        jsx("button",{className:"flex items-center gap-2 rounded-lg bg-danger-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-danger-700",onClick:on_click_923c099ae321f0988a4ffdb6e140efd0},children)
     )
 });
 
-export const Button_button_6ad0fde1b76b8112ae02e811c35e4807_81e687a6 = memo(({children}) => {
+export const Button_button_996b98cbdb615e5ce3c73e4111e38df9_81e687a6 = memo(({children}) => {
     const on_click_a7813bde8bc1ec6a27208bace363229e = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.cancel_delete", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-700 transition-colors hover:bg-red-50",onClick:on_click_a7813bde8bc1ec6a27208bace363229e},children)
+        jsx("button",{className:"rounded-lg border border-danger-200 bg-white px-3 py-2 text-xs font-semibold text-danger-700 transition-colors hover:bg-danger-50",onClick:on_click_a7813bde8bc1ec6a27208bace363229e},children)
     )
 });
 
@@ -725,23 +838,23 @@ export const Bare_comp_153af82c2b8b89a152180352ae02cdcb_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_4d0842658377d944d5329f50637538a9_81e687a6 = memo(({children}) => {
+export const Button_button_429cb451368039195bc147a7d5fc9651_81e687a6 = memo(({children}) => {
     const on_click_99c3d14f1beb30748470d7f7025e0150 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.close_dialog", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{"aria-label":"Close record form",className:"flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-900",onClick:on_click_99c3d14f1beb30748470d7f7025e0150,type:"button"},children)
+        jsx("button",{"aria-label":"Close record form",className:"flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-white text-neutral-500 transition-colors hover:bg-neutral-50 hover:text-neutral-900",onClick:on_click_99c3d14f1beb30748470d7f7025e0150,type:"button"},children)
     )
 });
 
-export const Button_button_7bef76c4a199fe8257a505a5a68c3c06_81e687a6 = memo(({children}) => {
+export const Button_button_d204850cde760ef83cb02c79637da0c9_81e687a6 = memo(({children}) => {
     const on_click_fc8b27285380aa027e2a5ed72e80b0de = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.open_room_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",onClick:on_click_fc8b27285380aa027e2a5ed72e80b0de,type:"button"},children)
+        jsx("button",{className:"w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",onClick:on_click_fc8b27285380aa027e2a5ed72e80b0de,type:"button"},children)
     )
 });
 
@@ -775,13 +888,13 @@ export const Cond_comp_a752acdfef50db28236478b12143fdef_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_356cbcad660bb6682cc05c9b8eb97e20_81e687a6 = memo(({children}) => {
+export const Button_button_ef955247484a9a87c7667a10053061ab_81e687a6 = memo(({children}) => {
     const on_click_ad600ecf23eb793d7af1e9c5587afafd = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.open_tenant_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",onClick:on_click_ad600ecf23eb793d7af1e9c5587afafd,type:"button"},children)
+        jsx("button",{className:"w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",onClick:on_click_ad600ecf23eb793d7af1e9c5587afafd,type:"button"},children)
     )
 });
 
@@ -835,7 +948,7 @@ export const Cond_comp_c266f1a8bcfb6f11434457022349c898_81e687a6 = memo(({childr
     )
 });
 
-export const Input_input_c1916fe3254b9644d749ee9b123361dd_81e687a6 = memo(({children}) => {
+export const Input_input_c18a69e80d8efac2fbedb433341b6bb6_81e687a6 = memo(({children}) => {
     const ref_record_lease_start = useRef(null); refs["ref_record_lease_start"] = ref_record_lease_start;
 const on_change_69bd76f63d8ef3ab4834c698d5dd19fd = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_lease_start", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
@@ -843,7 +956,7 @@ const reflex___state____state__calavi_habitaciones___states___record_state____re
 
 
     return(
-        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["lease_start"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-hidden" : "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["lease_start"],id:"record-lease_start",key:("lease_start-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"lease_start",onChange:on_change_69bd76f63d8ef3ab4834c698d5dd19fd,placeholder:"",ref:ref_record_lease_start,type:"date"},)
+        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["lease_start"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-danger-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-200 outline-hidden" : "mt-2 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["lease_start"],id:"record-lease_start",key:("lease_start-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"lease_start",onChange:on_change_69bd76f63d8ef3ab4834c698d5dd19fd,placeholder:"",ref:ref_record_lease_start,type:"date"},)
     )
 });
 
@@ -867,14 +980,14 @@ export const Cond_comp_ffa949cf296a2e82cc057af62d31969e_81e687a6 = memo(({childr
     )
 });
 
-export const Input_input_069f90f08d732378dc2290ff80e29107_81e687a6 = memo(({children}) => {
+export const Input_input_7350511fc6ce47580db7f7e7dd704ec2_81e687a6 = memo(({children}) => {
     const ref_record_lease_end = useRef(null); refs["ref_record_lease_end"] = ref_record_lease_end;
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["lease_end"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-hidden" : "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["lease_end"],id:"record-lease_end",key:("lease_end-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.lease_end_key_rx_state_),name:"lease_end",placeholder:"",ref:ref_record_lease_end,type:"date"},)
+        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["lease_end"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-danger-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-200 outline-hidden" : "mt-2 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["lease_end"],id:"record-lease_end",key:("lease_end-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.lease_end_key_rx_state_),name:"lease_end",placeholder:"",ref:ref_record_lease_end,type:"date"},)
     )
 });
 
@@ -898,14 +1011,14 @@ export const Cond_comp_08ae251919a4a91df2246685ed1d3bfc_81e687a6 = memo(({childr
     )
 });
 
-export const Valuenumberinput_input_e126a5f4192c589f13a010c89bf9dc82_81e687a6 = memo(({children}) => {
+export const Valuenumberinput_input_b8575e075a4e0f090c327c9b5e69cdb7_81e687a6 = memo(({children}) => {
     const ref_record_rent = useRef(null); refs["ref_record_rent"] = ref_record_rent;
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["rent"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-hidden" : "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["rent"],id:"record-rent",key:("rent-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"rent",placeholder:"",ref:ref_record_rent,type:"number"},)
+        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["rent"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-danger-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-200 outline-hidden" : "mt-2 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["rent"],id:"record-rent",key:("rent-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"rent",placeholder:"",ref:ref_record_rent,type:"number"},)
     )
 });
 
@@ -929,14 +1042,14 @@ export const Cond_comp_9f87048c5c4c90aa4db2b3dc7615c2a2_81e687a6 = memo(({childr
     )
 });
 
-export const Valuenumberinput_input_a02ff30e729d2a4744c0d7c49b9a0a0a_81e687a6 = memo(({children}) => {
+export const Valuenumberinput_input_494a59a78e395a4e07fa8c08efc0456e_81e687a6 = memo(({children}) => {
     const ref_record_deposit = useRef(null); refs["ref_record_deposit"] = ref_record_deposit;
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["deposit"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-hidden" : "mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["deposit"],id:"record-deposit",key:("deposit-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"deposit",placeholder:"",ref:ref_record_deposit,type:"number"},)
+        jsx("input",{className:(!((reflex___state____state__calavi_habitaciones___states___record_state____record_state.errors_rx_state_?.["deposit"]?.valueOf?.() === ""?.valueOf?.())) ? "mt-2 w-full rounded-lg border border-danger-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-200 outline-hidden" : "mt-2 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden"),defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["deposit"],id:"record-deposit",key:("deposit-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"deposit",placeholder:"",ref:ref_record_deposit,type:"number"},)
     )
 });
 
@@ -960,14 +1073,14 @@ export const Cond_comp_032faf46bca28225cced18ec95c557e6_81e687a6 = memo(({childr
     )
 });
 
-export const Textarea_textarea_2db7a3df4513c9dbe69480116395188b_81e687a6 = memo(({children}) => {
+export const Textarea_textarea_0d0cf012812c82985cb90d2d9c1a76e1_81e687a6 = memo(({children}) => {
     const ref_record_notes = useRef(null); refs["ref_record_notes"] = ref_record_notes;
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("textarea",{className:"mt-2 w-full resize-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["notes"],id:"record-notes",key:("notes-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"notes",placeholder:"",ref:ref_record_notes,rows:"3"},)
+        jsx("textarea",{className:"mt-2 w-full resize-none rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_values_rx_state_?.["notes"],id:"record-notes",key:("notes-"+reflex___state____state__calavi_habitaciones___states___record_state____record_state.form_key_rx_state_),name:"notes",placeholder:"",ref:ref_record_notes,rows:"3"},)
     )
 });
 
@@ -991,13 +1104,13 @@ export const Cond_comp_6a3a88422800265d3b3ff5410f4e7c53_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_6ed8b730f054dec68d012aa8e73e08bd_81e687a6 = memo(({children}) => {
+export const Button_button_16ef8f8c88b6cabc381c1e5fe2496a37_81e687a6 = memo(({children}) => {
     const on_click_99c3d14f1beb30748470d7f7025e0150 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.close_dialog", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50",onClick:on_click_99c3d14f1beb30748470d7f7025e0150,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50",onClick:on_click_99c3d14f1beb30748470d7f7025e0150,type:"button"},children)
     )
 });
 
@@ -1033,35 +1146,35 @@ export const Form_form_b4257995e4a9d54a17abd93d25f1774b_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_d7897c9e99bc4c23275831a8cb2b8bfb_81e687a6 = memo(({children}) => {
+export const Button_button_12bbdd3e47e46089815bb3399e552fa6_81e687a6 = memo(({children}) => {
     const on_click_c942e96af1b0fea048a2d0cc506d49e7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.close_room_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50",onClick:on_click_c942e96af1b0fea048a2d0cc506d49e7,type:"button"},children)
+        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 hover:bg-neutral-50",onClick:on_click_c942e96af1b0fea048a2d0cc506d49e7,type:"button"},children)
     )
 });
 
-export const Input_input_11c7c4fdd289b38aea7a095e1ccf219e_81e687a6 = memo(({children}) => {
+export const Input_input_9e85369c744d35b693798830588ea1b3_81e687a6 = memo(({children}) => {
     const on_change_caebf6823c9ae156ceef0878551dc6e5 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_room_subform_room", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_room_rx_state_,onChange:on_change_caebf6823c9ae156ceef0878551dc6e5},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_room_rx_state_,onChange:on_change_caebf6823c9ae156ceef0878551dc6e5},)
     )
 });
 
-export const Input_input_447bf929ef8158e5786376fc18bdc89b_81e687a6 = memo(({children}) => {
+export const Input_input_b2845e31e0535ad97b4c4bfa422f7011_81e687a6 = memo(({children}) => {
     const on_change_e5a6bd2caf18da67f9fa4f9a53b271b5 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_room_subform_floor", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_floor_rx_state_,onChange:on_change_e5a6bd2caf18da67f9fa4f9a53b271b5},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_floor_rx_state_,onChange:on_change_e5a6bd2caf18da67f9fa4f9a53b271b5},)
     )
 });
 
@@ -1075,14 +1188,14 @@ export const Foreach_comp_7cf106cbcd5a442b9f376ad1a50f7f1d_81e687a6 = memo(({chi
     )
 });
 
-export const Select_select_ef9d10e735ab07b03364766c6a17b698_81e687a6 = memo(({children}) => {
+export const Select_select_c41e5de5d81d01d0e5f0b2aa3a9e7393_81e687a6 = memo(({children}) => {
     const on_change_e22ae0676777ae648238a7a9458eeea2 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_room_subform_bed_type", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("select",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",onChange:on_change_e22ae0676777ae648238a7a9458eeea2,value:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_bed_type_rx_state_},children)
+        jsx("select",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",onChange:on_change_e22ae0676777ae648238a7a9458eeea2,value:reflex___state____state__calavi_habitaciones___states___record_state____record_state.room_subform_bed_type_rx_state_},children)
     )
 });
 
@@ -1116,23 +1229,23 @@ export const Cond_comp_70befe5e25761bb35ed1fad8ffb1841a_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_917773fddc777e44506df2b206403505_81e687a6 = memo(({children}) => {
+export const Button_button_06fe3c80a1b7a23672ea2edc3b29092f_81e687a6 = memo(({children}) => {
     const on_click_c942e96af1b0fea048a2d0cc506d49e7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.close_room_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50",onClick:on_click_c942e96af1b0fea048a2d0cc506d49e7,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_c942e96af1b0fea048a2d0cc506d49e7,type:"button"},children)
     )
 });
 
-export const Button_button_ae15215de8d253eddfc9ac277008f62d_81e687a6 = memo(({children}) => {
+export const Button_button_e5bff9312656e9be3b9ddb0393115426_81e687a6 = memo(({children}) => {
     const on_click_fdf8c24a18374f1111e62695579437ca = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.confirm_room_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700",onClick:on_click_fdf8c24a18374f1111e62695579437ca,type:"button"},children)
+        jsx("button",{className:"rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700",onClick:on_click_fdf8c24a18374f1111e62695579437ca,type:"button"},children)
     )
 });
 
@@ -1146,13 +1259,13 @@ export const Cond_comp_42b6c650a89d7530b82f63a4eac7cece_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_c4f2724797c562d12d788ddf640352d2_81e687a6 = memo(({children}) => {
+export const Button_button_162cc2b008855a111f312b3846fc0b8c_81e687a6 = memo(({children}) => {
     const on_click_79ff3fd2fea0412b60b55d09a8da4031 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.close_tenant_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50",onClick:on_click_79ff3fd2fea0412b60b55d09a8da4031,type:"button"},children)
+        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 hover:bg-neutral-50",onClick:on_click_79ff3fd2fea0412b60b55d09a8da4031,type:"button"},children)
     )
 });
 
@@ -1166,58 +1279,58 @@ export const Foreach_comp_507737798dde20e46cc869730af272e4_81e687a6 = memo(({chi
     )
 });
 
-export const Select_select_f466447536b8451f58f5fc75151bba36_81e687a6 = memo(({children}) => {
+export const Select_select_059da5fdf18f3e0de2e1132197bfd7d4_81e687a6 = memo(({children}) => {
     const on_change_2efad739f42a1ae5b2204e4865f56538 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_tenant_subform_selected_id", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("select",{className:"mt-2 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-hidden",onChange:on_change_2efad739f42a1ae5b2204e4865f56538,value:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_selected_id_rx_state_},children)
+        jsx("select",{className:"mt-2 w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm outline-hidden",onChange:on_change_2efad739f42a1ae5b2204e4865f56538,value:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_selected_id_rx_state_},children)
     )
 });
 
-export const Input_input_f705af773455e172318a940d5e145d30_81e687a6 = memo(({children}) => {
+export const Input_input_e97302f8742219a8725d1f7a51a4fe71_81e687a6 = memo(({children}) => {
     const on_change_c29c7f2ef488b26ce9a69de9f4124c23 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_tenant_subform_tenant", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_tenant_rx_state_,onChange:on_change_c29c7f2ef488b26ce9a69de9f4124c23},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_tenant_rx_state_,onChange:on_change_c29c7f2ef488b26ce9a69de9f4124c23},)
     )
 });
 
-export const Input_input_1f9d2d087efd985303e1b07fa07c8c1f_81e687a6 = memo(({children}) => {
+export const Input_input_dbf5df14adbd202f32fd36d3b40b493c_81e687a6 = memo(({children}) => {
     const on_change_5dac9cd8a34e69a6cc653c9c14468d1c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_tenant_subform_dni", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_dni_rx_state_,onChange:on_change_5dac9cd8a34e69a6cc653c9c14468d1c},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_dni_rx_state_,onChange:on_change_5dac9cd8a34e69a6cc653c9c14468d1c},)
     )
 });
 
-export const Input_input_db5e61b0215953bd54ecfdb095079a74_81e687a6 = memo(({children}) => {
+export const Input_input_f44bb9bc6d59f3baba77f13de74034fa_81e687a6 = memo(({children}) => {
     const on_change_535497b0d230822a5f57c53c52e1efa1 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_tenant_subform_email", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_email_rx_state_,onChange:on_change_535497b0d230822a5f57c53c52e1efa1,type:"email"},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_email_rx_state_,onChange:on_change_535497b0d230822a5f57c53c52e1efa1,type:"email"},)
     )
 });
 
-export const Input_input_44df1124d966d254a190de4b977fbaf0_81e687a6 = memo(({children}) => {
+export const Input_input_4da22d68c8bc146d9b67f4aa249adab1_81e687a6 = memo(({children}) => {
     const on_change_b9720b653c13794793480da268d417f0 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.set_tenant_subform_phone", ({ ["value"] : _e?.["target"]?.["value"] }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
 
 
 
     return(
-        jsx("input",{className:"mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_phone_rx_state_,onChange:on_change_b9720b653c13794793480da268d417f0,type:"tel"},)
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___record_state____record_state.tenant_subform_phone_rx_state_,onChange:on_change_b9720b653c13794793480da268d417f0,type:"tel"},)
     )
 });
 
@@ -1251,23 +1364,23 @@ export const Cond_comp_58c2997d82243b685115d3c13b58655a_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_e05ea4ca092a3191332b469ab2c04c1b_81e687a6 = memo(({children}) => {
+export const Button_button_c9bdf55229e05c0776960e1ebbb5c0b3_81e687a6 = memo(({children}) => {
     const on_click_79ff3fd2fea0412b60b55d09a8da4031 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.close_tenant_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50",onClick:on_click_79ff3fd2fea0412b60b55d09a8da4031,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_79ff3fd2fea0412b60b55d09a8da4031,type:"button"},children)
     )
 });
 
-export const Button_button_178538fed993053dcd3c40eee294be2d_81e687a6 = memo(({children}) => {
+export const Button_button_ec4813f1db94b9f0859f00adbc5fe156_81e687a6 = memo(({children}) => {
     const on_click_d04aade8032846b5be9e0eb7b12d1605 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___record_state____record_state.confirm_tenant_subform", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700",onClick:on_click_d04aade8032846b5be9e0eb7b12d1605,type:"button"},children)
+        jsx("button",{className:"rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700",onClick:on_click_d04aade8032846b5be9e0eb7b12d1605,type:"button"},children)
     )
 });
 
@@ -1301,24 +1414,24 @@ export const Bare_comp_9220ae683917a97659c00d76262e7390_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_bc0cfe50bfe7c893b357ec891b06611e_81e687a6 = memo(({children}) => {
+export const Button_button_b6abad04fd6189e1236f04c303d979e6_81e687a6 = memo(({children}) => {
     const on_click_681a3a56a0b1f92efbc4486f298be561 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.refresh", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 sm:w-auto",disabled:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.is_loading_rx_state_,onClick:on_click_681a3a56a0b1f92efbc4486f298be561},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 sm:w-auto",disabled:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.is_loading_rx_state_,onClick:on_click_681a3a56a0b1f92efbc4486f298be561},children)
     )
 });
 
-export const Foreach_comp_807f2c81f9186f30ad248d838c3f1d80_81e687a6 = memo(({children}) => {
+export const Foreach_comp_b9ff92cc96a1b4358560d2989fb89289_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.filtered_rooms_rx_state_ ?? [],((item_rx_state_,index_a11d272e345ae0206655af59b2295c9b)=>(jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex w-full cursor-pointer flex-col rounded-xl border-2 border-violet-500 bg-white p-5 text-left ring-2 ring-violet-100 transition-colors outline-hidden" : "flex w-full cursor-pointer flex-col rounded-xl border-2 border-gray-200 bg-white p-5 text-left transition-colors hover:border-violet-300 focus-visible:border-violet-500 outline-hidden"),key:index_a11d272e345ae0206655af59b2295c9b,onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.select_room", ({ ["room_id"] : item_rx_state_?.["id"] }), ({  })))], [_e], ({  })))),type:"button"},jsx("div",{className:"flex items-start justify-between gap-3"},jsx("div",{className:"flex items-center gap-3"},jsx("div",{className:"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-violet-100 bg-violet-50"},jsx(LucideBedDouble,{className:"h-5 w-5 text-violet-600"},)),jsx("div",{},jsx("p",{className:"text-base font-semibold tracking-tight text-gray-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])))),jsx("span",{className:(() => { switch (JSON.stringify(item_rx_state_?.["record_status"])) {case JSON.stringify("Activo"):  return ("w-fit rounded-full border border-green-200 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700");  break;case JSON.stringify("Caduca pronto"):  return ("w-fit rounded-full border border-yellow-200 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-700");  break;case JSON.stringify("Caducado"):  return ("w-fit rounded-full border border-red-200 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700");  break;default:  return ("w-fit rounded-full border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700");  break;};})()},item_rx_state_?.["record_status"])),jsx("div",{className:"mt-4 flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3"},jsx("img",{className:"size-9 rounded-full bg-gray-100",src:("https://api.dicebear.com/9.x/notionists/svg?seed="+item_rx_state_?.["tenant_email"])},),jsx("div",{className:"min-w-0"},jsx("p",{className:"truncate text-sm font-semibold text-gray-900"},item_rx_state_?.["tenant"]),jsx("p",{className:"truncate text-xs font-medium text-gray-500"},("Tipo de cama "+item_rx_state_?.["bed_type"])))),jsx("div",{className:"mt-4 flex flex-col gap-2.5"},jsx("div",{className:"flex items-center justify-between gap-3"},jsx("div",{className:"flex items-center gap-2"},jsx(LucideCalendarCheck,{className:"h-4 w-4 text-gray-400"},),jsx("span",{className:"text-sm font-medium text-gray-500"},"F_inicio")),jsx("span",{className:"text-sm font-semibold text-gray-900"},item_rx_state_?.["lease_start"])),jsx("div",{className:"flex items-center justify-between gap-3"},jsx("div",{className:"flex items-center gap-2"},jsx(LucideCalendarClock,{className:"h-4 w-4 text-gray-400"},),jsx("span",{className:"text-sm font-medium text-gray-500"},"F_fin")),jsx("span",{className:"text-sm font-semibold text-gray-900"},item_rx_state_?.["lease_end"])),jsx("div",{className:"flex items-center justify-between gap-3"},jsx("div",{className:"flex items-center gap-2"},jsx(LucideBanknote,{className:"h-4 w-4 text-gray-400"},),jsx("span",{className:"text-sm font-medium text-gray-500"},"Renta mensual")),jsx("span",{className:"text-sm font-semibold text-gray-900"},item_rx_state_?.["rent_display"]))),jsx("div",{className:"mt-5 flex items-center justify-between border-t border-gray-100 pt-4"},jsx("span",{className:"text-xs font-semibold uppercase tracking-wide text-gray-400"},""),jsx("div",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex items-center gap-1.5 text-violet-600" : "flex items-center gap-1.5 text-gray-400")},jsx("span",{className:"text-sm font-semibold"},((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "Viendo inquilino" : "Ver detalles del inquilino")),jsx(LucideArrowRight,{className:"h-4 w-4"},)))))))
+        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.filtered_rooms_rx_state_ ?? [],((item_rx_state_,index_a11d272e345ae0206655af59b2295c9b)=>(jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex w-full cursor-pointer flex-col rounded-xl border-2 border-brand-500 bg-white p-5 text-left ring-2 ring-brand-100 transition-colors outline-hidden" : "flex w-full cursor-pointer flex-col rounded-xl border-2 border-neutral-200 bg-white p-5 text-left transition-colors hover:border-brand-300 focus-visible:border-brand-500 outline-hidden"),key:index_a11d272e345ae0206655af59b2295c9b,onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.select_room", ({ ["room_id"] : item_rx_state_?.["id"] }), ({  })))], [_e], ({  })))),type:"button"},jsx("div",{className:"flex items-start justify-between gap-3"},jsx("div",{className:"flex items-center gap-3"},jsx("div",{className:"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-brand-100 bg-brand-50"},jsx(LucideBedDouble,{className:"h-5 w-5 text-brand-600"},)),jsx("div",{},jsx("p",{className:"text-base font-semibold tracking-tight text-neutral-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])))),jsx("span",{className:(() => { switch (JSON.stringify(item_rx_state_?.["record_status"])) {case JSON.stringify("Activo"):  return ("w-fit rounded-full border border-success-200 bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700");  break;case JSON.stringify("Caduca pronto"):  return ("w-fit rounded-full border border-warning-200 bg-warning-100 px-2.5 py-1 text-xs font-semibold text-warning-700");  break;case JSON.stringify("Caducado"):  return ("w-fit rounded-full border border-danger-200 bg-danger-100 px-2.5 py-1 text-xs font-semibold text-danger-700");  break;default:  return ("w-fit rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700");  break;};})()},item_rx_state_?.["record_status"])),jsx("div",{className:"mt-4 flex items-center gap-3 rounded-lg border border-neutral-200 bg-neutral-50 p-3"},jsx("img",{className:"size-9 rounded-full bg-neutral-100",src:("https://api.dicebear.com/9.x/notionists/svg?seed="+item_rx_state_?.["tenant_email"])},),jsx("div",{className:"min-w-0"},jsx("p",{className:"truncate text-sm font-semibold text-neutral-900"},item_rx_state_?.["tenant"]),jsx("p",{className:"truncate text-xs font-medium text-neutral-500"},("Tipo de cama "+item_rx_state_?.["bed_type"])))),jsx("div",{className:"mt-4 flex flex-col gap-2.5"},jsx("div",{className:"flex items-center justify-between gap-3"},jsx("div",{className:"flex items-center gap-2"},jsx(LucideCalendarCheck,{className:"h-4 w-4 text-neutral-400"},),jsx("span",{className:"text-sm font-medium text-neutral-500"},"F_inicio")),jsx("span",{className:"text-sm font-semibold text-neutral-900"},item_rx_state_?.["lease_start"])),jsx("div",{className:"flex items-center justify-between gap-3"},jsx("div",{className:"flex items-center gap-2"},jsx(LucideCalendarClock,{className:"h-4 w-4 text-neutral-400"},),jsx("span",{className:"text-sm font-medium text-neutral-500"},"F_fin")),jsx("span",{className:"text-sm font-semibold text-neutral-900"},item_rx_state_?.["lease_end"])),jsx("div",{className:"flex items-center justify-between gap-3"},jsx("div",{className:"flex items-center gap-2"},jsx(LucideBanknote,{className:"h-4 w-4 text-neutral-400"},),jsx("span",{className:"text-sm font-medium text-neutral-500"},"Renta mensual")),jsx("span",{className:"text-sm font-semibold text-neutral-900"},item_rx_state_?.["rent_display"]))),jsx("div",{className:"mt-5 flex items-center justify-between border-t border-neutral-100 pt-4"},jsx("span",{className:"text-xs font-semibold uppercase tracking-wide text-neutral-400"},""),jsx("div",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex items-center gap-1.5 text-brand-600" : "flex items-center gap-1.5 text-neutral-400")},jsx("span",{className:"text-sm font-semibold"},((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "Viendo inquilino" : "Ver detalles del inquilino")),jsx(LucideArrowRight,{className:"h-4 w-4"},)))))))
     )
 });
 
@@ -1352,23 +1465,23 @@ export const Bare_comp_a7b223538b6abb9cc44489e027c66b1f_81e687a6 = memo(({childr
     )
 });
 
-export const Span_span_b8e3aa699408fdcf91fa4c78de7ef302_81e687a6 = memo(({children}) => {
+export const Span_span_936edd3536a6dd119efc8e5751739db4_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("span",{className:(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_ ? "w-fit rounded-full border border-violet-200 bg-violet-50 px-2.5 py-0.5 text-xs font-semibold text-violet-700" : "w-fit rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-semibold text-gray-500")},children)
+        jsx("span",{className:(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.has_selection_rx_state_ ? "w-fit rounded-full border border-brand-200 bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700" : "w-fit rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-0.5 text-xs font-semibold text-neutral-500")},children)
     )
 });
 
-export const Img_img_c5550150392a6f58a193bf801186d1ba_81e687a6 = memo(({children}) => {
+export const Img_img_0ff1992439f6c2708266089b06190c4f_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("img",{className:"size-12 shrink-0 rounded-full bg-gray-100",src:("https://api.dicebear.com/9.x/notionists/svg?seed="+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["tenant_email"])},)
+        jsx("img",{className:"size-12 shrink-0 rounded-full bg-neutral-100",src:("https://api.dicebear.com/9.x/notionists/svg?seed="+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["tenant_email"])},)
     )
 });
 
@@ -1392,13 +1505,13 @@ export const Bare_comp_d95e131446c4ca78eddf0229eed8cc44_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_5a04a96df4981d1b86ccf4eab1f0aba1_81e687a6 = memo(({children}) => {
+export const Button_button_2316d7a86423865e0ab18f464c256e83_81e687a6 = memo(({children}) => {
     const on_click_dc8aa464642aaba65a95433051075cab = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.clear_selection", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{"aria-label":"Close tenant details",className:"flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-900",onClick:on_click_dc8aa464642aaba65a95433051075cab},children)
+        jsx("button",{"aria-label":"Close tenant details",className:"flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-white text-neutral-500 transition-colors hover:bg-neutral-50 hover:text-neutral-900",onClick:on_click_dc8aa464642aaba65a95433051075cab},children)
     )
 });
 
@@ -1412,13 +1525,13 @@ export const Bare_comp_98522f6405daa8d807800dfba60cf6b6_81e687a6 = memo(({childr
     )
 });
 
-export const Span_span_4cb5cad31a18361964f52f7950b827f7_81e687a6 = memo(({children}) => {
+export const Span_span_c872a64d372ab3fd3f0dd06423e0d12e_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("span",{className:(() => { switch (JSON.stringify(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["record_status"])) {case JSON.stringify("Activo"):  return ("w-fit rounded-full border border-green-200 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700");  break;case JSON.stringify("Caduca pronto"):  return ("w-fit rounded-full border border-yellow-200 bg-yellow-100 px-2.5 py-1 text-xs font-semibold text-yellow-700");  break;case JSON.stringify("Caducado"):  return ("w-fit rounded-full border border-red-200 bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700");  break;default:  return ("w-fit rounded-full border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700");  break;};})()},children)
+        jsx("span",{className:(() => { switch (JSON.stringify(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["record_status"])) {case JSON.stringify("Activo"):  return ("w-fit rounded-full border border-success-200 bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700");  break;case JSON.stringify("Caduca pronto"):  return ("w-fit rounded-full border border-warning-200 bg-warning-100 px-2.5 py-1 text-xs font-semibold text-warning-700");  break;case JSON.stringify("Caducado"):  return ("w-fit rounded-full border border-danger-200 bg-danger-100 px-2.5 py-1 text-xs font-semibold text-danger-700");  break;default:  return ("w-fit rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700");  break;};})()},children)
     )
 });
 
@@ -1432,13 +1545,13 @@ export const Bare_comp_10a4dbf046a63b4717a7af781076da66_81e687a6 = memo(({childr
     )
 });
 
-export const Reactrouterlink_link_f04ec0feae91d7558957317c1240d879_81e687a6 = memo(({children}) => {
+export const Reactrouterlink_link_e1133c77a7b50b84e35a6e7c50ca1beb_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx(ReactRouterLink,{className:"flex min-w-0 items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 transition-colors hover:border-violet-300 hover:text-violet-700",to:("mailto:"+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["tenant_email"])},children)
+        jsx(ReactRouterLink,{className:"flex min-w-0 items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-neutral-900 transition-colors hover:border-brand-300 hover:text-brand-700",to:("mailto:"+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["tenant_email"])},children)
     )
 });
 
@@ -1452,13 +1565,13 @@ export const Bare_comp_e96849fcea656bf036f056fba00ad4c8_81e687a6 = memo(({childr
     )
 });
 
-export const Reactrouterlink_link_f99a4f7cff4b813576f1c9fdeaa719a0_81e687a6 = memo(({children}) => {
+export const Reactrouterlink_link_efb2a7515c64ea619322419b2935bfe3_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx(ReactRouterLink,{className:"flex min-w-0 items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 transition-colors hover:border-violet-300 hover:text-violet-700",to:("tel:"+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["tenant_phone"])},children)
+        jsx(ReactRouterLink,{className:"flex min-w-0 items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-neutral-900 transition-colors hover:border-brand-300 hover:text-brand-700",to:("tel:"+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["tenant_phone"])},children)
     )
 });
 
@@ -1542,44 +1655,44 @@ export const Bare_comp_a4b00be7ef9d7d2c37a8a23f3eef5718_81e687a6 = memo(({childr
     )
 });
 
-export const Input_input_24899a0ab8218b2a813425b9bf561116_81e687a6 = memo(({children}) => {
+export const Input_input_e87dbf11ec514f066b29ff3b4344af5c_81e687a6 = memo(({children}) => {
     const on_change_9df2d193b49192af3c23dd4ff66f65a7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.set_history_search", ({ ["value"] : _e?.["target"]?.["value"] }), ({ ["debounce"] : 300 })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("input",{className:"w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-3 text-sm outline-hidden focus:border-violet-500 focus:ring-2 focus:ring-violet-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_search_rx_state_,onChange:on_change_9df2d193b49192af3c23dd4ff66f65a7,placeholder:"Buscar por habitaci\u00f3n, inquilino..."},)
+        jsx("input",{className:"w-full rounded-lg border border-neutral-300 bg-white py-2 pl-9 pr-3 text-sm outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",defaultValue:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_search_rx_state_,onChange:on_change_9df2d193b49192af3c23dd4ff66f65a7,placeholder:"Buscar por habitaci\u00f3n, inquilino..."},)
     )
 });
 
-export const Foreach_comp_e2bce27930196dab7b24fb47f8a04329_81e687a6 = memo(({children}) => {
+export const Foreach_comp_1fcbfb55a665497227cb00d5d5e33d9b_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_filtered_rooms_rx_state_ ?? [],((item_rx_state_,index_e6868048d980e7aba495eb73640dd072)=>(jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex w-full flex-col rounded-xl border-2 border-violet-500 bg-white p-5 text-left ring-2 ring-violet-100" : "flex w-full flex-col rounded-xl border border-gray-200 bg-white p-5 text-left transition-colors hover:border-violet-300"),key:index_e6868048d980e7aba495eb73640dd072,onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.select_history_room", ({ ["room_id"] : item_rx_state_?.["id"] }), ({  })))], [_e], ({  })))),type:"button"},jsx("div",{className:"flex items-center gap-3"},jsx("div",{className:"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-amber-100 bg-amber-50"},jsx(LucideArchive,{className:"h-5 w-5 text-amber-600"},)),jsx("div",{className:"min-w-0 text-left"},jsx("p",{className:"text-base font-semibold text-gray-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])),jsx("p",{className:"text-sm font-medium text-gray-500"},item_rx_state_?.["tenant"]))),jsx("div",{className:"mt-4 border-t border-gray-100 pt-4"},jsx("span",{className:"w-fit rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700"},"Finalizado"),jsx("p",{className:"mt-3 text-left text-xs font-medium text-gray-500"},item_rx_state_?.["termination_date"]))))))
+        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_filtered_rooms_rx_state_ ?? [],((item_rx_state_,index_e6868048d980e7aba495eb73640dd072)=>(jsx("button",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.history_selected_id_rx_state_?.valueOf?.() === item_rx_state_?.["id"]?.valueOf?.()) ? "flex w-full flex-col rounded-xl border-2 border-brand-500 bg-white p-5 text-left ring-2 ring-brand-100" : "flex w-full flex-col rounded-xl border border-neutral-200 bg-white p-5 text-left transition-colors hover:border-brand-300"),key:index_e6868048d980e7aba495eb73640dd072,onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.select_history_room", ({ ["room_id"] : item_rx_state_?.["id"] }), ({  })))], [_e], ({  })))),type:"button"},jsx("div",{className:"flex items-center gap-3"},jsx("div",{className:"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-archive-100 bg-archive-50"},jsx(LucideArchive,{className:"h-5 w-5 text-archive-600"},)),jsx("div",{className:"min-w-0 text-left"},jsx("p",{className:"text-base font-semibold text-neutral-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])),jsx("p",{className:"text-sm font-medium text-neutral-500"},item_rx_state_?.["tenant"]))),jsx("div",{className:"mt-4 border-t border-neutral-100 pt-4"},jsx("span",{className:"w-fit rounded-full border border-archive-200 bg-archive-100 px-2.5 py-1 text-xs font-semibold text-archive-700"},"Finalizado"),jsx("p",{className:"mt-3 text-left text-xs font-medium text-neutral-500"},item_rx_state_?.["termination_date"]))))))
     )
 });
 
-export const Button_button_02675677c635d4644add1ce8e7b188dc_81e687a6 = memo(({children}) => {
+export const Button_button_0987fac7be67ec6f06fbb41cb7f15bdd_81e687a6 = memo(({children}) => {
     const on_click_5977ef2fed3c4bf171fd5ba24358059c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.clear_history_selection", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{"aria-label":"Close past tenant details",className:"flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50",onClick:on_click_5977ef2fed3c4bf171fd5ba24358059c},children)
+        jsx("button",{"aria-label":"Close past tenant details",className:"flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 hover:bg-neutral-50",onClick:on_click_5977ef2fed3c4bf171fd5ba24358059c},children)
     )
 });
 
-export const Img_img_901efbab507eb6bba9b01bbde8b665cb_81e687a6 = memo(({children}) => {
+export const Img_img_25a213ea854df4018ba3057664cf0f16_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("img",{className:"size-12 rounded-full bg-gray-100",src:("https://api.dicebear.com/9.x/notionists/svg?seed="+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["tenant_email"])},)
+        jsx("img",{className:"size-12 rounded-full bg-neutral-100",src:("https://api.dicebear.com/9.x/notionists/svg?seed="+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_history_room_rx_state_?.["tenant_email"])},)
     )
 });
 
@@ -1673,13 +1786,13 @@ export const Cond_comp_baea3d9881e328da7221c2a3c03c3e5e_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_32dda2e906f8369bffebcc5aae2c3fbe_81e687a6 = memo(({children}) => {
+export const Button_button_6818058f84624b121cbf21175751441d_81e687a6 = memo(({children}) => {
     const on_click_cbe97f0016faec5bfce18ab4cc4bda8c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.open_new_admin", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-1.5 rounded-lg bg-violet-600 px-2.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-violet-700 sm:w-auto",onClick:on_click_cbe97f0016faec5bfce18ab4cc4bda8c,type:"button"},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-2.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",onClick:on_click_cbe97f0016faec5bfce18ab4cc4bda8c,type:"button"},children)
     )
 });
 
@@ -1703,23 +1816,23 @@ export const Cond_comp_7120152bb4890f0bcc20ef1a27c9f4f9_81e687a6 = memo(({childr
     )
 });
 
-export const Foreach_comp_89617c344d6c69b1d94f81494345e92a_81e687a6 = memo(({children}) => {
+export const Foreach_comp_a8ca4c4bfd33f99c28818da6edabfb1f_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
 
 
 
     return(
-        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.admin_users_rx_state_ ?? [],((item_rx_state_,index_99ae251a64739767aa046e7a9f5f9757)=>(jsx("tr",{className:"border-t border-gray-100 hover:bg-gray-50/70",key:index_99ae251a64739767aa046e7a9f5f9757},jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("div",{className:"min-w-48"},jsx("p",{className:"text-sm font-semibold text-gray-900"},item_rx_state_?.["name"]),jsx("p",{className:"mt-0.5 text-xs font-medium text-gray-500"},item_rx_state_?.["email"]),jsx(Fragment,{},((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["email"]?.valueOf?.() === item_rx_state_?.["email"]?.valueOf?.())?(jsx(Fragment,{},jsx("span",{className:"mt-2 inline-flex w-fit items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-[11px] font-semibold text-violet-700"},"Usuario actual"))):(jsx(Fragment,{},jsx("div",{},))))))),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("span",{className:"text-sm font-medium text-gray-700"},item_rx_state_?.["role"])),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("span",{className:(item_rx_state_?.["active"] ? "w-fit rounded-full border border-green-200 bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700" : "w-fit rounded-full border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600")},(item_rx_state_?.["active"] ? "Activado" : "Desactivado"))),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("button",{className:"flex w-fit items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-700 transition-colors hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50",disabled:(reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["email"]?.valueOf?.() === item_rx_state_?.["email"]?.valueOf?.()),onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.toggle_user_access", ({ ["email"] : item_rx_state_?.["email"] }), ({  })))], [_e], ({  }))))},jsx(DynamicIcon,{className:"h-4 w-4",name:(item_rx_state_?.["active"] ? "user-round-x" : "user-round-check").replaceAll("_", "-")},),jsx("span",{},(item_rx_state_?.["active"] ? "Desactivar" : "Activar"))))))))
+        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.admin_users_rx_state_ ?? [],((item_rx_state_,index_99ae251a64739767aa046e7a9f5f9757)=>(jsx("tr",{className:"border-t border-neutral-100 hover:bg-neutral-50/70",key:index_99ae251a64739767aa046e7a9f5f9757},jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("div",{className:"min-w-48"},jsx("p",{className:"text-sm font-semibold text-neutral-900"},item_rx_state_?.["name"]),jsx("p",{className:"mt-0.5 text-xs font-medium text-neutral-500"},item_rx_state_?.["email"]),jsx(Fragment,{},((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["email"]?.valueOf?.() === item_rx_state_?.["email"]?.valueOf?.())?(jsx(Fragment,{},jsx("span",{className:"mt-2 inline-flex w-fit items-center gap-1 rounded-full border border-brand-200 bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand-700"},"Usuario actual"))):(jsx(Fragment,{},jsx("div",{},))))))),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("span",{className:"text-sm font-medium text-neutral-700"},item_rx_state_?.["role"])),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("span",{className:(item_rx_state_?.["active"] ? "w-fit rounded-full border border-success-200 bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700" : "w-fit rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-600")},(item_rx_state_?.["active"] ? "Activado" : "Desactivado"))),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("button",{className:"flex w-fit items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-50",disabled:(reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["email"]?.valueOf?.() === item_rx_state_?.["email"]?.valueOf?.()),onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.toggle_user_access", ({ ["email"] : item_rx_state_?.["email"] }), ({  })))], [_e], ({  }))))},jsx(DynamicIcon,{className:"h-4 w-4",name:(item_rx_state_?.["active"] ? "user-round-x" : "user-round-check").replaceAll("_", "-")},),jsx("span",{},(item_rx_state_?.["active"] ? "Desactivar" : "Activar"))))))))
     )
 });
 
-export const Button_button_1ddfe3d04657fbebf73d15594ff155f9_81e687a6 = memo(({children}) => {
+export const Button_button_c29492949323c18973923802de202ea3_81e687a6 = memo(({children}) => {
     const on_click_63da69dde4cde9b0f902830fc00476a4 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.close_new_admin", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50",onClick:on_click_63da69dde4cde9b0f902830fc00476a4,type:"button"},children)
+        jsx("button",{className:"flex h-7 w-7 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 hover:bg-neutral-50",onClick:on_click_63da69dde4cde9b0f902830fc00476a4,type:"button"},children)
     )
 });
 
@@ -1783,13 +1896,13 @@ export const Cond_comp_c2c436b2c9a5336514c7b52ab48cf2fa_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_8756a16721cb18ee37106433df1c9d5d_81e687a6 = memo(({children}) => {
+export const Button_button_2c58b857854c73a592d754cf63747c41_81e687a6 = memo(({children}) => {
     const on_click_63da69dde4cde9b0f902830fc00476a4 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.close_new_admin", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50",onClick:on_click_63da69dde4cde9b0f902830fc00476a4,type:"button"},children)
+        jsx("button",{className:"rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_63da69dde4cde9b0f902830fc00476a4,type:"button"},children)
     )
 });
 

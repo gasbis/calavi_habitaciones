@@ -70,7 +70,10 @@ class RecordState(rx.State):
     termination_notice: str = ""
     extension_target_id: str = ""
     extension_error: str = ""
-    extension_notice: str = ""
+    # extension_notice: str = ""
+    notes_target_id: str = ""
+    notes_error: str = ""
+    notes_notice: str = ""
     change_room_target_id: str = ""
     extension_error: str = ""
     extension_notice: str = ""
@@ -138,6 +141,10 @@ class RecordState(rx.State):
     @rx.var
     def has_extension_target(self) -> bool:
         return self.extension_target_id != ""
+    
+    @rx.var
+    def has_notes_target(self) -> bool:
+        return self.notes_target_id != ""
     
     @rx.var
     def has_change_room_target(self) -> bool:
@@ -319,6 +326,60 @@ class RecordState(rx.State):
     def cancel_extend(self):
         self.extension_target_id = ""
         self.extension_error = ""
+
+    @rx.event
+    async def request_notes(self):
+        if not await self._require_admin():
+            return
+        occupancy = await self.get_state(OccupancyState)
+        if occupancy.selected_id == "":
+            self.notice = (
+                "Seleccione una habitación ocupada antes de editar las observaciones."
+            )
+            return
+        self.notice = ""        
+        self.notes_target_id = occupancy.selected_id
+
+    @rx.event
+    def cancel_notes(self):
+        self.notes_target_id = ""
+        self.termination_error = ""
+
+    @rx.event
+    async def confirm_notes(self, form_data: dict):
+        try:
+            if not await self._require_admin():
+                return
+            occupancy = await self.get_state(OccupancyState)
+            target = occupancy.selected_id
+            if target == "":
+                self.notes_error = (
+                    "Selecciona un contrato en vigor para editar las observaciones."
+                )
+                return
+            room = get_room(target)
+            if room["id"] == "":
+                self.notes_error = "No encuentro esta habitación."
+                return
+            new_note = form_data.get("edit_notes", "")
+            updated = dict(room)
+            updated["notes"] = new_note
+            if not update_room(target, Lease(**updated)):
+                self.notes_error = "No encuentro este contrato."
+                return
+            occupancy._sync_rooms()
+            self.notes_target_id = ""
+            self.notes_error = ""
+            self.notes_notice = f"Las observaciones de la habitación {room['room']} se han editado."
+            # self.notice = self.notes_notice
+            yield rx.toast(self.notes_notice, duration=3000)
+        except ValueError:
+            self.notes_error = "Ingrese una fecha válida."
+        except Exception as e:
+            logging.exception(f"Error: {e}")
+            self.notes_error = (
+                "No se han podido guardar las observaciones. Por favor, inténtelo de nuevo."
+            )
 
     @rx.event
     async def request_terminate(self):
@@ -558,46 +619,6 @@ class RecordState(rx.State):
         self.selected_tenant = {}
         self.form_key += 1
         self.is_open = True
-
-    # @rx.event
-    # async def open_edit(self):
-    #     if not await self._require_admin():
-    #         return
-    #     occupancy = await self.get_state(OccupancyState)
-    #     room = EMPTY_ROOM
-    #     if occupancy.selected_id != "":
-    #         room = get_room(occupancy.selected_id)
-    #     if room["id"] == "":
-    #         self.notice = "Seleccione un contrato en vigor para editarlo."
-    #         return
-
-    #     self.mode = "edit"
-    #     self.editing_id = room["id"]
-    #     self.form_values = {
-    #         "rent": f"{room['rent']:.2f}",
-    #         "deposit": f"{room['deposit']:.2f}",
-    #         "lease_start": _to_input_date(room["lease_start"]),
-    #         "lease_end": _to_input_date(room["lease_end"]),
-    #         "notes": room["notes"],
-    #     }
-    #     self.selected_room_id = room["room_id"]
-    #     self.selected_room = {
-    #         "id": room["room_id"], "room": room["room"], "floor": str(room["floor"]),
-    #         "bed_type": room["bed_type"],
-    #     }
-    #     self.selected_tenant_id = room["tenant_id"]
-    #     self.selected_tenant = {
-    #         "id": room["tenant_id"], "tenant": room["tenant"], "tenant_dni": room["tenant_dni"],
-    #         "tenant_email": room["tenant_email"], "tenant_phone": room["tenant_phone"],
-    #     }
-    #     self.errors = _blank_errors()
-    #     self.form_error = ""
-    #     self.delete_target_id = ""
-    #     self.extension_target_id = ""
-    #     self.notice = ""
-    #     self.form_key += 1
-    #     self.is_open = True        
-    
 
     @rx.event
     def close_dialog(self):

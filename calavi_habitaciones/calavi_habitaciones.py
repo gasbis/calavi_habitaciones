@@ -24,8 +24,8 @@ def occupancy_page() -> rx.Component:
                     on_click=OccupancyState.show_active_view,
                     class_name=rx.cond(
                         OccupancyState.view_mode == "active",
-                        "flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white",
-                        "flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700",
+                        "flex items-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white",
+                        "flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700",
                     ),
                 ),
                 rx.el.button(
@@ -34,8 +34,8 @@ def occupancy_page() -> rx.Component:
                     on_click=OccupancyState.show_history_view,
                     class_name=rx.cond(
                         OccupancyState.view_mode == "history",
-                        "flex items-center gap-2 rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white",
-                        "flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700",
+                        "flex items-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white",
+                        "flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700",
                     ),
                 ),
                 class_name="flex flex-wrap gap-2",
@@ -48,7 +48,7 @@ def occupancy_page() -> rx.Component:
             admin_management_section(),
             class_name="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8",
         ),
-        class_name="min-h-screen w-full bg-gray-50 font-['Inter']",
+        class_name="min-h-screen w-full bg-neutral-50 font-['Inter']",
     )
 
 
@@ -70,4 +70,12 @@ app = rx.App(
         ),
     ],
 )
-app.add_page(index, route="/", on_load=OccupancyState.load)
+app.add_page(
+    index,
+    route="/",
+    title= "Calavi",
+    meta=[
+        {"name": "robots", "content": "noindex, nofollow"}
+    ],
+    on_load=OccupancyState.load,
+)

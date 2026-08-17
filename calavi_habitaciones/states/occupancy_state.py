@@ -28,8 +28,8 @@ class OccupancyState(rx.State):
     def _sync_rooms(self) -> None:
         """Reload every occupancy record from the database."""
         self.rooms = list_rooms()
-        if self.total_units < len(self.rooms):
-            self.total_units = len(self.rooms)
+        # if self.total_units < len(self.rooms):
+        #     self.total_units = len(self.rooms)
 
     # @rx.event
     # def reload_rooms(self):
@@ -94,10 +94,6 @@ class OccupancyState(rx.State):
         today = date.today()
         computed: list[Lease] = []
         for r in result:
-            result = self.occupied_lease
-        today = date.today()
-        computed: list[Lease] = []
-        for r in result:
             room = dict(r)  # copia, no tocamos el original
             try:
                 date_end = datetime.strptime(r["lease_end"], "%d-%m-%Y").date()
@@ -159,7 +155,7 @@ class OccupancyState(rx.State):
     async def show_history_view(self):
         self.view_mode = "history"
         self.selected_id = ""
-        self._sync_rooms()
+        # self._sync_rooms()
         from calavi_habitaciones.states.record_state import RecordState
 
         record_state = await self.get_state(RecordState)
