@@ -4,7 +4,7 @@ ARG PORT=8080
 ARG API_URL
 ENV PORT=$PORT API_URL=${API_URL:-http://localhost:$PORT}
 
-RUN apt-get update -y && apt-get install -y caddy && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y caddy unzip && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -38,4 +38,4 @@ STOPSIGNAL SIGKILL
 EXPOSE $PORT
 
 CMD [ -d alembic ] && reflex db migrate; \
-    caddy start && reflex run --env prod --backend-only --loglevel debug
+	caddy start && reflex run --env prod --backend-only --loglevel debug
