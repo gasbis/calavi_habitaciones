@@ -121,36 +121,6 @@ def input_field(
         class_name="flex w-full flex-col",
     )
 
-
-# def select_field(
-#     label: str, name: str, options: rx.Var[list[str]]
-# ) -> rx.Component:
-#     return rx.el.div(
-#         rx.el.label(
-#             label,
-#             html_for=f"record-{name}",
-#             class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500",
-#         ),
-#         rx.el.div(
-#             rx.el.select(
-#                 rx.foreach(options, lambda o: rx.el.option(o, value=o)),
-#                 id=f"record-{name}",
-#                 name=name,
-#                 default_value=RecordState.form_values[name],
-#                 key=f"{name}-{RecordState.form_key}",
-#                 class_name="w-full appearance-none rounded-lg border border-neutral-300 bg-white py-2 pl-3 pr-9 text-sm font-medium text-neutral-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden",
-#             ),
-#             rx.icon(
-#                 "chevron-down",
-#                 class_name="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400",
-#             ),
-#             class_name="relative mt-2 w-full",
-#         ),
-#         field_error(name),
-#         class_name="flex w-full flex-col",
-#     )
-
-
 def notes_field() -> rx.Component:
     return rx.el.div(
         rx.el.label(

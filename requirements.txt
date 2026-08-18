@@ -1,5 +1,6 @@
-reflex==0.9.8
-reflex[db]
+reflex[db]==0.9.8
+psycopg2-binary
+python-dotenv
 faker
 sqlmodel
 python-dateutil

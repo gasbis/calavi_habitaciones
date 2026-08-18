@@ -3,29 +3,6 @@ import reflex as rx
 from calavi_habitaciones.components.room_card import status_pill
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
-
-# def payment_pill(status: rx.Var[str]) -> rx.Component:
-#     return rx.el.span(
-#         status,
-#         class_name=rx.match(
-#             status,
-#             (
-#                 "Pgado",
-#                 "w-fit rounded-full border border-success-200 bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700",
-#             ),
-#             (
-#                 "Pendiente",
-#                 "w-fit rounded-full border border-warning-200 bg-warning-100 px-2.5 py-1 text-xs font-semibold text-warning-700",
-#             ),
-#             (
-#                 "Atrasado",
-#                 "w-fit rounded-full border border-danger-200 bg-danger-100 px-2.5 py-1 text-xs font-semibold text-danger-700",
-#             ),
-#             "w-fit rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700",
-#         ),
-#     )
-
-
 def section_title(icon: str, label: str) -> rx.Component:
     return rx.el.div(
         rx.icon(icon, class_name="h-4 w-4 text-brand-600"),
@@ -57,19 +34,6 @@ def contact_link(
         href=href,
         class_name="flex min-w-0 items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-neutral-900 transition-colors hover:border-brand-300 hover:text-brand-700",
     )
-
-
-# def occupant_chip(name: rx.Var[str]) -> rx.Component:
-#     return rx.el.div(
-#         rx.image(
-#             src=f"https://api.dicebear.com/9.x/notionists/svg?seed={name}",
-#             class_name="size-6 rounded-full bg-white",
-#         ),
-#         rx.el.span(
-#             name, class_name="truncate text-sm font-semibold text-neutral-900"
-#         ),
-#         class_name="flex min-w-0 items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1",
-#     )
 
 
 def contact_block() -> rx.Component:

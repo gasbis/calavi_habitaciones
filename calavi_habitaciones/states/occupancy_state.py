@@ -28,12 +28,6 @@ class OccupancyState(rx.State):
     def _sync_rooms(self) -> None:
         """Reload every occupancy record from the database."""
         self.rooms = list_rooms()
-        # if self.total_units < len(self.rooms):
-        #     self.total_units = len(self.rooms)
-
-    # @rx.event
-    # def reload_rooms(self):
-    #     self._sync_rooms()
 
     @rx.var
     def selected_room_label(self) -> str:
@@ -79,10 +73,6 @@ class OccupancyState(rx.State):
             if room["id"] == self.history_selected_id:
                 return room
         return EMPTY_ROOM
-
-    # @rx.var
-    # def has_history_selection(self) -> bool:
-    #     return self.selected_history_room["id"] != ""
 
     @rx.var
     def has_selection(self) -> bool:
@@ -155,7 +145,6 @@ class OccupancyState(rx.State):
     async def show_history_view(self):
         self.view_mode = "history"
         self.selected_id = ""
-        # self._sync_rooms()
         from calavi_habitaciones.states.record_state import RecordState
 
         record_state = await self.get_state(RecordState)
@@ -173,14 +162,6 @@ class OccupancyState(rx.State):
     @rx.event
     def clear_history_selection(self):
         self.history_selected_id = ""
-
-    # @rx.event
-    # async def set_search(self, value: str):
-    #     from calavi_habitaciones.states.auth_state import AuthState
-
-    #     auth = await self.get_state(AuthState)
-    #     if auth.is_authenticated:
-    #         self.search = value
 
     @rx.event
     async def select_room(self, room_id: str):
@@ -205,15 +186,6 @@ class OccupancyState(rx.State):
             record_state = await self.get_state(RecordState)
             record_state.extension_target_id = ""
             record_state.extension_error = ""
-
-    # @rx.event
-    # async def clear_filters(self):
-    #     from calavi_habitaciones.states.auth_state import AuthState
-
-    #     auth = await self.get_state(AuthState)
-    #     if auth.is_authenticated:
-    #         self.search = ""
-    #         self.building_filter = "All buildings"
 
     @rx.event
     async def refresh(self):

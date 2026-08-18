@@ -130,25 +130,6 @@ def _record_to_room(record: OccupancyRecord) -> Lease:
         termination_date=record.termination_date,        
     )
 
-    
-
-# def _apply_room(record: OccupancyRecord, data: Lease) -> OccupancyRecord:
-#     record.room = data["room"]["room"]
-#     record.floor = int(data["room"]["floor"])
-#     record.bed_type = data["room"]["bed_type"]
-#     record.tenant = data["tenant"]["tenant"]
-#     record.tenant_dni = data["tenant"]["tenant_dni"]
-#     record.tenant_email = data["tenant"]["tenant_email"]
-#     record.tenant_phone = data["tenant"]["tenant_phone"]
-#     record.rent = float(data["rent"])
-#     record.deposit = float(data["deposit"])
-#     record.lease_start = data["lease_start"]
-#     record.lease_end = data["lease_end"]
-#     record.notes = data["notes"]
-#     record.record_status = data["record_status"]
-#     record.termination_date = data["termination_date"]
-#     return record
-
 def _apply_occupancy(record: OccupancyRecord, data: dict) -> OccupancyRecord:
     """Aplica los datos de contrato/pago. room_id/tenant_id solo se actualizan
     si vienen informados en `data` (permite reutilizar en extend/terminate,
@@ -250,31 +231,6 @@ def get_tenant_record(tenant_id: str) -> dict[str, str]:
     except Exception as e:
         logging.exception(f"Error: {e}")
         return {}
-
-# def list_room_records() -> list[dict[str, str]]:
-#     try:
-#         with rx.session() as session:
-#             records = session.exec(
-#                 sqlmodel.select(RoomRecord).order_by(RoomRecord.room)
-#             ).all()
-#             return [
-#                 {"id": str(r.id), "room": r.room, "floor": str(r.floor), "bed_type": r.bed_type}
-#                 for r in records
-#             ]
-#     except Exception as e:
-#         logging.exception(f"Error: {e}")
-#         return []
-    
-# def list_tenant_records() -> list[dict[str, str]]:
-#     try:
-#         with rx.session() as session:
-#             records = session.exec(
-#                 sqlmodel.select(TenantRecord).order_by(TenantRecord.tenant)
-#             ).all()
-#             return [{"id": str(r.id), "tenant": r.tenant} for r in records]
-#     except Exception as e:
-#         logging.exception(f"Error: {e}")
-#         return []
     
 def room_number_exists(room: str, exclude_id: str = "") -> bool:
     """Comprueba duplicados sobre RoomRecord, no sobre OccupancyRecord."""
@@ -473,8 +429,8 @@ def list_rooms() -> list[Lease]:
 #                 for record in records
 #             )
 #     except Exception as e:
-        logging.exception(f"Error: {e}")
-        return False
+        # logging.exception(f"Error: {e}")
+        # return False
 
 
 def create_room(data: Lease) -> str:

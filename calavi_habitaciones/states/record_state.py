@@ -70,7 +70,6 @@ class RecordState(rx.State):
     termination_notice: str = ""
     extension_target_id: str = ""
     extension_error: str = ""
-    # extension_notice: str = ""
     notes_target_id: str = ""
     notes_error: str = ""
     notes_notice: str = ""
@@ -81,13 +80,9 @@ class RecordState(rx.State):
     change_room_error: str = ""
     change_room_notice: str = ""
     bed_type_options: list[str] = _BED_TYPES
-    #room_options: list[dict[str, str]] = []
-    #tenant_options: list[dict[str, str]] = []
     selected_room_id: str = ""   # "" => crear habitación nueva
     selected_tenant_id: str = ""  # "" => crear inquilino nuevo
-    #selected_room_id: str = ""
     selected_room: dict[str, str] = {}
-    #selected_tenant_id: str = ""
     selected_tenant: dict[str, str] = {}
 
     room_subform_open: bool = False
@@ -189,10 +184,6 @@ class RecordState(rx.State):
     @rx.event
     def set_room_subform_bed_type(self, value: str):
         self.room_subform_bed_type = value
-
-    # @rx.event
-    # def set_room_subform_status(self, value: str):
-    #     self.room_subform_status = value
 
     @rx.event
     def confirm_room_subform(self):
@@ -371,7 +362,6 @@ class RecordState(rx.State):
             self.notes_target_id = ""
             self.notes_error = ""
             self.notes_notice = f"Las observaciones de la habitación {room['room']} se han editado."
-            # self.notice = self.notes_notice
             yield rx.toast(self.notes_notice, duration=3000)
         except ValueError:
             self.notes_error = "Ingrese una fecha válida."
