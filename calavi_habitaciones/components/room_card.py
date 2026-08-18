@@ -109,8 +109,8 @@ def room_card(item: Lease) -> rx.Component:
         type="button",
         class_name=rx.cond(
             OccupancyState.selected_id == item["id"],
-            "flex w-full cursor-pointer flex-col rounded-xl border-2 border-brand-500 bg-white p-5 text-left ring-2 ring-brand-100 transition-colors outline-hidden",
-            "flex w-full cursor-pointer flex-col rounded-xl border-2 border-neutral-200 bg-white p-5 text-left transition-colors hover:border-brand-300 focus-visible:border-brand-500 outline-hidden",
+            "flex w-full cursor-pointer flex-col rounded-xl border-2 border-brand-500 bg-neutral-100 p-5 text-left ring-2 ring-brand-100 transition-colors outline-hidden",
+            "flex w-full cursor-pointer flex-col rounded-xl border-2 border-neutral-200 bg-neutral-100 p-5 text-left transition-colors hover:border-brand-300 focus-visible:border-brand-500 outline-hidden",
         ),
     )
 
@@ -132,5 +132,5 @@ def room_card_skeleton() -> rx.Component:
             rx.el.div(class_name="h-3 w-2/3 rounded bg-neutral-100"),
             class_name="mt-4 flex flex-col gap-3",
         ),
-        class_name="w-full animate-pulse rounded-xl border border-neutral-200 bg-white p-5",
+        class_name="w-full animate-pulse rounded-xl border border-neutral-200 bg-neutral-100 p-5",
     )

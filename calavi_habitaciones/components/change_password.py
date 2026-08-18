@@ -9,7 +9,7 @@ def change_password_trigger() -> rx.Component:
         rx.el.span("Cambiar contraseña"),
         type="button",
         on_click=AuthState.open_change_password,
-        class_name="flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",
+        class_name="flex items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",
     )
 
 
@@ -63,14 +63,14 @@ def change_password_dialog() -> rx.Component:
                         class_name="flex flex-col gap-4 px-5 py-4",
                     ),
                     rx.el.div(
-                        rx.el.button("Cancelar", type="button", on_click=AuthState.close_change_password, class_name="rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"),
+                        rx.el.button("Cancelar", type="button", on_click=AuthState.close_change_password, class_name="rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"),
                         rx.el.button("Guardar contraseña", type="submit", class_name="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"),
                         class_name="flex items-center justify-end gap-3 border-t border-neutral-200 px-5 py-3",
                     ),
                     on_submit=AuthState.submit_change_password,
                     reset_on_submit=False,
                 ),
-                class_name="w-full max-w-md rounded-xl border border-neutral-200 bg-white",
+                class_name="w-full max-w-md rounded-xl border border-neutral-200 bg-neutral-100",
             ),
             class_name="fixed inset-0 z-60 flex items-center justify-center bg-neutral-900/50 p-4",
         ),

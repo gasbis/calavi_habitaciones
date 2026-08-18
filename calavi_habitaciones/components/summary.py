@@ -22,7 +22,7 @@ def stat_card(
             class_name="mt-3 text-2xl font-semibold tracking-tight text-neutral-900",
         ),
         rx.el.p(hint, class_name="mt-1 text-sm font-medium text-neutral-500"),
-        class_name="w-full rounded-xl border border-neutral-200 bg-white p-5",
+        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
     )
 
 
@@ -50,7 +50,7 @@ def occupancy_bar() -> rx.Component:
             f"{OccupancyState.occupied_count} de {OccupancyState.total_units} unidades alquiladas actualmente ",
             class_name="mt-2 text-sm font-medium text-neutral-500",
         ),
-        class_name="w-full rounded-xl border border-neutral-200 bg-white p-5",
+        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
     )
 
 

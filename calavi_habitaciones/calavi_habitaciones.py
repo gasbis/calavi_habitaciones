@@ -25,7 +25,7 @@ def occupancy_page() -> rx.Component:
                     class_name=rx.cond(
                         OccupancyState.view_mode == "active",
                         "flex items-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white",
-                        "flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700",
+                        "flex items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700",
                     ),
                 ),
                 rx.el.button(
@@ -35,7 +35,7 @@ def occupancy_page() -> rx.Component:
                     class_name=rx.cond(
                         OccupancyState.view_mode == "history",
                         "flex items-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white",
-                        "flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700",
+                        "flex items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700",
                     ),
                 ),
                 class_name="flex flex-wrap gap-2",

@@ -31,7 +31,7 @@ def page_header() -> rx.Component:
                             "Conectado",
                             class_name="text-xs font-semibold text-neutral-600",
                         ),
-                        class_name="flex w-fit items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-2.5 py-1",
+                        class_name="flex w-fit items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1",
                     ),
                     rx.image(
                         src="https://api.dicebear.com/9.x/notionists/svg?seed=manager@occupancy.app",
@@ -53,7 +53,7 @@ def page_header() -> rx.Component:
                         rx.icon("log-out", class_name="h-4 w-4"),
                         rx.el.span("Desconectar", class_name="hidden sm:inline"),
                         on_click=AuthState.logout,
-                        class_name="flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900",
+                        class_name="flex items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-100 px-2.5 py-1.5 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900",
                     ),
                     class_name="flex items-center gap-3",
                 ),
@@ -84,7 +84,7 @@ def page_title() -> rx.Component:
                 f"{OccupancyState.occupied_count} ocupadas",
                 class_name="text-sm font-semibold text-neutral-700",
             ),
-            class_name="flex w-fit items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2",
+            class_name="flex w-fit items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-100 px-3 py-2",
         ),
         class_name="flex w-full flex-col gap-4 md:flex-row md:items-end md:justify-between",
     )

@@ -38,8 +38,8 @@ def history_card(item: Lease) -> rx.Component:
         type="button",
         class_name=rx.cond(
             OccupancyState.history_selected_id == item["id"],
-            "flex w-full flex-col rounded-xl border-2 border-brand-500 bg-white p-5 text-left ring-2 ring-brand-100",
-            "flex w-full flex-col rounded-xl border border-neutral-200 bg-white p-5 text-left transition-colors hover:border-brand-300",
+            "flex w-full flex-col rounded-xl border-2 border-brand-500 bg-neutral-100 p-5 text-left ring-2 ring-brand-100",
+            "flex w-full flex-col rounded-xl border border-neutral-200 bg-neutral-100 p-5 text-left transition-colors hover:border-brand-300",
         ),
     )
 
@@ -113,7 +113,7 @@ def history_detail() -> rx.Component:
                 ),
                 class_name="p-5",
             ),
-            class_name="w-full overflow-hidden rounded-xl border border-neutral-200 bg-white",
+            class_name="w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100",
         ),
         class_name="w-full shrink-0 lg:w-96",
     )
@@ -145,7 +145,7 @@ def history_view() -> rx.Component:
                     placeholder="Buscar por habitación, inquilino...",
                     default_value=OccupancyState.history_search,
                     on_change=OccupancyState.set_history_search.debounce(300),
-                    class_name="w-full rounded-lg border border-neutral-300 bg-white py-2 pl-9 pr-3 text-sm outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",
+                    class_name="w-full rounded-lg border border-neutral-300 bg-neutral-100 py-2 pl-9 pr-3 text-sm outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",
                 ),
                 class_name="relative w-full lg:w-80",
             ),
@@ -172,5 +172,5 @@ def history_view() -> rx.Component:
                 class_name="flex flex-col items-center px-6 py-16",
             ),
         ),
-        class_name="w-full rounded-xl border border-neutral-200 bg-white",
+        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100",
     )

@@ -110,7 +110,7 @@ def detail_header() -> rx.Component:
             rx.icon("x", class_name="h-4 w-4"),
             on_click=OccupancyState.clear_selection,
             aria_label="Close tenant details",
-            class_name="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-white text-neutral-500 transition-colors hover:bg-neutral-50 hover:text-neutral-900",
+            class_name="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-500 transition-colors hover:bg-neutral-50 hover:text-neutral-900",
         ),
         class_name="flex items-start justify-between gap-3",
     )
@@ -179,7 +179,7 @@ def tenant_detail_panel() -> rx.Component:
                 rx.el.div(detail_content(), class_name="p-5"),
                 detail_empty(),
             ),
-            class_name="w-full overflow-hidden rounded-xl border border-neutral-200 bg-white",
+            class_name="w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100",
         ),
         class_name="w-full shrink-0 lg:sticky lg:top-20 lg:w-[22rem] xl:w-96",
     )

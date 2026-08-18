@@ -24,7 +24,7 @@ def toolbar() -> rx.Component:
                 rx.el.span("Refrescar", class_name="hidden sm:inline"),
                 on_click=OccupancyState.refresh,
                 disabled=OccupancyState.is_loading,
-                class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 sm:w-auto",
+                class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 sm:w-auto",
             ),
             class_name="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end lg:w-auto",
         ),
@@ -42,7 +42,7 @@ def empty_state() -> rx.Component:
             "Ninguna habitación ocupada actualmente",
             class_name="mt-4 text-base font-semibold text-neutral-900",
         ),
-        class_name="flex w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-white px-6 py-16",
+        class_name="flex w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 px-6 py-16",
     )
 
 
