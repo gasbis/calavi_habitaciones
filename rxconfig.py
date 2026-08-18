@@ -21,6 +21,7 @@ tailwind_config = {
 
 config = rx.Config(
     app_name="calavi_habitaciones",
+    show_built_with_reflex=False,
     db_url=os.environ.get("DATABASE_URL"),
     plugins=[
         rx.plugins.SitemapPlugin(),
