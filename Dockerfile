@@ -9,7 +9,7 @@ COPY Caddyfile .
 COPY . .
 RUN pip install -r requirements.txt
 RUN reflex init
-RUN reflex export --frontend-only --no-zip && mv .web/_static/* /srv/ && rm -rf .web
+RUN reflex export --frontend-only --no-zip && mv .web/build/client/* /srv/ && rm -rf .web
 STOPSIGNAL SIGKILL
 EXPOSE $PORT
 CMD [ -d alembic ] && reflex db migrate; \
