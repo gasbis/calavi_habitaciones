@@ -220,7 +220,7 @@ def admin_management_section() -> rx.Component:
                             "Acceso",
                             class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 sm:px-5",
                         ),
-                        #class_name="bg-neutral-50",
+                        class_name="bg-neutral-50",
                     ),
                 ),
                 rx.el.tbody(
@@ -231,5 +231,5 @@ def admin_management_section() -> rx.Component:
             class_name="overflow-x-auto",
         ),
         new_admin_dialog(),
-        class_name="w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100",
+        class_name="w-full overflow-hidden rounded-xl border border-neutral-200 bg-admin-400",
     )
