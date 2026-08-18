@@ -3,7 +3,7 @@ FROM python:3.12-slim
 ARG PORT=8080
 ARG API_URL
 ENV PORT=$PORT API_URL=${API_URL:-http://localhost:$PORT}
-RUN apt-get update -y && apt-get install -y caddy unzip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y caddy unzip curl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY Caddyfile .
 COPY . .
