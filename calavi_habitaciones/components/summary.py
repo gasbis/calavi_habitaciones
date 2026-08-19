@@ -3,7 +3,7 @@ import reflex as rx
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
 def stat_card(
-    label: str, value: rx.Var | str, icon: str, hint: rx.Var | str
+    label: str, value: rx.Var | str, icon: str, hint: rx.Var | str , red_color: bool=False
 ) -> rx.Component:
     return rx.el.div(
         rx.el.div(
@@ -19,7 +19,12 @@ def stat_card(
         ),
         rx.el.p(
             value,
-            class_name="mt-3 text-2xl font-semibold tracking-tight text-neutral-900",
+            class_name=rx.cond(
+                red_color,
+                "mt-3 text-2xl font-semibold tracking-tight text-danger-600",
+                "mt-3 text-2xl font-semibold tracking-tight text-neutral-900",
+            ),
+            
         ),
         rx.el.p(hint, class_name="mt-1 text-sm font-medium text-neutral-500"),
         class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
@@ -74,6 +79,11 @@ def summary_section() -> rx.Component:
                 OccupancyState.attention_count.to_string(),
                 "triangle-alert",
                 "Contratos vencidos o finalizando",
+                rx.cond(
+                    OccupancyState.attention_count > 0,
+                    True,
+                    False,
+                ),
             ),
             class_name="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3",
         ),

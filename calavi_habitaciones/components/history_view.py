@@ -161,12 +161,12 @@ def history_view() -> rx.Component:
                     class_name="grid grid-cols-1 gap-4 md:grid-cols-2",
                 ),
                 history_detail(),
-                class_name="flex flex-col gap-5 lg:flex-row",
+                class_name="flex flex-col gap-5 lg:flex-row px-5 py-5",
             ),
             rx.el.div(
                 rx.icon("archive-x", class_name="h-6 w-6 text-neutral-400"),
                 rx.el.p(
-                    "No terminated records match your search.",
+                    "Ninguna coincidencia entre los contratos finalizados.",
                     class_name="mt-3 text-sm font-semibold text-neutral-900",
                 ),
                 class_name="flex flex-col items-center px-6 py-16",

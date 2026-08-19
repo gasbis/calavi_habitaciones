@@ -3,13 +3,13 @@ import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import {DynamicIcon} from "lucide-react/dynamic.mjs"
 import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
 
@@ -208,6 +208,16 @@ export const Bare_comp_77bfd731c82a061b51066830280b4155_81e687a6 = memo(({childr
 
     return(
         (JSON.stringify(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_))
+    )
+});
+
+export const P_p_52f7bed51acbc07b5637d9f54fa4e23e_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        jsx("p",{className:(((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? true : false) ? "mt-3 text-2xl font-semibold tracking-tight text-danger-600" : "mt-3 text-2xl font-semibold tracking-tight text-neutral-900")},children)
     )
 });
 

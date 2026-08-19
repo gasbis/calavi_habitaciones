@@ -45,11 +45,24 @@ class OccupancyState(rx.State):
 
     @rx.var
     def occupied_lease(self) -> list[Lease]:
-        return [r for r in self.rooms if r["record_status"] != _RECORD_STATUSES[3]]
+        return sorted(
+            [r for r in self.rooms if r["record_status"] != _RECORD_STATUSES[3]],
+            key=lambda r: int(r["room"]),
+        )
 
     @rx.var
     def terminated_lease(self) -> list[Lease]:
-        return [r for r in self.rooms if r["record_status"] == _RECORD_STATUSES[3]]
+        def termination_sort_key(r: Lease):
+            try:
+                return datetime.strptime(r["termination_date"], _DISPLAY_FORMAT).date()
+            except ValueError:
+                return date.min
+
+        return sorted(
+            [r for r in self.rooms if r["record_status"] == _RECORD_STATUSES[3]],
+            key=termination_sort_key,
+            reverse=True,
+        )
 
     @rx.var
     def terminated_count(self) -> int:
