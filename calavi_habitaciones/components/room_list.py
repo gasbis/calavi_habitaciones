@@ -64,7 +64,7 @@ def rooms_grid() -> rx.Component:
                 OccupancyState.filtered_rooms,
                 lambda item: room_card(item),
             ),
-            class_name="grid grid-cols-1 gap-4 md:grid-cols-2",
+            class_name="grid grid-cols-1 gap-4 md:grid-cols-3",
         ),
         empty_state(),
     )

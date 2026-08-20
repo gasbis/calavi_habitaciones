@@ -139,6 +139,11 @@ class OccupancyState(rx.State):
         computed: list[Lease] = []
         for r in result:
             room = dict(r)  # copia, no tocamos el original
+            # Presentamos solo el nombre propio
+            if room["tenant"].count(' ') > 2:
+                room["tenant"] = " ".join(room["tenant"].split()[:2])
+            else:
+                room["tenant"] = room["tenant"].split()[0]
             try:
                 date_end = datetime.strptime(r["lease_end"], _DISPLAY_FORMAT).date()
             except ValueError:
