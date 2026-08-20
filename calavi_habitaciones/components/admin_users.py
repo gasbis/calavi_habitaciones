@@ -206,21 +206,21 @@ def admin_management_section() -> rx.Component:
                     rx.el.tr(
                         rx.el.th(
                             "Administrador",
-                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 sm:px-5",
+                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-700 sm:px-5",
                         ),
                         rx.el.th(
                             "Rol",
-                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 sm:px-5",
+                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-700 sm:px-5",
                         ),
                         rx.el.th(
                             "Estado",
-                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 sm:px-5",
+                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-700 sm:px-5",
                         ),
                         rx.el.th(
                             "Acceso",
-                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 sm:px-5",
+                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-700 sm:px-5",
                         ),
-                        class_name="bg-neutral-50",
+                        class_name="bg-neutral-100",
                     ),
                 ),
                 rx.el.tbody(
