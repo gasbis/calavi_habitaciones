@@ -1,20 +1,30 @@
 import asyncio
-from datetime import date, timedelta, datetime
+from datetime import date, datetime
 from calavi_habitaciones.models import format_eur
 from calavi_habitaciones.models import _DISPLAY_FORMAT
 
 
 import reflex as rx
+from typing import TypedDict
 
 from calavi_habitaciones.models import (
     _RECORD_STATUSES,
     EMPTY_ROOM,
     Lease,
     list_rooms,
+    list_room_records,
+    business_start_date,
+    total_occupancy_days_by_room,
+    yearly_occupancy_days_by_room,
 )
 
 __all__ = ["EMPTY_ROOM", "OccupancyState", "Lease"]
 
+class RoomOccupancy(TypedDict):
+    id: str
+    room: str
+    pct_year: int
+    pct_total: int
 
 class OccupancyState(rx.State):
     rooms: list[Lease] = []
@@ -24,10 +34,41 @@ class OccupancyState(rx.State):
     view_mode: str = "active"
     history_search: str = ""
     history_selected_id: str = ""
+    all_rooms: list[dict[str, str]] = []
+    room_occupancy_days_year: dict[str, int] = {}
+    room_occupancy_days_total: dict[str, int] = {}
+    business_days_elapsed: int = 1
 
     def _sync_rooms(self) -> None:
-        """Reload every occupancy record from the database."""
         self.rooms = list_rooms()
+        self.all_rooms = list_room_records()
+        self.room_occupancy_days_year = yearly_occupancy_days_by_room()
+
+        start = business_start_date()
+        if start:
+            self.business_days_elapsed = (date.today() - start).days + 1
+            self.room_occupancy_days_total = total_occupancy_days_by_room(start)
+        else:
+            self.business_days_elapsed = 1
+            self.room_occupancy_days_total = {}
+
+    @rx.var
+    def rooms_occupancy_panel(self) -> list[RoomOccupancy]:
+        today = date.today()
+        days_elapsed_year = (today - date(today.year, 1, 1)).days + 1
+        result = []
+        for room in self.all_rooms:
+            occ_year = self.room_occupancy_days_year.get(room["id"], 0)
+            occ_total = self.room_occupancy_days_total.get(room["id"], 0)
+            result.append(
+                RoomOccupancy(
+                    id=room["id"],
+                    room=room["room"],
+                    pct_year=round(occ_year / days_elapsed_year * 100) if days_elapsed_year else 0,
+                    pct_total=round(occ_total / self.business_days_elapsed * 100) if self.business_days_elapsed else 0,
+                )
+            )
+        return sorted(result, key=lambda r: int(r["room"]))
 
     @rx.var
     def selected_room_label(self) -> str:
@@ -99,7 +140,7 @@ class OccupancyState(rx.State):
         for r in result:
             room = dict(r)  # copia, no tocamos el original
             try:
-                date_end = datetime.strptime(r["lease_end"], "%d-%m-%Y").date()
+                date_end = datetime.strptime(r["lease_end"], _DISPLAY_FORMAT).date()
             except ValueError:
                 computed.append(room)
                 continue

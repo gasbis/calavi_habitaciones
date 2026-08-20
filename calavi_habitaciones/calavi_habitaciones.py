@@ -9,6 +9,7 @@ from calavi_habitaciones.components.room_list import room_list_section
 from calavi_habitaciones.components.summary import summary_section
 from calavi_habitaciones.states.auth_state import AuthState
 from calavi_habitaciones.states.occupancy_state import OccupancyState
+from calavi_habitaciones.components.rooms_occupancy import rooms_occupancy_section
 
 
 def occupancy_page() -> rx.Component:
@@ -17,6 +18,7 @@ def occupancy_page() -> rx.Component:
         rx.el.div(
             page_title(),
             summary_section(),
+            rooms_occupancy_section(),
             rx.el.div(
                 rx.el.button(
                     rx.icon("layout-grid", class_name="h-4 w-4"),

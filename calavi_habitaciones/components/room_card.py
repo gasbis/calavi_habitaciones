@@ -25,7 +25,7 @@ def status_pill(rec_status: rx.Var[str]) -> rx.Component:
         ),
     )
 
-
+   
 def meta_row(icon: str, label: str, value: rx.Var | str) -> rx.Component:
     return rx.el.div(
         rx.el.div(
@@ -58,6 +58,7 @@ def room_card(item: Lease) -> rx.Component:
             status_pill(item["record_status"]),
             class_name="flex items-start justify-between gap-3",
         ),
+        
         rx.el.div(
             rx.image(
                 src=f"https://api.dicebear.com/9.x/notionists/svg?seed={item['tenant_email']}",

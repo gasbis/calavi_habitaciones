@@ -6,6 +6,7 @@ from typing import TypedDict
 import reflex as rx
 import sqlmodel
 from calavi_habitaciones.utils.formatting import format_eur
+from datetime import date, datetime
 
 
 class Lease(TypedDict):
@@ -147,6 +148,67 @@ def _apply_occupancy(record: OccupancyRecord, data: dict) -> OccupancyRecord:
     record.termination_date = data["termination_date"]
     return record
 
+def _occupancy_days_by_room(period_start: date, period_end: date) -> dict[str, int]:
+    """Para cada room_id, suma los días de ocupación (cualquier contrato,
+    activo o rescindido) que solapan con el periodo [period_start, period_end]."""
+    try:
+        totals: dict[str, int] = {}
+        with rx.session() as session:
+            records = session.exec(sqlmodel.select(OccupancyRecord)).all()
+            for r in records:
+                try:
+                    lease_start = datetime.strptime(r.lease_start, _DISPLAY_FORMAT).date()
+                except ValueError:
+                    continue
+
+                if r.record_status == _RECORD_STATUSES[3] and r.termination_date:
+                    try:
+                        effective_end = datetime.strptime(r.termination_date, _DISPLAY_FORMAT).date()
+                    except ValueError:
+                        continue
+                else:
+                    try:
+                        effective_end = datetime.strptime(r.lease_end, _DISPLAY_FORMAT).date()
+                    except ValueError:
+                        continue
+
+                start = max(lease_start, period_start)
+                end = min(effective_end, period_end)
+                days = max((end - start).days + 1, 0)
+                key = str(r.room_id)
+                totals[key] = totals.get(key, 0) + days
+        return totals
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return {}
+
+
+def yearly_occupancy_days_by_room() -> dict[str, int]:
+    today = date.today()
+    return _occupancy_days_by_room(date(today.year, 1, 1), today)
+
+
+def business_start_date() -> date | None:
+    """Fecha del contrato más antiguo registrado, o None si no hay ninguno."""
+    try:
+        with rx.session() as session:
+            records = session.exec(sqlmodel.select(OccupancyRecord)).all()
+            dates = []
+            for r in records:
+                try:
+                    dates.append(datetime.strptime(r.lease_start, _DISPLAY_FORMAT).date())
+                except ValueError:
+                    continue
+            return min(dates) if dates else None
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return None
+
+
+def total_occupancy_days_by_room(since: date) -> dict[str, int]:
+    return _occupancy_days_by_room(since, date.today())
+
+
 def list_available_rooms(exclude_room_id: str = "") -> list[dict[str, str]]:
     try:
         with rx.session() as session:
@@ -173,7 +235,20 @@ def list_available_rooms(exclude_room_id: str = "") -> list[dict[str, str]]:
     except Exception as e:
         logging.exception(f"Error: {e}")
         return []
-
+    
+def list_room_records() -> list[dict[str, str]]:
+    try:
+        with rx.session() as session:
+            records = session.exec(
+                sqlmodel.select(RoomRecord).order_by(RoomRecord.room)
+            ).all()
+            return [
+                {"id": str(r.id), "room": r.room, "floor": str(r.floor), "bed_type": r.bed_type}
+                for r in records
+            ]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
 
 def list_available_tenants(exclude_tenant_id: str = "") -> list[dict[str, str]]:
     try:
@@ -413,25 +488,6 @@ def list_rooms() -> list[Lease]:
     except Exception as e:
         logging.exception(f"Error: {e}")
         return []
-
-
-# def room_exists(room: str, exclude_id: str = "") -> bool:
-#     try:
-#         exclude_pk = _record_pk(exclude_id) if exclude_id else -1
-#         with rx.session() as session:
-#             records = session.exec(
-#                 sqlmodel.select(OccupancyRecord).where(
-#                     True
-#                 )
-#             ).all()
-#             return any(
-#                 record.room.room.lower() == room.lower() and record.id != exclude_pk
-#                 for record in records
-#             )
-#     except Exception as e:
-        # logging.exception(f"Error: {e}")
-        # return False
-
 
 def create_room(data: Lease) -> str:
     try:

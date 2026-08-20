@@ -3,12 +3,12 @@ import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
@@ -248,6 +248,16 @@ export const Bare_comp_c7d1bc5d520946c3f85de8151f0c9bce_81e687a6 = memo(({childr
 
     return(
         (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupied_count_rx_state_+" de "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.total_units_rx_state_+" unidades alquiladas actualmente ")
+    )
+});
+
+export const Foreach_comp_54f690a0d66dbe33f30d9518ef19e678_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rooms_occupancy_panel_rx_state_ ?? [],((item_rx_state_,index_1d435a620271e554c149ef14262981d5)=>(jsx("div",{className:"w-full rounded-xl border border-neutral-200 bg-neutral-100 p-2",key:index_1d435a620271e554c149ef14262981d5},jsx("p",{className:"text-sm font-semibold text-neutral-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])),jsx("div",{className:"mt-4 flex items-center justify-around"},jsx("div",{className:"flex flex-col items-center"},jsx("div",{css:({ ["width"] : "50px", ["height"] : "50px", ["borderRadius"] : "9999px", ["background"] : ("conic-gradient(#cb5d4d "+((item_rx_state_?.["pct_year"] / 100) * 100)+"%, #e2f0f3 0)"), ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["flexShrink"] : "0", ["position"] : "relative" }),title:"Ocupaci\u00f3n del a\u00f1o en curso"},jsx("div",{css:({ ["width"] : "36px", ["height"] : "36px", ["borderRadius"] : "9999px", ["backgroundColor"] : "#bcdce3" })},),jsx("span",{className:"absolute inset-0 flex items-center justify-center text-[10px] font-semibold text-neutral-700"},(item_rx_state_?.["pct_year"]+"%"))),jsx("span",{className:"mt-2 text-xs font-medium text-neutral-500"},"A\u00f1o en curso")),jsx("div",{className:"flex flex-col items-center"},jsx("div",{css:({ ["width"] : "50px", ["height"] : "50px", ["borderRadius"] : "9999px", ["background"] : ("conic-gradient(#cb5d4d "+((item_rx_state_?.["pct_total"] / 100) * 100)+"%, #e2f0f3 0)"), ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["flexShrink"] : "0", ["position"] : "relative" }),title:"Ocupaci\u00f3n desde el inicio del negocio"},jsx("div",{css:({ ["width"] : "36px", ["height"] : "36px", ["borderRadius"] : "9999px", ["backgroundColor"] : "#bcdce3" })},),jsx("span",{className:"absolute inset-0 flex items-center justify-center text-[10px] font-semibold text-neutral-700"},(item_rx_state_?.["pct_total"]+"%"))),jsx("span",{className:"mt-2 text-xs font-medium text-neutral-500"},"Hist\u00f3rico")))))))
     )
 });
 
