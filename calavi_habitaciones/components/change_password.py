@@ -11,7 +11,7 @@ def change_password_trigger() -> rx.Component:
         rx.el.span("Cambiar contraseña"),
         type="button",
         on_click=AuthState.open_change_password,
-        class_name="flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",
+        class_name="flex items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",
     )
 
 

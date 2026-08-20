@@ -5,12 +5,12 @@ import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {jsx} from "@emotion/react"
 import {Dialog as RadixThemesDialog} from "@radix-ui/themes"
 import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import {DynamicIcon} from "lucide-react/dynamic.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import {Link as ReactRouterLink} from "react-router"
 
 
@@ -40,13 +40,13 @@ export const Bare_comp_df0c08eb96d32ede689f6eaf2fe1b2d9_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_b0abf5e14a783e33e1093c8d78576730_81e687a6 = memo(({children}) => {
+export const Button_button_2083d082018306712568cad6991c6152_81e687a6 = memo(({children}) => {
     const on_click_60a0911a6b5726023958bd3163e142bd = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.open_change_password", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
 
 
     return(
-        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_60a0911a6b5726023958bd3163e142bd,type:"button"},children)
+        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_60a0911a6b5726023958bd3163e142bd,type:"button"},children)
     )
 });
 
