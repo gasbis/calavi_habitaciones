@@ -7,6 +7,7 @@ from calavi_habitaciones.components.history_view import history_view
 from calavi_habitaciones.components.record_manager import record_manager_section
 from calavi_habitaciones.components.room_list import room_list_section
 from calavi_habitaciones.components.summary import summary_section
+from calavi_habitaciones.components.record_form import record_dialog, room_subform_dialog, tenant_subform_dialog
 from calavi_habitaciones.states.auth_state import AuthState
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.components.rooms_occupancy import rooms_occupancy_section
@@ -44,7 +45,13 @@ def occupancy_page() -> rx.Component:
             ),
             rx.cond(
                 OccupancyState.view_mode == "active",
-                rx.fragment(record_manager_section(), room_list_section()),
+                rx.fragment(
+                    record_manager_section(),
+                    room_list_section(),
+                    record_dialog(),
+                    room_subform_dialog(),
+                    tenant_subform_dialog(),
+                    ),
                 history_view(),
             ),
             admin_management_section(),

@@ -68,77 +68,77 @@ def admin_user_row(item: AdminDirectoryEntry) -> rx.Component:
     )
 
 def new_admin_dialog() -> rx.Component:
-    return rx.cond(
-        AuthState.new_admin_open,
-        rx.el.div(
+    return rx.dialog.root(
+        rx.dialog.content(
             rx.el.div(
-                rx.el.div(
-                    rx.el.h3("Nuevo administrador", class_name="text-base font-semibold text-neutral-900"),
+                rx.dialog.title("Nuevo administrador", class_name="text-base font-semibold text-neutral-900"),
+                rx.dialog.close(
                     rx.el.button(
                         rx.icon("x", class_name="h-4 w-4"),
                         type="button",
-                        on_click=AuthState.close_new_admin,
                         class_name="flex h-7 w-7 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 hover:bg-neutral-50",
                     ),
-                    class_name="flex items-center justify-between border-b border-neutral-200 px-5 py-3",
                 ),
-                rx.el.form(
+                class_name="flex items-center justify-between border-b border-neutral-200 px-5 py-3",
+            ),
+            rx.el.form(
+                rx.el.div(
                     rx.el.div(
-                        rx.el.div(
-                            rx.el.label("Correo electrónico", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(name="email", type="email", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
-                            rx.cond(
-                                AuthState.new_admin_email_error != "",
-                                rx.el.p(AuthState.new_admin_email_error, class_name="mt-1.5 text-xs font-medium text-danger-600"),
-                                rx.el.div(),
-                            ),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Nombre", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(name="name", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Rol", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(name="role", placeholder="Gestor, Propietaria...", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Contraseña", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(name="password", type="password", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Confirmar contraseña", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(name="confirm_password", type="password", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
-                            rx.cond(
-                                AuthState.new_admin_password_error != "",
-                                rx.el.p(AuthState.new_admin_password_error, class_name="mt-1.5 text-xs font-medium text-danger-600"),
-                                rx.el.div(),
-                            ),
-                            class_name="flex flex-col",
-                        ),
+                        rx.el.label("Correo electrónico", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(name="email", type="email", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
                         rx.cond(
-                            AuthState.new_admin_error != "",
-                            rx.el.p(AuthState.new_admin_error, class_name="text-sm font-medium text-danger-700"),
+                            AuthState.new_admin_email_error != "",
+                            rx.el.p(AuthState.new_admin_email_error, class_name="mt-1.5 text-xs font-medium text-danger-600"),
                             rx.el.div(),
                         ),
-                        class_name="flex flex-col gap-4 px-5 py-4",
+                        class_name="flex flex-col",
                     ),
                     rx.el.div(
-                        rx.el.button("Cancelar", type="button", on_click=AuthState.close_new_admin, class_name="rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"),
-                        rx.el.button("Crear administrador", type="submit", class_name="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"),
-                        class_name="flex items-center justify-end gap-3 border-t border-neutral-200 px-5 py-3",
+                        rx.el.label("Nombre", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(name="name", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
+                        class_name="flex flex-col",
                     ),
-                    on_submit=AuthState.create_admin,
-                    reset_on_submit=False,
+                    rx.el.div(
+                        rx.el.label("Rol", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(name="role", placeholder="Gestor, Propietaria...", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
+                        class_name="flex flex-col",
+                    ),
+                    rx.el.div(
+                        rx.el.label("Contraseña", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(name="password", type="password", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
+                        class_name="flex flex-col",
+                    ),
+                    rx.el.div(
+                        rx.el.label("Confirmar contraseña", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(name="confirm_password", type="password", class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden"),
+                        rx.cond(
+                            AuthState.new_admin_password_error != "",
+                            rx.el.p(AuthState.new_admin_password_error, class_name="mt-1.5 text-xs font-medium text-danger-600"),
+                            rx.el.div(),
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    rx.cond(
+                        AuthState.new_admin_error != "",
+                        rx.el.p(AuthState.new_admin_error, class_name="text-sm font-medium text-danger-700"),
+                        rx.el.div(),
+                    ),
+                    class_name="flex flex-col gap-4 px-5 py-4",
                 ),
-                class_name="w-full max-w-md rounded-xl border border-neutral-200 bg-neutral-100",
+                rx.el.div(
+                    rx.dialog.close(
+                        rx.el.button("Cancelar", type="button", class_name="rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"),
+                    ),
+                    rx.el.button("Crear administrador", type="submit", class_name="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"),
+                    class_name="flex items-center justify-end gap-3 border-t border-neutral-200 px-5 py-3",
+                ),
+                on_submit=AuthState.create_admin,
+                reset_on_submit=False,
             ),
-            class_name="fixed inset-0 z-60 flex items-center justify-center bg-neutral-900/50 p-4",
+            class_name="w-full max-w-md rounded-xl border border-neutral-200 bg-white p-0",
         ),
-        rx.el.div(),
+        open=AuthState.new_admin_open,
+        on_open_change=AuthState.set_new_admin_open,
     )
 
 def admin_management_section() -> rx.Component:

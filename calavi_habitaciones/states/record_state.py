@@ -146,6 +146,18 @@ class RecordState(rx.State):
         return self.change_room_target_id != ""
     
     @rx.event
+    def set_tenant_subform_open(self, value: bool):
+        self.tenant_subform_open = value
+    
+    @rx.event
+    def set_room_subform_open(self, value: bool):
+        self.room_subform_open = value
+    
+    @rx.event
+    def set_is_open(self, value: bool):
+        self.is_open = value
+    
+    @rx.event
     def set_lease_start(self, value: str):
         self.form_values["lease_start"] = value
         if value:

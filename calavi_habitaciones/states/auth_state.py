@@ -64,6 +64,14 @@ class AuthState(rx.State):
     change_password_notice: str = ""
     
     @rx.event
+    def set_new_admin_open(self, value: bool):
+        self.new_admin_open = value
+    
+    @rx.event
+    def set_change_password_open(self, value: bool):
+        self.change_password_open = value
+        
+    @rx.event
     def open_new_admin(self):
         if not self.is_authenticated:
             return
