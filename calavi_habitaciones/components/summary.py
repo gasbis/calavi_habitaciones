@@ -62,17 +62,19 @@ def occupancy_bar() -> rx.Component:
 def summary_section() -> rx.Component:
     return rx.el.section(
         rx.el.div(
-            stat_card(
+            rx.tablet_and_desktop(
+                stat_card(
                 "Habitaciones alquiladas",
                 OccupancyState.occupied_count.to_string(),
                 "door-open",
                 "Ocupación actual de la casa",
-            ),
-            stat_card(
-                "Recaudación mensual",
-                OccupancyState.monthly_revenue_display,
-                "wallet",
-                "Teórica según habitaciones alquiladas y precio.",
+                ),
+                stat_card(
+                    "Recaudación mensual",
+                    OccupancyState.monthly_revenue_display,
+                    "wallet",
+                    "Teórica según habitaciones alquiladas y precio.",
+                ),
             ),
             stat_card(
                 "Necesita atención",
@@ -87,6 +89,8 @@ def summary_section() -> rx.Component:
             ),
             class_name="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3",
         ),
-        occupancy_bar(),
+        rx.tablet_and_desktop(
+            occupancy_bar(),
+        ),
         class_name="flex w-full flex-col gap-4",
     )
