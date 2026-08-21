@@ -67,27 +67,29 @@ def summary_section() -> rx.Component:
                 "Habitaciones alquiladas",
                 OccupancyState.occupied_count.to_string(),
                 "door-open",
-                "Ocupación actual de la casa",
+                "Ocupación actual de la casa con contrato en vigor o caducado.",
                 ),
+            ),
+            rx.tablet_and_desktop(
                 stat_card(
-                    "Recaudación mensual",
-                    OccupancyState.monthly_revenue_display,
-                    "wallet",
-                    "Teórica según habitaciones alquiladas y precio.",
+                "Recaudación mensual",
+                OccupancyState.monthly_revenue_display,
+                "wallet",
+                "Teórica según habitaciones alquiladas y precio.",
                 ),
             ),
             stat_card(
                 "Necesita atención",
                 OccupancyState.attention_count.to_string(),
                 "triangle-alert",
-                "Contratos vencidos o finalizando",
+                "Contratos vencidos o finalizando (menos de un mes)",
                 rx.cond(
                     OccupancyState.attention_count > 0,
                     True,
                     False,
                 ),
             ),
-            class_name="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3",
+            class_name="grid grid-cols-1 gap-3 sm:grid-cols-3",#"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
         ),
         rx.tablet_and_desktop(
             occupancy_bar(),
