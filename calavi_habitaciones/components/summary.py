@@ -67,7 +67,7 @@ def summary_section() -> rx.Component:
                 "Habitaciones alquiladas",
                 OccupancyState.occupied_count.to_string(),
                 "door-open",
-                "Ocupación actual de la casa con contrato en vigor o caducado.",
+                "Unidades con contrato ern vigor o pendiente de extensión",
                 ),
             ),
             rx.tablet_and_desktop(
@@ -75,14 +75,14 @@ def summary_section() -> rx.Component:
                 "Recaudación mensual",
                 OccupancyState.monthly_revenue_display,
                 "wallet",
-                "Teórica según habitaciones alquiladas y precio.",
+                "Recaudación teórica según habitaciones alquiladas y precio",
                 ),
             ),
             stat_card(
                 "Necesita atención",
                 OccupancyState.attention_count.to_string(),
                 "triangle-alert",
-                "Contratos vencidos o finalizando (menos de un mes)",
+                "Contratos vencidos o finalizando -menos de un mes-",
                 rx.cond(
                     OccupancyState.attention_count > 0,
                     True,
