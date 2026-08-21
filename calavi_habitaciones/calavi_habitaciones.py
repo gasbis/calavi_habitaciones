@@ -19,7 +19,9 @@ def occupancy_page() -> rx.Component:
         rx.el.div(
             page_title(),
             summary_section(),
-            rooms_occupancy_section(),
+            rx.tablet_and_desktop(
+                rooms_occupancy_section()
+            ),
             rx.el.div(
                 rx.el.button(
                     rx.icon("layout-grid", class_name="h-4 w-4"),
