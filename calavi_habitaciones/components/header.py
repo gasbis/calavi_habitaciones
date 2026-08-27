@@ -104,15 +104,15 @@ def page_header() -> rx.Component:
     )
 
 
-def page_title() -> rx.Component:
+def page_title(page_title: str, page_subtitle: str) -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.h1(
-                "Control de habitaciones",
+                page_title,
                 class_name="text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl",
             ),
             rx.el.p(
-                "Todas las habitaciones actualmente ocupadas con información sobre residentes, contratos de alquiler y rentas, todo de un vistazo.",
+                page_subtitle,
                 class_name="mt-1 max-w-2xl text-sm font-medium text-neutral-500",
             ),
             class_name="min-w-0",

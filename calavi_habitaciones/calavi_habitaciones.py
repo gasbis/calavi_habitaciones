@@ -14,12 +14,13 @@ from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.components.rooms_occupancy import rooms_occupancy_section
 from calavi_habitaciones.states.account_state import AccountState
 
-
+title="Control de habitaciones"
+subtitle="Todas las habitaciones actualmente ocupadas con información sobre residentes, contratos de alquiler y rentas, todo de un vistazo."
 def occupancy_page() -> rx.Component:
     return rx.el.main(
         page_header(),
         rx.el.div(
-            page_title(),
+            page_title(title, subtitle),
             summary_section(),
             rx.tablet_and_desktop(
                 rooms_occupancy_section()

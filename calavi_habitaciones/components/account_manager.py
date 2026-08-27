@@ -41,5 +41,5 @@ def account_manager_section() -> rx.Component:
             
         ),
         account_dialog(),
-        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100",
+        class_name="w-full  rounded-tl-xl rounded-tr-xl bg-neutral-100",
     )

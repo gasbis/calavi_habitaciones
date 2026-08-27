@@ -1,6 +1,7 @@
 import reflex as rx
 
 from calavi_habitaciones.states.account_state import AccountState
+from calavi_habitaciones.components.account_manager import account_manager_section
 
 
 def entry_row(item: dict) -> rx.Component:
@@ -15,10 +16,10 @@ def entry_row(item: dict) -> rx.Component:
                 f"{item['amount']:,.2f}€",
                 class_name="text-sm font-semibold text-neutral-900 w-24 shrink-0 text-right",
             ),
-            rx.el.span(
-                f"{item['consum']:,.2f} Kg./Kw.",
-                class_name="text-sm font-semibold text-neutral-900 w-24 shrink-0 text-right",
-            ),                  
+            # rx.el.span(
+            #     f"{item['consum']:,.2f} Kg./Kw.",
+            #     class_name="text-sm font-semibold text-neutral-900 w-24 shrink-0 text-right",
+            # ),                  
             rx.el.span(item["observ"], class_name="text-sm text-neutral-900 flex-1 min-w-0 truncate text-left"),
             class_name="flex w-full items-center gap-3",
         ),
@@ -31,15 +32,16 @@ def entry_row(item: dict) -> rx.Component:
 def account_list_section() -> rx.Component:
     return rx.el.section(
         rx.el.div(
-            rx.el.h2(
-                "Movimientos registrados",
-                class_name="text-xl font-semibold tracking-tight text-neutral-900",
-            ),
-            rx.el.p(
-                "Selecciona cualquier movimiento para editarlo o eliminarlo.",
-                class_name="mt-1 text-sm font-medium text-neutral-500",
-            ),
-            class_name="px-5 py-5 sm:px-6",
+            account_manager_section(),
+            # rx.el.h2(
+            #     "Movimientos registrados",
+            #     class_name="text-xl font-semibold tracking-tight text-neutral-900",
+            # ),
+            # rx.el.p(
+            #     "Selecciona cualquier movimiento para editarlo o eliminarlo.",
+            #     class_name="mt-1 text-sm font-medium text-neutral-500",
+            # ),
+            class_name="bg-neutral-100 rounded-xl"
         ),
         rx.el.div(
             rx.foreach(AccountState.sorted_entries, entry_row),
