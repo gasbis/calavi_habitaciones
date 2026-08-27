@@ -94,16 +94,20 @@ def page_header() -> rx.Component:
     return rx.el.header(
         rx.el.div(
             rx.el.div(
-                rx.el.div(
+                rx.link(
                     rx.el.div(
-                        rx.icon("building-2", class_name="h-4 w-4 text-white"),
-                        class_name="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600",
+                        rx.el.div(
+                            rx.icon("building-2", class_name="h-4 w-4 text-white"),
+                            class_name="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600",
+                        ),
+                        rx.el.span(
+                            "Calavi",
+                            class_name="text-base font-semibold tracking-tight text-neutral-900",
+                        ),
+                        class_name="flex items-center gap-2.5",
                     ),
-                    rx.el.span(
-                        "Calavi",
-                        class_name="text-base font-semibold tracking-tight text-neutral-900",
-                    ),
-                    class_name="flex items-center gap-2.5",
+                    href="/",
+                    underline="none",
                 ),
                 mobile_menu(),
                 rx.el.div(

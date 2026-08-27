@@ -49,7 +49,7 @@ def occupancy_bar() -> rx.Component:
                 class_name="h-full rounded-full bg-brand-600 transition-all duration-500",
                 style={"width": f"{OccupancyState.occupancy_rate}%"},
             ),
-            class_name="mt-3 h-2 w-full overflow-hidden rounded-full bg-neutral-100",
+            class_name="mt-3 h-2 w-full overflow-hidden rounded-full bg-neutral-50",
         ),
         rx.el.p(
             f"{OccupancyState.occupied_count} de {OccupancyState.total_units} unidades alquiladas actualmente ",
