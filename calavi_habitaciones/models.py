@@ -30,7 +30,18 @@ class Lease(TypedDict):
     rent_display: str
     deposit_display: str
 
-_BED_TYPES: list[str] = ["0.85", "1.35", "1.50"]
+class AccountEntry(TypedDict):
+    id: str
+    mov_type: str
+    mov_date: str
+    concept: str
+    chapter: str
+    subchapter: str
+    amount: float
+    consum: float
+    observ: str
+    
+_BED_TYPES: list[str] = ["2,00x0,90x0,18", "1.35", "1.50"]
 
 
 _DISPLAY_FORMAT = "%d-%m-%Y"
@@ -59,7 +70,36 @@ EMPTY_ROOM: Lease = Lease(
     deposit_display="0€",
 )
 
+INCOME_LIST = ["Alquiler", "Fianza", "Otros abonos"]
 
+ACCOUNTING_TAXONOMY: dict[str, dict[str, list[str]]] ={
+    "Ingreso": {
+        "Habitación 1": INCOME_LIST,
+        "Habitación 2": INCOME_LIST,
+        "Habitación 3": INCOME_LIST,
+        "Habitación 5": INCOME_LIST,
+        "Habitación 6": INCOME_LIST,
+        "Habitación 7": INCOME_LIST,
+        "Habitación 8": INCOME_LIST,
+    },
+    "Gasto": {
+        "Mobiliario": ["Muebles", "Electrodomésticos", "Menaje", "Ropa hogar", "Otros"],
+        "Préstamo": ["Hipotecario", "Personal"],
+        "Gastos fijos": ["Agua", "Electricidad", "Wifi", "Varios mantenimiento", "Seguro", "Impuestos"],
+        "Obras": ["Reforma", "Reparación"],
+    }
+}
+
+SUBCHAPTERS_WITH_CONSUM: set[str] = {"Agua", "Electricidad"}
+
+def to_display_date(value: str) -> str:
+    if not value:
+        return ""
+    try:
+        return datetime.strptime(value, "%Y-%m-%d").strftime(_DISPLAY_FORMAT)
+    except Exception:
+        logging.exception("Unexpected error")
+        return ""
 
 class AdminAccount(rx.Model, table=True):
     """Database-backed administrator account with a one-way password hash."""
@@ -106,7 +146,19 @@ class OccupancyRecord(rx.Model, table=True):
     record_status: str = _RECORD_STATUSES[0]
     termination_date: str = ""
     
-
+class AccountingEntry(rx.Model, table=True):
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    mov_type: str = sqlmodel.Field(nullable=False)
+    mov_date: str = sqlmodel.Field(nullable=False)
+    concept: str | None = sqlmodel.Field(default=None)
+    chapter: str = sqlmodel.Field(nullable=False)
+    subchapter: str = sqlmodel.Field(nullable=False)
+    amount: float = sqlmodel.Field(nullable=False)
+    consum: float | None = sqlmodel.Field(default=None)
+    observ: str | None = sqlmodel.Field(default=None)
+    
+    
+# *****************************CONTROL DE HABITACIONES***********************************    
 
 def _record_to_room(record: OccupancyRecord) -> Lease:
     return Lease(
@@ -363,6 +415,74 @@ def email_exists(email: str) -> bool:
         logging.exception(f"Error: {e}")
         return False
 
+def list_rooms() -> list[Lease]:
+    try:
+        with rx.session() as session:
+            records = session.exec(
+                sqlmodel.select(OccupancyRecord).order_by(OccupancyRecord.id)
+            ).all()
+            return [_record_to_room(record) for record in records]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+
+def create_room(data: Lease) -> str:
+    try:
+        with rx.session() as session:
+            record = _apply_occupancy(OccupancyRecord(), data)
+            session.add(record)
+            session.commit()
+            session.refresh(record)
+            return f"room-{record.id}"
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return ""
+
+
+def update_room(room_id: str, data: Lease) -> bool:
+    try:
+        pk = _record_pk(room_id)
+        with rx.session() as session:
+            record = session.get(OccupancyRecord, pk)
+            if record is None:
+                return False
+            _apply_occupancy(record, data)
+            session.add(record)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def delete_room(room_id: str) -> bool:
+    try:
+        pk = _record_pk(room_id)
+        with rx.session() as session:
+            record = session.get(OccupancyRecord, pk)
+            if record is None:
+                return False
+            session.delete(record)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def get_room(room_id: str) -> Lease:
+    try:
+        pk = _record_pk(room_id)
+        with rx.session() as session:
+            record = session.get(OccupancyRecord, pk)
+            if record is None:
+                return EMPTY_ROOM
+            return _record_to_room(record)
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return EMPTY_ROOM
+
+# *****************************CONTROL DE ADMINISTRADORES***********************************    
 
 def create_admin_account(email: str, name: str, role: str, password: str) -> bool:
     try:
@@ -476,40 +596,99 @@ def set_admin_active(email: str, active: bool) -> bool:
         logging.exception(f"Error: {e}")
         return False
 
+# *****************************CONTABILIDAD***********************************    
 
 
-def list_rooms() -> list[Lease]:
+def _apply_account(record: AccountingEntry, data: dict) -> AccountingEntry:   
+    record.mov_type = data["mov_type"],
+    record.mov_date = data["mov_date"],
+    record.concept = data["concept"],
+    record.chapter = data["chapter"],
+    record.subchapter = data["subchapter"],
+    record.amount = float(data["amount"]),
+    record.consum = float(data["consum"]),
+    record.observ=data["observ"],
+    return record
+
+def create_account_entry(entry: AccountEntry) -> str:
     try:
         with rx.session() as session:
-            records = session.exec(
-                sqlmodel.select(OccupancyRecord).order_by(OccupancyRecord.id)
-            ).all()
-            return [_record_to_room(record) for record in records]
+            record = AccountingEntry(
+                mov_type=entry["mov_type"],
+                mov_date=entry["mov_date"],
+                concept=entry["concept"],
+                chapter=entry["chapter"],
+                subchapter=entry["subchapter"],
+                amount=entry["amount"],
+                consum=entry["consum"] or None,
+                observ=entry["observ"] or None,
+            )
+            session.add(record)
+            session.commit()
+            session.refresh(record)
+            return str(record.id)
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return ""
+    
+def list_account_entries() -> list[dict]:
+    try:
+        with rx.session() as session:
+            records = session.exec(sqlmodel.select(AccountingEntry)).all()
+            return [
+                {
+                    "id": str(r.id),
+                    "mov_type": r.mov_type,
+                    "mov_date": r.mov_date,
+                    "concept": r.concept or "",
+                    "chapter": r.chapter,
+                    "subchapter": r.subchapter,
+                    "amount": r.amount,
+                    "consum": r.consum or 0.0,
+                    "observ": r.observ or "",
+                }
+                for r in records
+            ]
     except Exception as e:
         logging.exception(f"Error: {e}")
         return []
 
-def create_room(data: Lease) -> str:
+
+def get_account_entry(entry_id: str) -> dict:
     try:
         with rx.session() as session:
-            record = _apply_occupancy(OccupancyRecord(), data)
-            session.add(record)
-            session.commit()
-            session.refresh(record)
-            return f"room-{record.id}"
+            r = session.get(AccountingEntry, int(entry_id))
+            if r is None:
+                return {}
+            return {
+                "id": str(r.id),
+                "mov_type": r.mov_type,
+                "mov_date": r.mov_date,
+                "concept": r.concept or "",
+                "chapter": r.chapter,
+                "subchapter": r.subchapter,
+                "amount": r.amount,
+                "consum": r.consum or 0.0,
+                "observ": r.observ or "",
+            }
     except Exception as e:
         logging.exception(f"Error: {e}")
-        return ""
+        return {}
 
-
-def update_room(room_id: str, data: Lease) -> bool:
+def update_account_entry(entry_id: str, entry: AccountEntry) -> bool:
     try:
-        pk = _record_pk(room_id)
         with rx.session() as session:
-            record = session.get(OccupancyRecord, pk)
+            record = session.get(AccountingEntry, int(entry_id))
             if record is None:
                 return False
-            _apply_occupancy(record, data)
+            record.mov_type = entry["mov_type"]
+            record.mov_date = entry["mov_date"]
+            record.concept = entry["concept"]
+            record.chapter = entry["chapter"]
+            record.subchapter = entry["subchapter"]
+            record.amount = entry["amount"]
+            record.consum = entry["consum"] or None
+            record.observ = entry["observ"] or None
             session.add(record)
             session.commit()
             return True
@@ -518,11 +697,10 @@ def update_room(room_id: str, data: Lease) -> bool:
         return False
 
 
-def delete_room(room_id: str) -> bool:
+def delete_account_entry(entry_id: str) -> bool:
     try:
-        pk = _record_pk(room_id)
         with rx.session() as session:
-            record = session.get(OccupancyRecord, pk)
+            record = session.get(AccountingEntry, int(entry_id))
             if record is None:
                 return False
             session.delete(record)
@@ -533,14 +711,9 @@ def delete_room(room_id: str) -> bool:
         return False
 
 
-def get_room(room_id: str) -> Lease:
+def to_input_date(display: str) -> str:
     try:
-        pk = _record_pk(room_id)
-        with rx.session() as session:
-            record = session.get(OccupancyRecord, pk)
-            if record is None:
-                return EMPTY_ROOM
-            return _record_to_room(record)
-    except Exception as e:
-        logging.exception(f"Error: {e}")
-        return EMPTY_ROOM
+        return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%Y-%m-%d")
+    except Exception:
+        logging.exception("Unexpected error")
+        return ""

@@ -2,9 +2,9 @@ import logging
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 import reflex as rx
-from calavi_habitaciones.models import _DISPLAY_FORMAT
 
 from calavi_habitaciones.models import (
+    _DISPLAY_FORMAT,
     _RECORD_STATUSES,
     EMPTY_ROOM,
     _BED_TYPES,
@@ -20,6 +20,7 @@ from calavi_habitaciones.models import (
     list_available_tenants,
     room_number_exists,
     update_room,
+    to_display_date
 )
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
@@ -42,14 +43,6 @@ def _blank_errors() -> dict[str, str]:
 def _to_input_date(display: str) -> str:
     try:
         return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%Y-%m-%d")
-    except Exception:
-        logging.exception("Unexpected error")
-        return ""
-
-
-def _to_display_date(value: str) -> str:
-    try:
-        return datetime.strptime(value, "%Y-%m-%d").strftime(_DISPLAY_FORMAT)
     except Exception:
         logging.exception("Unexpected error")
         return ""
@@ -224,7 +217,7 @@ class RecordState(rx.State):
                 return
             new_id = create_room_record(
                 room=room_number, floor=floor,
-                bed_type=self.room_subform_bed_type, status=self.room_subform_status,
+                bed_type=self.room_subform_bed_type,
             )
             if not new_id:
                 self.room_subform_error = "LA habitación no se ha dado de alta. Inténtelo de nuevo."
@@ -312,7 +305,9 @@ class RecordState(rx.State):
 
     @rx.event
     async def request_extend(self):
-        if not await self._require_admin():
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
@@ -332,7 +327,9 @@ class RecordState(rx.State):
 
     @rx.event
     async def request_notes(self):
-        if not await self._require_admin():
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
@@ -351,7 +348,9 @@ class RecordState(rx.State):
     @rx.event
     async def confirm_notes(self, form_data: dict):
         try:
-            if not await self._require_admin():
+            from calavi_habitaciones.states.auth_state import AuthState
+            auth = await self.get_state(AuthState)
+            if not auth.is_authenticated:
                 return
             occupancy = await self.get_state(OccupancyState)
             target = occupancy.selected_id
@@ -385,7 +384,9 @@ class RecordState(rx.State):
 
     @rx.event
     async def request_terminate(self):
-        if not await self._require_admin():
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
@@ -409,7 +410,9 @@ class RecordState(rx.State):
     @rx.event
     async def confirm_terminate(self, form_data: dict):
         try:
-            if not await self._require_admin():
+            from calavi_habitaciones.states.auth_state import AuthState
+            auth = await self.get_state(AuthState)
+            if not auth.is_authenticated:
                 return
             occupancy = await self.get_state(OccupancyState)
             target = self.termination_target_id
@@ -478,7 +481,9 @@ class RecordState(rx.State):
     @rx.event
     async def extend_contract(self, form_data: dict):
         try:
-            if not await self._require_admin():
+            from calavi_habitaciones.states.auth_state import AuthState
+            auth = await self.get_state(AuthState)
+            if not auth.is_authenticated:
                 return
             occupancy = await self.get_state(OccupancyState)
             target = occupancy.selected_id
@@ -531,7 +536,9 @@ class RecordState(rx.State):
             
     @rx.event
     async def request_change_room(self):
-        if not await self._require_admin():
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
@@ -555,7 +562,9 @@ class RecordState(rx.State):
     @rx.event
     async def change_room(self, form_data: dict):
         try:
-            if not await self._require_admin():
+            from calavi_habitaciones.states.auth_state import AuthState
+            auth = await self.get_state(AuthState)
+            if not auth.is_authenticated:
                 return
             occupancy = await self.get_state(OccupancyState)
             target = occupancy.selected_id
@@ -596,15 +605,17 @@ class RecordState(rx.State):
             logging.exception(f"Error: {e}")
             self.change_room_error = "No se ha podido cambiar la habitación. Inténtelo de nuevo."
 
-    async def _require_admin(self) -> bool:
-        from calavi_habitaciones.states.auth_state import AuthState
+    # async def _require_admin(self) -> bool:
+    #     from calavi_habitaciones.states.auth_state import AuthState
 
-        auth = await self.get_state(AuthState)
-        return auth.is_authenticated
+    #     auth = await self.get_state(AuthState)
+    #     return auth.is_authenticated
 
     @rx.event
     async def open_create(self):
-        if not await self._require_admin():
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
             return
         self.mode = "create"
         self.editing_id = ""
@@ -644,7 +655,7 @@ class RecordState(rx.State):
             ("lease_start", "Lease start"),
             ("lease_end", "Lease end"),
         ):
-            if not _to_display_date(data[key]):
+            if not to_display_date(data[key]):
                 errors[key] = f"{label} is required."
         if (
             not errors["lease_start"]
@@ -657,7 +668,9 @@ class RecordState(rx.State):
     @rx.event
     async def submit_record(self, form_data: dict):
         try:
-            if not await self._require_admin():
+            from calavi_habitaciones.states.auth_state import AuthState
+            auth = await self.get_state(AuthState)
+            if not auth.is_authenticated:
                 return
             data = {key: str(form_data.get(key, "")).strip() for key in _FORM_KEYS}
             self.form_values = data
@@ -669,7 +682,7 @@ class RecordState(rx.State):
             errors = self._validate(data)
             self.errors = errors
             if any(errors.values()):
-                self.form_error = "Please fix the highlighted fields before saving."
+                self.form_error = "Por favor rellene los campos resaltados antes de validar."
                 return
             self.form_error = ""
 
@@ -689,8 +702,8 @@ class RecordState(rx.State):
                 tenant_phone=self.selected_tenant.get("tenant_phone", ""),
                 rent=float(data["rent"]),
                 deposit=float(data["deposit"]),
-                lease_start=_to_display_date(data["lease_start"]),
-                lease_end=_to_display_date(data["lease_end"]),
+                lease_start=to_display_date(data["lease_start"]),
+                lease_end=to_display_date(data["lease_end"]),
                 notes=data["notes"],
                 record_status=_RECORD_STATUSES[0],
                 termination_date="",
@@ -721,7 +734,9 @@ class RecordState(rx.State):
 
     @rx.event
     async def request_delete(self):
-        if not await self._require_admin():
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
@@ -739,7 +754,9 @@ class RecordState(rx.State):
     @rx.event
     async def confirm_delete(self):
         try:
-            if not await self._require_admin():
+            from calavi_habitaciones.states.auth_state import AuthState
+            auth = await self.get_state(AuthState)
+            if not auth.is_authenticated:
                 return
             occupancy = await self.get_state(OccupancyState)
             target = self.delete_target_id

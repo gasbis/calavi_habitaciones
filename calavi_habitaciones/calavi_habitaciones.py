@@ -1,5 +1,6 @@
 import reflex as rx
 
+from calavi_habitaciones.calavi_cuentas import cuentas
 from calavi_habitaciones.components.admin_users import admin_management_section
 from calavi_habitaciones.components.auth import login_screen
 from calavi_habitaciones.components.header import page_header, page_title
@@ -11,6 +12,7 @@ from calavi_habitaciones.components.record_form import record_dialog, room_subfo
 from calavi_habitaciones.states.auth_state import AuthState
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.components.rooms_occupancy import rooms_occupancy_section
+from calavi_habitaciones.states.account_state import AccountState
 
 
 def occupancy_page() -> rx.Component:
@@ -89,4 +91,14 @@ app.add_page(
         {"name": "robots", "content": "noindex, nofollow"}
     ],
     on_load=OccupancyState.load,
+),
+
+app.add_page(
+    cuentas,
+    route="/cuentas",
+    title= "Calavi cuentas",
+    meta=[
+        {"name": "robots", "content": "noindex, nofollow"}
+    ],
+    on_load=AccountState.load,
 )

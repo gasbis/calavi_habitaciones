@@ -1,17 +1,19 @@
 
-import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,refs} from "$/utils/state"
+import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,pyOr,refs} from "$/utils/state"
+import {Dialog as RadixThemesDialog,Link as RadixThemesLink} from "@radix-ui/themes"
+import {Link as ReactRouterLink} from "react-router"
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
-import {jsx} from "@emotion/react"
-import {Dialog as RadixThemesDialog} from "@radix-ui/themes"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
-import {Link as ReactRouterLink} from "react-router"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import {jsx} from "@emotion/react"
 
 
 
@@ -19,6 +21,26 @@ import {Link as ReactRouterLink} from "react-router"
 
 
 
+
+export const Link_link_1c737d71532c4b94d9ca767d94cb5b79_81e687a6 = memo(({children}) => {
+    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2.5"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-4 w-4 text-neutral-300" : "h-4 w-4 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-base font-semibold tracking-tight text-neutral-300" : "text-base font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Home"))))
+    )
+});
+
+export const Link_link_b9c689d81cd27cadb5207a34c7d2c0ca_81e687a6 = memo(({children}) => {
+    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/cuentas"},jsx("div",{className:"group flex items-center gap-2.5"},jsx(LucideCoins,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "h-4 w-4 text-neutral-300" : "h-4 w-4 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "text-base font-semibold tracking-tight text-neutral-300" : "text-base font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Contabilidad"))))
+    )
+});
 
 export const Bare_comp_685488971d8653da4708bec675486635_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)

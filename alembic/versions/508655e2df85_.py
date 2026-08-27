@@ -58,7 +58,7 @@ def upgrade() -> None:
     sa.Column('termination_reason', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.drop_table('prueba')
+    op.execute("DROP TABLE IF EXISTS prueba")
     # ### end Alembic commands ###
 
 

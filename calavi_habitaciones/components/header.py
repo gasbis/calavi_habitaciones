@@ -7,6 +7,44 @@ from calavi_habitaciones.components.change_password import (
     change_password_trigger,
 )
 
+def menu_item(icon: str, name: str, link: str) -> rx.Component:
+    current_path = rx.State.router.page.path
+    is_active = rx.cond(
+        link == "/",
+        (current_path == "/") | (current_path == "/index"),
+        current_path == link,
+    )
+    return rx.link(
+        rx.el.div(
+            rx.icon(
+                icon,
+                class_name=rx.cond(
+                    is_active,
+                    "h-4 w-4 text-neutral-300",
+                    "h-4 w-4 text-neutral-700 transition-colors group-hover:text-neutral-300",
+                ),
+            ),
+            rx.el.span(
+                name,
+                class_name=rx.cond(
+                    is_active,
+                    "text-base font-semibold tracking-tight text-neutral-300",
+                    "text-base font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300",
+                ),
+            ),
+            class_name="group flex items-center gap-2.5",
+        ),
+        href=link,
+        underline="none",
+    )
+    
+def menu() -> rx.Component:
+    return rx.el.div(
+        menu_item(icon="home", name="Home", link="/"),
+        menu_item(icon="coins", name="Contabilidad", link="/cuentas"),
+        class_name="flex items-center gap-7",
+    )
+    
 def page_header() -> rx.Component:
     return rx.el.header(
         rx.el.div(
@@ -21,6 +59,7 @@ def page_header() -> rx.Component:
                 ),
                 class_name="flex items-center gap-2.5",
             ),
+            menu(),
             rx.el.div(
                 rx.el.div(
                     rx.el.span(
