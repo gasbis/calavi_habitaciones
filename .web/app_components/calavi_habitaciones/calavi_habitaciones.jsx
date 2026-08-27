@@ -1,18 +1,18 @@
 
 import {ReflexEvent,applyEventActions,getRefValue,getRefValues,isTrue,pyOr,refs} from "$/utils/state"
-import {Dialog as RadixThemesDialog,Link as RadixThemesLink} from "@radix-ui/themes"
-import {Link as ReactRouterLink} from "react-router"
+import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThemesPopover} from "@radix-ui/themes"
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import {Link as ReactRouterLink} from "react-router"
 import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
+import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
-import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -22,23 +22,36 @@ import {jsx} from "@emotion/react"
 
 
 
-export const Link_link_1c737d71532c4b94d9ca767d94cb5b79_81e687a6 = memo(({children}) => {
-    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+export const Link_link_99721a57788044d59b7d23e7df128ad0_81e687a6 = memo(({children}) => {
+    const on_click_9d271fbfb9d8a6a0e67e18312b21499b = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___components___header____menu_state.close_mobile_menu", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state = useContext(StateContexts.reflex___state____state)
 
 
 
     return(
-        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2.5"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-4 w-4 text-neutral-300" : "h-4 w-4 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-base font-semibold tracking-tight text-neutral-300" : "text-base font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Home"))))
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Home"))))
     )
 });
 
-export const Link_link_b9c689d81cd27cadb5207a34c7d2c0ca_81e687a6 = memo(({children}) => {
-    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+export const Link_link_5c926bbefc1b6a73196eb57501588b7e_81e687a6 = memo(({children}) => {
+    const on_click_9d271fbfb9d8a6a0e67e18312b21499b = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___components___header____menu_state.close_mobile_menu", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state = useContext(StateContexts.reflex___state____state)
 
 
 
     return(
-        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/cuentas"},jsx("div",{className:"group flex items-center gap-2.5"},jsx(LucideCoins,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "h-4 w-4 text-neutral-300" : "h-4 w-4 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "text-base font-semibold tracking-tight text-neutral-300" : "text-base font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Contabilidad"))))
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/cuentas"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideCoins,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Contabilidad"))))
+    )
+});
+
+export const Popoverroot_popover__root_aa98b35da8b7ae0c56fab1f6cccc6048_81e687a6 = memo(({children}) => {
+    const on_open_change_5b0c260ab050d2dce4bb03205c9ba0f9 = useCallback(((_ev_0) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___components___header____menu_state.set_mobile_menu_open", ({ ["value"] : _ev_0 }), ({  })))], [_ev_0], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state__calavi_habitaciones___components___header____menu_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___components___header____menu_state)
+
+
+
+    return(
+        jsx(RadixThemesPopover.Root,{onOpenChange:on_open_change_5b0c260ab050d2dce4bb03205c9ba0f9,open:reflex___state____state__calavi_habitaciones___components___header____menu_state.mobile_menu_open_rx_state_},children)
     )
 });
 
@@ -79,6 +92,26 @@ export const Button_button_ead0a0e087e3cd0d31a84d69a05b89ee_81e687a6 = memo(({ch
 
     return(
         jsx("button",{className:"flex items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-100 px-2.5 py-1.5 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900",onClick:on_click_b3969c7f6e8551dfd4600bcc9287dbd3},children)
+    )
+});
+
+export const Link_link_f7d854600cf3f3c4cf8cd856fd0c16e7_81e687a6 = memo(({children}) => {
+    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Home"))))
+    )
+});
+
+export const Link_link_5f10bd5d1200adf759a3da512f0d1596_81e687a6 = memo(({children}) => {
+    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/cuentas"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideCoins,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Contabilidad"))))
     )
 });
 
