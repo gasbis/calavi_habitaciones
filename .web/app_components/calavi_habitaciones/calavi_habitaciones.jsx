@@ -4,15 +4,15 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
 import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
 import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import {DynamicIcon} from "lucide-react/dynamic.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -1315,23 +1315,24 @@ export const Button_button_15e1b11ebdf35b2d7be2604a653387cb_81e687a6 = memo(({ch
     )
 });
 
-export const Bare_comp_98522f6405daa8d807800dfba60cf6b6_81e687a6 = memo(({children}) => {
+export const Bare_comp_374a5f41d7e9e8d55c21141941ff56d2_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["record_status"]
+        (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rent_paid_current_month_rx_state_ ? "Alquiler cobrado" : "Anotar cobro")
     )
 });
 
-export const Span_span_c872a64d372ab3fd3f0dd06423e0d12e_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+export const Button_button_48bdd286764ba0b41a79f32e245d613c_81e687a6 = memo(({children}) => {
+    const on_click_7993053f0b22853d792405c4c37bef7f = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.register_rent_payment", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("span",{className:(() => { switch (JSON.stringify(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.selected_room_rx_state_?.["record_status"])) {case JSON.stringify("Activo"):  return ("w-fit rounded-full border border-success-200 bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700");  break;case JSON.stringify("Caduca pronto"):  return ("w-fit rounded-full border border-warning-200 bg-warning-100 px-2.5 py-1 text-xs font-semibold text-warning-700");  break;case JSON.stringify("Caducado"):  return ("w-fit rounded-full border border-danger-200 bg-danger-100 px-2.5 py-1 text-xs font-semibold text-danger-700");  break;default:  return ("w-fit rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-700");  break;};})()},children)
+        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-success-300 hover:bg-success-50 hover:text-success-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rent_paid_current_month_rx_state_,onClick:on_click_7993053f0b22853d792405c4c37bef7f},children)
     )
 });
 

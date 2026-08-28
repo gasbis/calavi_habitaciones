@@ -631,6 +631,42 @@ def create_account_entry(entry: AccountEntry) -> str:
         logging.exception(f"Error: {e}")
         return ""
     
+_SPANISH_MONTHS: list[str] = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+]
+ 
+ 
+def current_month_name() -> str:
+    """Nombre del mes en curso, en español."""
+    return _SPANISH_MONTHS[date.today().month - 1]
+ 
+ 
+def has_rent_entry_current_month(chapter: str) -> bool:
+    """True si ya existe un ingreso de Alquiler para ese capítulo (habitación)
+    con fecha dentro del mes en curso."""
+    today = date.today()
+    try:
+        with rx.session() as session:
+            records = session.exec(
+                sqlmodel.select(AccountingEntry).where(
+                    AccountingEntry.mov_type == "Ingreso",
+                    AccountingEntry.chapter == chapter,
+                    AccountingEntry.subchapter == "Alquiler",
+                )
+            ).all()
+            for r in records:
+                try:
+                    mov_date = datetime.strptime(r.mov_date, _DISPLAY_FORMAT).date()
+                except ValueError:
+                    continue
+                if mov_date.year == today.year and mov_date.month == today.month:
+                    return True
+        return False
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+    
 def list_account_entries() -> list[dict]:
     try:
         with rx.session() as session:

@@ -1,7 +1,6 @@
 import asyncio
 from datetime import date, datetime
-from calavi_habitaciones.models import format_eur
-from calavi_habitaciones.models import _DISPLAY_FORMAT
+from calavi_habitaciones.models import format_eur, has_rent_entry_current_month, _DISPLAY_FORMAT
 
 
 import reflex as rx
@@ -38,6 +37,7 @@ class OccupancyState(rx.State):
     room_occupancy_days_year: dict[str, int] = {}
     room_occupancy_days_total: dict[str, int] = {}
     business_days_elapsed: int = 1
+    rent_paid_current_month: bool = False
 
     def _sync_rooms(self) -> None:
         self.rooms = list_rooms()
@@ -131,6 +131,20 @@ class OccupancyState(rx.State):
     @rx.var
     def has_selection(self) -> bool:
         return any(r["id"] == self.selected_id for r in self.occupied_lease)
+    
+    @rx.var
+    def selected_room_chapter(self) -> str:
+        room = self.selected_room
+        if room["id"] == "":
+            return ""
+        return f"Habitación {room['room']}"
+    
+    def _sync_rent_paid_status(self) -> None:
+        chapter = self.selected_room_chapter
+        self.rent_paid_current_month = (
+            has_rent_entry_current_month(chapter) if chapter else False
+        )
+
 
     @rx.var
     def filtered_rooms(self) -> list[Lease]:
@@ -230,6 +244,7 @@ class OccupancyState(rx.State):
         auth = await self.get_state(AuthState)
         if auth.is_authenticated:
             self.selected_id = room_id
+            self._sync_rent_paid_status()
             record_state = await self.get_state(RecordState)
             record_state.extension_target_id = ""
             record_state.extension_error = ""
@@ -242,9 +257,50 @@ class OccupancyState(rx.State):
         auth = await self.get_state(AuthState)
         if auth.is_authenticated:
             self.selected_id = ""
+            self.rent_paid_current_month = False
             record_state = await self.get_state(RecordState)
             record_state.extension_target_id = ""
             record_state.extension_error = ""
+            
+    @rx.event
+    async def register_rent_payment(self):
+        from calavi_habitaciones.states.auth_state import AuthState
+        from calavi_habitaciones.models import AccountEntry, current_month_name, create_account_entry
+
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
+            return
+
+        room = self.selected_room
+        if room["id"] == "" or self.rent_paid_current_month:
+            return
+
+        entry = AccountEntry(
+            mov_type="Ingreso",
+            mov_date=date.today().strftime(_DISPLAY_FORMAT),
+            concept=current_month_name(),
+            chapter=self.selected_room_chapter,
+            subchapter="Alquiler",
+            amount=room["rent"],
+            consum=None,
+            observ=None,
+        )
+        new_id = create_account_entry(entry)
+        if new_id == "":
+            yield rx.toast("No se ha podido registrar el pago.", duration=2500)
+            return
+
+        self.rent_paid_current_month = True
+        
+        from calavi_habitaciones.states.account_state import AccountState
+
+        account_state = await self.get_state(AccountState)
+        account_state._sync_entries()
+
+        yield rx.toast(
+            f"Pago de alquiler registrado: {self.selected_room_chapter}.",
+            duration=2500,
+        )
 
     @rx.event
     async def refresh(self):

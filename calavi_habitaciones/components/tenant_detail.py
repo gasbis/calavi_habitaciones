@@ -120,7 +120,19 @@ def detail_content() -> rx.Component:
     return rx.el.div(
         detail_header(),
         rx.el.div(
-            status_pill(OccupancyState.selected_room["record_status"]),
+            rx.el.button(
+                rx.icon("banknote", class_name="h-4 w-4"),
+                rx.el.span(
+                    rx.cond(
+                        OccupancyState.rent_paid_current_month,
+                        "Alquiler cobrado",
+                        "Anotar cobro",
+                    )
+                ),
+                on_click=OccupancyState.register_rent_payment,
+                disabled=OccupancyState.rent_paid_current_month,
+                class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-success-300 hover:bg-success-50 hover:text-success-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
+            ),
             class_name="mt-4 flex flex-wrap items-center gap-2 pb-5",
         ),
         contact_block(),

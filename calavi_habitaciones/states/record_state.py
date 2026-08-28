@@ -605,12 +605,6 @@ class RecordState(rx.State):
             logging.exception(f"Error: {e}")
             self.change_room_error = "No se ha podido cambiar la habitación. Inténtelo de nuevo."
 
-    # async def _require_admin(self) -> bool:
-    #     from calavi_habitaciones.states.auth_state import AuthState
-
-    #     auth = await self.get_state(AuthState)
-    #     return auth.is_authenticated
-
     @rx.event
     async def open_create(self):
         from calavi_habitaciones.states.auth_state import AuthState
