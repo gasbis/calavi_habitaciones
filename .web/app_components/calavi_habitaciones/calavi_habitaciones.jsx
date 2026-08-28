@@ -4,15 +4,15 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import {DynamicIcon} from "lucide-react/dynamic.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs"
-import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -1325,14 +1325,14 @@ export const Bare_comp_374a5f41d7e9e8d55c21141941ff56d2_81e687a6 = memo(({childr
     )
 });
 
-export const Button_button_48bdd286764ba0b41a79f32e245d613c_81e687a6 = memo(({children}) => {
+export const Button_button_b606c19b56a4f08694efbe2ef8dd53fc_81e687a6 = memo(({children}) => {
     const on_click_7993053f0b22853d792405c4c37bef7f = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.register_rent_payment", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-success-300 hover:bg-success-50 hover:text-success-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",disabled:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rent_paid_current_month_rx_state_,onClick:on_click_7993053f0b22853d792405c4c37bef7f},children)
+        jsx("button",{className:(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rent_paid_current_month_rx_state_ ? "flex w-full items-center justify-center gap-2 rounded-lg border border-success-300 bg-success-100 px-3 py-2 text-sm font-semibold text-success-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:text-neutral-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto" : "flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-success-300 hover:bg-success-50 hover:text-success-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"),disabled:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rent_paid_current_month_rx_state_,onClick:on_click_7993053f0b22853d792405c4c37bef7f},children)
     )
 });
 

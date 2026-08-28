@@ -131,7 +131,11 @@ def detail_content() -> rx.Component:
                 ),
                 on_click=OccupancyState.register_rent_payment,
                 disabled=OccupancyState.rent_paid_current_month,
-                class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-success-300 hover:bg-success-50 hover:text-success-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
+                class_name=rx.cond(
+                    OccupancyState.rent_paid_current_month,
+                    "flex w-full items-center justify-center gap-2 rounded-lg border border-success-300 bg-success-100 px-3 py-2 text-sm font-semibold text-success-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:text-neutral-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
+                    "flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:border-success-300 hover:bg-success-50 hover:text-success-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto",
+                ),
             ),
             class_name="mt-4 flex flex-wrap items-center gap-2 pb-5",
         ),
