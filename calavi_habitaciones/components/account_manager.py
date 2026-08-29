@@ -35,6 +35,19 @@ def account_manager_section() -> rx.Component:
                 
                 class_name="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2"#"flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center",
             ),
+            rx.el.div(
+                rx.icon(
+                    "search",
+                    class_name="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400",
+                ),
+                rx.el.input(
+                    placeholder="Buscar por tipo, capítulo, subcapítulo...",
+                    default_value=AccountState.account_search,
+                    on_change=AccountState.set_account_search.debounce(300),
+                    class_name="w-full rounded-lg border border-neutral-300 bg-neutral-100 py-2 pl-9 pr-3 text-sm outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",
+                ),
+                class_name="relative w-full lg:w-130",
+            ),
             class_name="flex flex-col gap-4 border-b border-neutral-200 px-5 py-5 lg:flex-row lg:items-center lg:justify-between sm:px-6",
         ),
         rx.el.div(

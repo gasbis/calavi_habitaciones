@@ -43,6 +43,7 @@ class AccountState(rx.State):
     delete_target_id: str = ""
     delete_error: str = ""
     notice: str = ""
+    account_search: str = ""
     
     @rx.var
     def sorted_entries(self) -> list[dict]:
@@ -76,6 +77,23 @@ class AccountState(rx.State):
     @rx.var
     def show_consum(self) -> bool:
         return self.subchapter in SUBCHAPTERS_WITH_CONSUM
+    
+    @rx.var
+    def account_filtered_search(self) -> list[dict]:
+        query = self.account_search.strip().lower()
+        if not query:
+           return self.sorted_entries
+        return [
+            entrie
+            for entrie in self.sorted_entries
+            if query in entrie["mov_type"].lower()
+            or query in entrie["chapter"].lower()
+            or query in entrie["subchapter"].lower()
+        ]
+        
+    @rx.event
+    def set_account_search(self, value: str):
+        self.account_search = value
     
     @rx.event
     def set_move_type(self, value: str):

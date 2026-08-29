@@ -33,18 +33,10 @@ def account_list_section() -> rx.Component:
     return rx.el.section(
         rx.el.div(
             account_manager_section(),
-            # rx.el.h2(
-            #     "Movimientos registrados",
-            #     class_name="text-xl font-semibold tracking-tight text-neutral-900",
-            # ),
-            # rx.el.p(
-            #     "Selecciona cualquier movimiento para editarlo o eliminarlo.",
-            #     class_name="mt-1 text-sm font-medium text-neutral-500",
-            # ),
             class_name="bg-neutral-100 rounded-xl"
         ),
         rx.el.div(
-            rx.foreach(AccountState.sorted_entries, entry_row),
+            rx.foreach(AccountState.account_filtered_search, entry_row),
             class_name="max-h-[32rem] w-full overflow-y-auto border-t border-neutral-200",
         ),
         class_name="w-full rounded-xl border border-neutral-200 bg-white",
