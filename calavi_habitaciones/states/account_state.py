@@ -36,6 +36,7 @@ class AccountState(rx.State):
     move_type: str = ""
     chapter: str = ""
     subchapter: str = ""
+    bill_url: str = ""
     notice: str = ""
     form_key: int = 0
     mode: str = "create"
@@ -44,6 +45,8 @@ class AccountState(rx.State):
     delete_error: str = ""
     notice: str = ""
     account_search: str = ""
+    show_bill_link_modal: bool = False
+    bill_url_draft: str = ""
     
     @rx.var
     def sorted_entries(self) -> list[dict]:
@@ -90,6 +93,32 @@ class AccountState(rx.State):
             or query in entrie["chapter"].lower()
             or query in entrie["subchapter"].lower()
         ]
+    
+    @rx.event
+    def open_bill_url(self, url: str):
+        """Abre la factura en una pestaña nueva (usado desde el listado)."""
+        return rx.call_script(f'window.open("{url}", "_blank", "noopener,noreferrer")')
+        
+    @rx.event#para el icono de factura del formulario
+    def open_bill_icon(self):
+        """Click en el icono del formulario: abre el enlace si existe, si no abre el modal."""
+        if self.bill_url:
+            return rx.call_script(f'window.open("{self.bill_url}", "_blank", "noopener,noreferrer")')
+        self.bill_url_draft = self.bill_url
+        self.show_bill_link_modal = True
+        
+    @rx.event
+    def set_bill_url_draft(self, value: str):
+        self.bill_url_draft = value
+
+    @rx.event
+    def save_bill_url_draft(self):
+        self.bill_url = self.bill_url_draft.strip()
+        self.show_bill_link_modal = False
+
+    @rx.event
+    def close_bill_link_modal(self):
+        self.show_bill_link_modal = False
         
     @rx.event
     def set_account_search(self, value: str):
@@ -122,6 +151,7 @@ class AccountState(rx.State):
             return
         self._reset_form()
         self.is_open = True
+        self.bill_url = ""
         
     @rx.event
     def close_dialog(self):
@@ -153,6 +183,7 @@ class AccountState(rx.State):
                 amount=float(data["amount"]),
                 consum=float(data["consum"]) if self.show_consum and data["consum"] else 0.0,
                 observ=data["observ"],
+                bill_url=self.bill_url,
             )
 
             if self.mode == "edit":
@@ -198,6 +229,7 @@ class AccountState(rx.State):
         self.move_type = entry["mov_type"]
         self.chapter = entry["chapter"]
         self.subchapter = entry["subchapter"]
+        self.bill_url = entry.get("bill_url", "")
         self.form_values = {
             "mov_type": entry["mov_type"],
             "mov_date": to_input_date(entry["mov_date"]),
@@ -207,6 +239,7 @@ class AccountState(rx.State):
             "amount": f"{entry['amount']:.2f}",
             "consum": f"{entry['consum']:.2f}" if entry["consum"] else "",
             "observ": entry["observ"],
+            "bill_url": entry["bill_url"],
         }
         self.errors = _blank_errors()
         self.form_error = ""
@@ -260,6 +293,7 @@ class AccountState(rx.State):
         self.form_key += 1
         self.mode = "create"
         self.editing_id = ""
+        self.bill_url = ""
         
     def _validate(self, data: dict[str, str]) -> dict[str, str]:
         errors = _blank_errors()

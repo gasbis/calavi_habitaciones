@@ -40,6 +40,7 @@ class AccountEntry(TypedDict):
     amount: float
     consum: float
     observ: str
+    bill_url: str
     
 _BED_TYPES: list[str] = ["2,00x0,90x0,18", "1.35", "1.50"]
 
@@ -156,6 +157,7 @@ class AccountingEntry(rx.Model, table=True):
     amount: float = sqlmodel.Field(nullable=False)
     consum: float | None = sqlmodel.Field(default=None)
     observ: str | None = sqlmodel.Field(default=None)
+    bill_url: str | None = sqlmodel.Field(default=None)
     
     
 # *****************************CONTROL DE HABITACIONES***********************************    
@@ -608,6 +610,7 @@ def _apply_account(record: AccountingEntry, data: dict) -> AccountingEntry:
     record.amount = float(data["amount"]),
     record.consum = float(data["consum"]),
     record.observ=data["observ"],
+    record.bill_url=data["bill_url"],    
     return record
 
 def create_account_entry(entry: AccountEntry) -> str:
@@ -622,6 +625,7 @@ def create_account_entry(entry: AccountEntry) -> str:
                 amount=entry["amount"],
                 consum=entry["consum"] or None,
                 observ=entry["observ"] or None,
+                bill_url=entry["bill_url"] or None,
             )
             session.add(record)
             session.commit()
@@ -682,6 +686,7 @@ def list_account_entries() -> list[dict]:
                     "amount": r.amount,
                     "consum": r.consum or 0.0,
                     "observ": r.observ or "",
+                    "bill_url": r.bill_url or "",
                 }
                 for r in records
             ]
@@ -706,6 +711,7 @@ def get_account_entry(entry_id: str) -> dict:
                 "amount": r.amount,
                 "consum": r.consum or 0.0,
                 "observ": r.observ or "",
+                "bill_url": r.bill_url or "",
             }
     except Exception as e:
         logging.exception(f"Error: {e}")
@@ -725,6 +731,7 @@ def update_account_entry(entry_id: str, entry: AccountEntry) -> bool:
             record.amount = entry["amount"]
             record.consum = entry["consum"] or None
             record.observ = entry["observ"] or None
+            record.bill_url = entry["bill_url"] or None
             session.add(record)
             session.commit()
             return True

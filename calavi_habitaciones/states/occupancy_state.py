@@ -284,6 +284,7 @@ class OccupancyState(rx.State):
             amount=room["rent"],
             consum=None,
             observ=None,
+            bill_url=None,
         )
         new_id = create_account_entry(entry)
         if new_id == "":

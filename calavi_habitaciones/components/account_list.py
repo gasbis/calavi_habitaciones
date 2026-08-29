@@ -20,6 +20,15 @@ def entry_row(item: dict) -> rx.Component:
             #     f"{item['consum']:,.2f} Kg./Kw.",
             #     class_name="text-sm font-semibold text-neutral-900 w-24 shrink-0 text-right",
             # ),                  
+            rx.cond(
+                item["bill_url"] != "",
+                rx.el.div(
+                    rx.image(src="/adobe_pdf.ico", class_name="w-5 h-5"),
+                    on_click=AccountState.open_bill_url(item["bill_url"]).stop_propagation,
+                    class_name="shrink-0",
+                ),
+                rx.el.div(class_name="w-5 shrink-0"),  # placeholder para mantener alineación
+            ),
             rx.el.span(item["observ"], class_name="text-sm text-neutral-900 flex-1 min-w-0 truncate text-left"),
             class_name="flex w-full items-center gap-3",
         ),

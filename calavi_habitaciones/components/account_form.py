@@ -119,6 +119,23 @@ def account_form() -> rx.Component:
                     rx.el.div(),
                 ),
                 input_field("Observaciones", "observ", "", "text"),
+                rx.el.div(
+                    rx.el.label("Factura", class_name="text-sm font-medium text-neutral-700"),
+                    rx.el.button(
+                        rx.image(
+                            src="/adobe_pdf.ico",
+                            class_name=rx.cond(
+                                AccountState.bill_url != "",
+                                "w-6 h-6 opacity-100",
+                                "w-6 h-6 opacity-40",
+                            ),
+                        ),
+                        type="button",
+                        on_click=AccountState.open_bill_icon,
+                        class_name="flex items-center justify-center rounded-lg border border-neutral-300 bg-neutral-100 p-2 hover:bg-neutral-50",
+                    ),
+                    class_name="flex flex-col gap-1",
+                ),
                 class_name="grid grid-cols-1 gap-4 sm:grid-cols-2",
             ),
             rx.cond(
@@ -186,6 +203,36 @@ def account_dialog() -> rx.Component:
                 class_name="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-neutral-200 bg-white px-5 py-4 sm:px-6",
             ),
             account_form(),
+            rx.cond(
+                AccountState.show_bill_link_modal,
+                rx.el.div(
+                    rx.el.div(
+                        rx.el.p("Enlace de la factura", class_name="text-sm font-semibold text-neutral-900"),
+                        rx.el.input(
+                            value=AccountState.bill_url_draft,
+                            on_change=AccountState.set_bill_url_draft,
+                            placeholder="https://drive.google.com/...",
+                            class_name="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm mt-2",
+                        ),
+                        rx.el.div(
+                            rx.el.button(
+                                "Cancelar", type="button",
+                                on_click=AccountState.close_bill_link_modal,
+                                class_name="rounded-lg border px-3 py-2 text-sm",
+                            ),
+                            rx.el.button(
+                                "Guardar", type="button",
+                                on_click=AccountState.save_bill_url_draft,
+                                class_name="rounded-lg bg-brand-600 px-3 py-2 text-sm text-white",
+                            ),
+                            class_name="flex justify-end gap-2 mt-3",
+                        ),
+                        class_name="w-80 rounded-xl bg-white p-4 shadow-lg",
+                    ),
+                    class_name="fixed inset-0 z-50 flex items-center justify-center bg-black/40",
+                ),
+                rx.el.div(),
+            ),
             class_name="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-xl border border-neutral-200 bg-white p-0",
         ),
         open=AccountState.is_open,

@@ -27,10 +27,10 @@ def account_manager_section() -> rx.Component:
             ),
             rx.el.div(
                 rx.el.button(
-                    rx.icon("plus", class_name="h-4 w-4"),
+                    rx.icon("plus", class_name="h-13 w-13"),
                     rx.el.span("Nuevo apunte"),
                     on_click=AccountState.open_create,
-                    class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
+                    class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
                 ),
                 
                 class_name="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2"#"flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center",
