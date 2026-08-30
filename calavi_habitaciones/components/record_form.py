@@ -106,7 +106,8 @@ def input_field(
         rx.el.input(
             id=f"record-{name}",
             name=name,
-            type=input_type,
+            type=input_type,            
+            step="0.01",
             placeholder=placeholder,
             default_value=RecordState.form_values[name],
             key=field_key if field_key is not None else f"{name}-{RecordState.form_key}",

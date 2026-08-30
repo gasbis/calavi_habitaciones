@@ -73,10 +73,6 @@ def room_card(item: Lease) -> rx.Component:
                     item["tenant"],
                     class_name="truncate text-sm font-semibold text-neutral-900",
                 ),
-                # rx.el.p(
-                #     f"Tipo de cama {item['bed_type']}",
-                #     class_name="truncate text-xs font-medium text-neutral-500",
-                # ),
                 class_name="min-w-0",
             ),
             class_name="mt-4 flex items-center gap-3 rounded-lg border border-neutral-200 bg-neutral-50 p-3",
