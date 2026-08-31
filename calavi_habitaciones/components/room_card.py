@@ -82,30 +82,7 @@ def room_card(item: Lease) -> rx.Component:
             meta_row("calendar-clock", "F_fin", item["lease_end"]),
             meta_row("banknote", "Renta mensual", item["rent_display"]),
             class_name="mt-4 flex flex-col gap-2.5",
-        ),
-        rx.el.div(
-            rx.el.span(
-                "",
-                class_name="text-xs font-semibold uppercase tracking-wide text-neutral-400",
-            ),
-            rx.el.div(
-                rx.el.span(
-                    rx.cond(
-                        OccupancyState.selected_id == item["id"],
-                        "Viendo inquilino",
-                        "Ver detalles del inquilino",
-                    ),
-                    class_name="text-sm font-semibold",
-                ),
-                rx.icon("arrow-right", class_name="h-4 w-4"),
-                class_name=rx.cond(
-                    OccupancyState.selected_id == item["id"],
-                    "flex items-center gap-1.5 text-brand-600",
-                    "flex items-center gap-1.5 text-neutral-400",
-                ),
-            ),
-            class_name="mt-5 flex items-center justify-between border-t border-neutral-100 pt-4",
-        ),
+        ),        
         on_click=OccupancyState.select_room(item["id"]),
         type="button",
         class_name=rx.cond(

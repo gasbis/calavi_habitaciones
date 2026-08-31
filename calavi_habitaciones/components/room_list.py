@@ -64,7 +64,7 @@ def rooms_grid() -> rx.Component:
                 OccupancyState.filtered_rooms,
                 lambda item: room_card(item),
             ),
-            class_name="grid grid-cols-1 gap-4 md:grid-cols-2",
+            class_name="grid grid-cols-1 gap-4 md:grid-cols-3",
         ),
         empty_state(),
     )
@@ -73,15 +73,7 @@ def rooms_grid() -> rx.Component:
 def room_list_section() -> rx.Component:
     return rx.el.section(
         toolbar(),
-        rx.el.div(
-            rx.el.div(
-                rx.cond(
-                    OccupancyState.is_loading, loading_grid(), rooms_grid()
-                ),
-                class_name="w-full min-w-0 flex-1",
-            ),
-            tenant_detail_panel(),
-            class_name="flex w-full flex-col items-start gap-5 lg:flex-row",
-        ),
+        rx.cond(OccupancyState.is_loading, loading_grid(), rooms_grid()),
+        tenant_detail_panel(),
         class_name="flex w-full flex-col gap-5",
     )

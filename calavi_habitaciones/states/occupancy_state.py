@@ -250,6 +250,11 @@ class OccupancyState(rx.State):
             record_state.extension_error = ""
 
     @rx.event
+    async def set_detail_open(self, value: bool):
+        if not value:
+            await self.clear_selection()
+
+    @rx.event
     async def clear_selection(self):
         from calavi_habitaciones.states.auth_state import AuthState
         from calavi_habitaciones.states.record_state import RecordState
@@ -330,3 +335,4 @@ class OccupancyState(rx.State):
         await asyncio.sleep(0.4)
         self._sync_rooms()
         self.is_loading = False
+        

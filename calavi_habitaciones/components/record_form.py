@@ -1,6 +1,7 @@
 import reflex as rx
 
 from calavi_habitaciones.states.record_state import RecordState
+from calavi_habitaciones.states.occupancy_state import OccupancyState
 
 
 def field_error(name: str) -> rx.Component:
@@ -17,13 +18,17 @@ def room_summary_field() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.button(
-                rx.icon("plus", stroke_width=3, size=20),
+                rx.cond(
+                    RecordState.selected_room_id != "",
+                    rx.icon("square-pen", stroke_width=3, size=20),
+                    rx.icon("plus", stroke_width=3, size=20),
+                ),
                 "",
                 type="button",
                 on_click=RecordState.open_room_subform,
-                class_name="w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
+                class_name="flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
             ),
-            class_name="flex items-center justify-center",
+            class_name="flex items-center justify-start",
         ),
         rx.cond(
             RecordState.selected_room_id != "",
@@ -52,13 +57,17 @@ def tenant_summary_field() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.button(
-                rx.icon("plus", stroke_width=3, size=20),
+                rx.cond(
+                    RecordState.selected_tenant_id != "",
+                    rx.icon("square-pen", stroke_width=3, size=20),
+                    rx.icon("plus", stroke_width=3, size=20),
+                ),
                     "",
                     type="button",
                     on_click=RecordState.open_tenant_subform,
-                    class_name="w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
+                class_name="flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-2 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
             ),
-            class_name="flex items-center justify-center",
+            class_name="flex items-center justify-start",
         ),
         rx.cond(
             RecordState.selected_tenant_id != "",
@@ -97,6 +106,7 @@ def input_field(
     on_change: rx.EventHandler | None = None,
     field_key: rx.Var | str | None = None,
 ) -> rx.Component:
+    width_class = "w-full max-w-[9.5rem]" if input_type == "date" else "w-full"
     return rx.el.div(
         rx.el.label(
             label,
@@ -114,8 +124,8 @@ def input_field(
             on_change=on_change,
             class_name=rx.cond(
                 RecordState.errors[name] != "",
-                "mt-2 w-full rounded-lg border border-danger-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-200 outline-hidden",
-                "mt-2 w-full rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden",
+                f"mt-2 {width_class} rounded-lg border border-danger-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-200 outline-hidden",
+                f"mt-2 {width_class} rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-900 placeholder:text-neutral-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-hidden",
             ),
         ),
         field_error(name),
@@ -142,7 +152,7 @@ def notes_field() -> rx.Component:
     )
 
 
-def form_group(title: str, icon: str, *children) -> rx.Component:
+def form_group(title: str, icon: str, *children, extra_class: str = "") -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.icon(icon, class_name="h-4 w-4 text-brand-600"),
@@ -156,7 +166,7 @@ def form_group(title: str, icon: str, *children) -> rx.Component:
             *children,
             class_name="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2",
         ),
-        class_name="border-t border-neutral-100 pt-5 first:border-t-0 first:pt-0",
+        class_name=f"border-t border-neutral-100 pt-5 first:border-t-0 first:pt-0 {extra_class}".strip(),
     )
 
 def room_subform_dialog() -> rx.Component:
@@ -191,40 +201,36 @@ def room_subform_dialog() -> rx.Component:
                     ),
                     class_name="flex flex-col",
                 ),
-                rx.cond(
-                    RecordState.room_subform_selected_id == "",
+                rx.el.div(
                     rx.el.div(
-                        rx.el.div(
-                            rx.el.label("Número", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(
-                                default_value=RecordState.room_subform_room,
-                                on_change=RecordState.set_room_subform_room,
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
+                        rx.el.label("Número", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(
+                            value=RecordState.room_subform_room,
+                            on_change=RecordState.set_room_subform_room,
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
                         ),
-                        rx.el.div(
-                            rx.el.label("Piso", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(
-                                default_value=RecordState.room_subform_floor,
-                                on_change=RecordState.set_room_subform_floor,
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Tipo de cama", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.select(
-                                rx.foreach(RecordState.bed_type_options, lambda o: rx.el.option(o, value=o)),
-                                value=RecordState.room_subform_bed_type,
-                                on_change=RecordState.set_room_subform_bed_type,
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
-                        ),
-                        class_name="mt-4 grid grid-cols-2 gap-3",
+                        class_name="flex flex-col",
                     ),
-                    rx.el.div(),
+                    rx.el.div(
+                        rx.el.label("Piso", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(
+                            value=RecordState.room_subform_floor,
+                            on_change=RecordState.set_room_subform_floor,
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    rx.el.div(
+                        rx.el.label("Tipo de cama", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.select(
+                            rx.foreach(RecordState.bed_type_options, lambda o: rx.el.option(o, value=o)),
+                            value=RecordState.room_subform_bed_type,
+                            on_change=RecordState.set_room_subform_bed_type,
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    class_name="mt-4 grid grid-cols-2 gap-3",
                 ),
                 rx.cond(
                     RecordState.room_subform_error != "",
@@ -238,7 +244,7 @@ def room_subform_dialog() -> rx.Component:
                     rx.el.button("Cancelar", type="button", class_name="rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"),
                 ),
                 rx.el.button(
-                    "Usar esta habitación", type="button", on_click=RecordState.confirm_room_subform,
+                    "Aceptar", type="button", on_click=RecordState.confirm_room_subform,
                     class_name="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700",
                 ),
                 class_name="flex items-center justify-end gap-3 border-t border-neutral-200 px-5 py-3",
@@ -282,50 +288,46 @@ def tenant_subform_dialog() -> rx.Component:
                     ),
                     class_name="flex flex-col",
                 ),
-                rx.cond(
-                    RecordState.tenant_subform_selected_id == "",
+                rx.el.div(
                     rx.el.div(
-                        rx.el.div(
-                            rx.el.label("Nombre y apellidos", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(
-                                default_value=RecordState.tenant_subform_tenant,
-                                on_change=RecordState.set_tenant_subform_tenant,
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
+                        rx.el.label("Nombre y apellidos", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(
+                            value=RecordState.tenant_subform_tenant,
+                            on_change=RecordState.set_tenant_subform_tenant,
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
                         ),
-                        rx.el.div(
-                            rx.el.label("Documento de identidad", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(
-                                default_value=RecordState.tenant_subform_dni,
-                                on_change=RecordState.set_tenant_subform_dni,
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Email", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(
-                                default_value=RecordState.tenant_subform_email,
-                                on_change=RecordState.set_tenant_subform_email,
-                                type="email",
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
-                        ),
-                        rx.el.div(
-                            rx.el.label("Teléfono", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
-                            rx.el.input(
-                                default_value=RecordState.tenant_subform_phone,
-                                on_change=RecordState.set_tenant_subform_phone,
-                                type="tel",
-                                class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
-                            ),
-                            class_name="flex flex-col",
-                        ),
-                        class_name="mt-4 grid grid-cols-2 gap-3",
+                        class_name="flex flex-col",
                     ),
-                    rx.el.div(),
+                    rx.el.div(
+                        rx.el.label("Documento de identidad", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(
+                            value=RecordState.tenant_subform_dni,
+                            on_change=RecordState.set_tenant_subform_dni,
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    rx.el.div(
+                        rx.el.label("Email", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(
+                            value=RecordState.tenant_subform_email,
+                            on_change=RecordState.set_tenant_subform_email,
+                            type="email",
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    rx.el.div(
+                        rx.el.label("Teléfono", class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500"),
+                        rx.el.input(
+                            value=RecordState.tenant_subform_phone,
+                            on_change=RecordState.set_tenant_subform_phone,
+                            type="tel",
+                            class_name="mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",
+                        ),
+                        class_name="flex flex-col",
+                    ),
+                    class_name="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2",
                 ),
                 rx.cond(
                     RecordState.tenant_subform_error != "",
@@ -339,7 +341,7 @@ def tenant_subform_dialog() -> rx.Component:
                     rx.el.button("Cancelar", type="button", class_name="rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"),
                 ),
                 rx.el.button(
-                    "Usar este inquilino", type="button", on_click=RecordState.confirm_tenant_subform,
+                    "Aceptar", type="button", on_click=RecordState.confirm_tenant_subform,
                     class_name="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700",
                 ),
                 class_name="flex items-center justify-end gap-3 border-t border-neutral-200 px-5 py-3",
@@ -353,15 +355,32 @@ def tenant_subform_dialog() -> rx.Component:
 def record_form() -> rx.Component:
     return rx.el.form(
         rx.el.div(
-            form_group("Habitación", "bed-double", room_summary_field()),
-            form_group("Inquilino", "user-round", tenant_summary_field()),
+            rx.el.div(
+                form_group(
+                    "Habitación", "bed-double",
+                    rx.el.div(room_summary_field(), class_name="sm:col-span-2"),
+                ),
+                form_group(
+                    "Inquilino", "user-round",
+                    rx.el.div(tenant_summary_field(), class_name="sm:col-span-2"),
+                    extra_class="lg:border-t-0 lg:pt-0",
+                ),
+                class_name="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-x-6",
+            ),
             form_group(
                 "Contrato",
                 "file-text",
-                input_field("Fecha de inicio", "lease_start", "", "date", on_change=RecordState.set_lease_start),
-                input_field("Fecha de finalización", "lease_end", "", "date", field_key=f"lease_end-{RecordState.lease_end_key}"),
-                input_field("Precio mensual", "rent", "", "number"),
-                input_field("Fianza", "deposit", "", "number"),
+                rx.el.div(
+                    input_field("Fecha de inicio", "lease_start", "", "date", on_change=RecordState.set_lease_start),
+                    input_field("Fecha de finalización", "lease_end", "", "date", field_key=f"lease_end-{RecordState.lease_end_key}"),
+                    input_field("Salida", "termination_date", "", "date"),
+                    class_name="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:col-span-2",
+                ),
+                rx.el.div(
+                    input_field("Precio mensual", "rent", "", "number"),
+                    input_field("Fianza", "deposit", "", "number"),
+                    class_name="grid grid-cols-2 gap-4",
+                ),
             ),
             rx.el.div(
                 notes_field(), class_name="border-t border-neutral-100 pt-5"
@@ -383,20 +402,63 @@ def record_form() -> rx.Component:
             ),
             class_name="flex flex-col gap-5 px-5 py-5 sm:px-6",
         ),
-        rx.el.div(
-            rx.el.button(
-                "Cancelar",
-                type="button",
-                on_click=RecordState.close_dialog,
-                class_name="rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50",
+        rx.cond(
+            RecordState.has_delete_target,
+            rx.el.div(
+                rx.icon("triangle-alert", class_name="mt-0.5 h-4 w-4 shrink-0 text-danger-600"),
+                rx.el.div(
+                    rx.el.p(
+                        f"¿Borrar {OccupancyState.selected_room_label}?",
+                        class_name="text-sm font-semibold text-danger-700",
+                    ),
+                    rx.el.p(
+                        "Esto elimina el registro de ocupación, los datos del residente y el historial de pagos del sistema de seguimiento.",
+                        class_name="mt-1 text-sm font-medium text-danger-600",
+                    ),
+                    rx.el.div(
+                        rx.el.button(
+                            "Cancelar", type="button", on_click=RecordState.cancel_delete,
+                            class_name="rounded-lg border border-danger-200 bg-white px-4 py-2 text-sm font-semibold text-danger-700 hover:bg-danger-50",
+                        ),
+                        rx.el.button(
+                            rx.icon("trash-2", class_name="h-4 w-4"),
+                            rx.el.span("Borrar registro"),
+                            type="button",
+                            on_click=RecordState.confirm_delete,
+                            class_name="flex items-center gap-2 rounded-lg bg-danger-600 px-4 py-2 text-sm font-semibold text-white hover:bg-danger-700",
+                        ),
+                        class_name="mt-3 flex items-center justify-end gap-3",
+                    ),
+                    class_name="min-w-0",
+                ),
+                class_name="sticky bottom-0 flex items-start gap-2 border-t border-danger-200 bg-danger-50 px-5 py-4 sm:px-6",
             ),
-            rx.el.button(
-                rx.icon("check", class_name="h-4 w-4"),
-                rx.el.span(RecordState.submit_label),
-                type="submit",
-                class_name="flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
+            rx.el.div(
+                rx.cond(
+                    RecordState.mode == "edit",
+                    rx.el.button(
+                        rx.icon("trash-2", class_name="h-4 w-4"),
+                        rx.el.span("Eliminar"),
+                        type="button",
+                        on_click=RecordState.request_delete,
+                        class_name="mr-auto flex items-center gap-2 rounded-lg border border-danger-300 bg-white px-4 py-2 text-sm font-semibold text-danger-700 transition-colors hover:bg-danger-50",
+                    ),
+                    rx.el.div(class_name="mr-auto"),
+                ),
+                rx.el.button(
+                    "Cancelar",
+                    type="button",
+                    on_click=RecordState.close_dialog,
+                    class_name="rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50",
+                ),
+                rx.el.button(
+                    rx.icon("check", class_name="h-4 w-4"),
+                    rx.el.span(RecordState.submit_label),
+                    type="submit",
+                    class_name="flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700",
+                ),
+                class_name="sticky bottom-0 flex items-center justify-end gap-3 border-t border-neutral-200 bg-white px-5 py-4 sm:px-6",
             ),
-            class_name="sticky bottom-0 flex items-center justify-end gap-3 border-t border-neutral-200 bg-white px-5 py-4 sm:px-6",
         ),
         on_submit=RecordState.submit_record,
         reset_on_submit=False,
