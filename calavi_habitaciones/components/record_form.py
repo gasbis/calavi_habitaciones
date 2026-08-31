@@ -373,7 +373,11 @@ def record_form() -> rx.Component:
                 rx.el.div(
                     input_field("Fecha de inicio", "lease_start", "", "date", on_change=RecordState.set_lease_start),
                     input_field("Fecha de finalización", "lease_end", "", "date", field_key=f"lease_end-{RecordState.lease_end_key}"),
-                    input_field("Salida", "termination_date", "", "date"),
+                    rx.cond(
+                        RecordState.mode == "edit",
+                        input_field("Salida", "termination_date", "", "date"),
+                        rx.fragment(),
+                    ),
                     class_name="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:col-span-2",
                 ),
                 rx.el.div(

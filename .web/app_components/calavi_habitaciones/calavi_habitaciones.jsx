@@ -4,14 +4,14 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
-import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -767,6 +767,16 @@ export const Cond_comp_f02c390d59de5a89beac95e50dffcd04_81e687a6 = memo(({childr
     )
 });
 
+export const Cond_comp_ff70126b2feb75adfce14e7596d12f0d_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
+
+
+
+    return(
+        ((reflex___state____state__calavi_habitaciones___states___record_state____record_state.mode_rx_state_?.valueOf?.() === "edit"?.valueOf?.())?(children?.at?.(0)):(children?.at?.(1)))
+    )
+});
+
 export const Valuenumberinput_input_fa130d2818d4717a267c49494678e4d5_81e687a6 = memo(({children}) => {
     const ref_record_rent = useRef(null); refs["ref_record_rent"] = ref_record_rent;
 const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
@@ -897,16 +907,6 @@ export const Button_button_fb703b5d51e0b47e6da0a1e5adb657c3_81e687a6 = memo(({ch
 
     return(
         jsx("button",{className:"mr-auto flex items-center gap-2 rounded-lg border border-danger-300 bg-white px-4 py-2 text-sm font-semibold text-danger-700 transition-colors hover:bg-danger-50",onClick:on_click_8e6f93315d25c8ca59f913e377f1a64a,type:"button"},children)
-    )
-});
-
-export const Cond_comp_ff70126b2feb75adfce14e7596d12f0d_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___record_state____record_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___record_state____record_state)
-
-
-
-    return(
-        ((reflex___state____state__calavi_habitaciones___states___record_state____record_state.mode_rx_state_?.valueOf?.() === "edit"?.valueOf?.())?(children?.at?.(0)):(children?.at?.(1)))
     )
 });
 
