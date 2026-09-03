@@ -2,17 +2,15 @@ import reflex as rx
 
 from calavi_habitaciones.calavi_inicio import index
 from calavi_habitaciones.calavi_cuentas import cuentas
-from calavi_habitaciones.components.admin_users import admin_management_section
+from calavi_habitaciones.calavi_administradores import administradores
 from calavi_habitaciones.components.auth import login_screen
 from calavi_habitaciones.components.header import page_header, page_title
 from calavi_habitaciones.components.history_view import history_view
 from calavi_habitaciones.components.record_manager import record_manager_section
 from calavi_habitaciones.components.room_list import room_list_section
-from calavi_habitaciones.components.summary import summary_section
 from calavi_habitaciones.components.record_form import record_dialog, room_subform_dialog, tenant_subform_dialog
 from calavi_habitaciones.states.auth_state import AuthState
 from calavi_habitaciones.states.occupancy_state import OccupancyState
-from calavi_habitaciones.components.rooms_occupancy import rooms_occupancy_section
 from calavi_habitaciones.states.account_state import AccountState
 
 title="Control de habitaciones"
@@ -104,6 +102,16 @@ app.add_page(
     cuentas,
     route="/cuentas",
     title= "Calavi cuentas",
+    meta=[
+        {"name": "robots", "content": "noindex, nofollow"}
+    ],
+    on_load=AccountState.load,
+)
+
+app.add_page(
+    administradores,
+    route="/administradores",
+    title= "Calavi administradores",
     meta=[
         {"name": "robots", "content": "noindex, nofollow"}
     ],

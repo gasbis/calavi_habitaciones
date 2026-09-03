@@ -9,4 +9,7 @@
   <url>
     <loc>http://localhost:3000/cuentas</loc>
   </url>
+  <url>
+    <loc>http://localhost:3000/administradores</loc>
+  </url>
 </urlset>

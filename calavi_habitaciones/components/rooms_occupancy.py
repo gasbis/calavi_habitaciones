@@ -1,5 +1,5 @@
 import reflex as rx
-from calavi_habitaciones.states.occupancy_state import OccupancyState, RoomOccupancy
+from calavi_habitaciones.states.occupancy_state import RoomOccupancy
 from rxconfig import tailwind_config
 
 
@@ -102,15 +102,3 @@ def room_occupancy_card(item: RoomOccupancy) -> rx.Component:
     )
 
 
-def rooms_occupancy_section() -> rx.Component:
-    return rx.el.section(
-        rx.el.h2(
-            "Ocupación por habitación",
-            class_name="text-xl font-semibold tracking-tight text-neutral-900",
-        ),
-        rx.el.div(
-            rx.foreach(OccupancyState.rooms_occupancy_panel, room_occupancy_card),
-            class_name="mt-4 grid grid-cols-2 gap-1 sm:grid-cols-4 lg:grid-cols-7",
-        ),
-        class_name="w-full",
-    )

@@ -103,3 +103,17 @@ def summary_section() -> rx.Component:
         room_occupancy_card(OccupancyState.global_occupancy_panel[0]),        
         class_name="flex w-full flex-col gap-4",
     )
+
+def rooms_summary_section() -> rx.Component:
+    return rx.el.section(
+        rx.el.h2(
+            "Datos de ocupación de la casa",
+            class_name="text-xl font-semibold tracking-tight text-neutral-900 mb-4",
+        ),
+        summary_section(),
+        rx.el.div(
+            rx.foreach(OccupancyState.rooms_occupancy_panel, room_occupancy_card),
+            class_name="mt-4 grid grid-cols-2 gap-1 sm:grid-cols-4 lg:grid-cols-7",
+        ),
+        class_name="w-full",
+    )

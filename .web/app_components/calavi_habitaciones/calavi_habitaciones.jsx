@@ -4,15 +4,16 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
+import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
+import LucideUsers from "lucide-react/dist/esm/icons/users.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
 import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
-import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -52,6 +53,17 @@ const reflex___state____state = useContext(StateContexts.reflex___state____state
 
     return(
         jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/cuentas"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideCoins,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Contabilidad"))))
+    )
+});
+
+export const Link_link_5c24a39bc3d4d5b14103030cae9f1fd5_81e687a6 = memo(({children}) => {
+    const on_click_9d271fbfb9d8a6a0e67e18312b21499b = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___components___header____menu_state.close_mobile_menu", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/administradores"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideUsers,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/administradores"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/administradores"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Administradores"))))
     )
 });
 
@@ -133,6 +145,16 @@ export const Link_link_5f10bd5d1200adf759a3da512f0d1596_81e687a6 = memo(({childr
 
     return(
         jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/cuentas"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideCoins,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/cuentas"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Contabilidad"))))
+    )
+});
+
+export const Link_link_47ed7cd1acd5d562d651ab58f916474a_81e687a6 = memo(({children}) => {
+    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/administradores"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideUsers,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/administradores"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/administradores"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Administradores"))))
     )
 });
 
@@ -279,13 +301,13 @@ export const Bare_comp_7c260291f553f70b7727da968f8f631f_81e687a6 = memo(({childr
     )
 });
 
-export const Div_div_ab8f09134c6da387a69bd392e98ab52f_81e687a6 = memo(({children}) => {
+export const Div_div_8cd559b6740af0f4b9b490169f4930e3_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("div",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? "max-w-[210px] rounded-xl border border-danger-300 bg-neutral-100 p-4" : "max-w-[210px] rounded-xl border border-neutral-200 bg-neutral-100 p-4")},children)
+        jsx("div",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? "max-w-[220px] rounded-xl border border-danger-300 bg-neutral-100 p-4" : "max-w-[220px] rounded-xl border border-neutral-200 bg-neutral-100 p-4")},children)
     )
 });
 

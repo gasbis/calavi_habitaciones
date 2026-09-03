@@ -48,6 +48,10 @@ def mobile_menu() -> rx.Component:
                     icon="coins", name="Contabilidad", link="/cuentas",
                     on_click_extra=MenuState.close_mobile_menu,
                 ),
+                menu_item(
+                    icon="users", name="Administradores", link="/administradores",
+                    on_click_extra=MenuState.close_mobile_menu,
+                ),
                 class_name="flex flex-col gap-4 p-4",
             ),
             class_name="w-48 rounded-xl border border-neutral-200 bg-white p-0 shadow-lg",
@@ -93,6 +97,7 @@ def menu() -> rx.Component:
         menu_item(icon="home", name="Inicio", link="/"),
         menu_item(icon="calendar", name="Habitaciones", link="/habitaciones"),
         menu_item(icon="coins", name="Contabilidad", link="/cuentas"),
+        menu_item(icon="users", name="Administradores", link="/administradores"),
         class_name="items-center gap-7 md:flex",
     )
     
@@ -215,8 +220,8 @@ def page_title(page_title: str, page_subtitle: str) -> rx.Component:
             ),
             class_name=rx.cond(
                 OccupancyState.attention_count > 0,
-                "max-w-[210px] rounded-xl border border-danger-300 bg-neutral-100 p-4",
-                "max-w-[210px] rounded-xl border border-neutral-200 bg-neutral-100 p-4",)            
+                "max-w-[220px] rounded-xl border border-danger-300 bg-neutral-100 p-4",
+                "max-w-[220px] rounded-xl border border-neutral-200 bg-neutral-100 p-4",)            
         ),
         class_name="flex flex-col gap-4 md:flex-row md:items-center md:justify-between",
     )
