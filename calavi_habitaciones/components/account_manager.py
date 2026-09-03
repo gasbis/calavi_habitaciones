@@ -33,7 +33,7 @@ def account_manager_section() -> rx.Component:
                     class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
                 ),
                 
-                class_name="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2"#"flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center",
+                class_name="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2"
             ),
             rx.el.div(
                 rx.icon(

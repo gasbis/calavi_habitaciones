@@ -37,12 +37,15 @@ class OccupancyState(rx.State):
     room_occupancy_days_year: dict[str, int] = {}
     room_occupancy_days_total: dict[str, int] = {}
     business_days_elapsed: int = 1
+    days_elapsed_year: int = 1
     rent_paid_current_month: bool = False
 
     def _sync_rooms(self) -> None:
+        today = date.today()
         self.rooms = list_rooms()
         self.all_rooms = list_room_records()
         self.room_occupancy_days_year = yearly_occupancy_days_by_room()
+        self.days_elapsed_year = (today - date(today.year, 1, 1)).days + 1
 
         start = business_start_date()
         if start:
@@ -54,8 +57,6 @@ class OccupancyState(rx.State):
 
     @rx.var
     def rooms_occupancy_panel(self) -> list[RoomOccupancy]:
-        today = date.today()
-        days_elapsed_year = (today - date(today.year, 1, 1)).days + 1
         result = []
         for room in self.all_rooms:
             occ_year = self.room_occupancy_days_year.get(room["id"], 0)
@@ -64,12 +65,20 @@ class OccupancyState(rx.State):
                 RoomOccupancy(
                     id=room["id"],
                     room=room["room"],
-                    pct_year=round(occ_year / days_elapsed_year * 100) if days_elapsed_year else 0,
+                    pct_year=round(occ_year / self.days_elapsed_year * 100) if self.days_elapsed_year else 0,
                     pct_total=round(occ_total / self.business_days_elapsed * 100) if self.business_days_elapsed else 0,
                 )
             )
         return sorted(result, key=lambda r: int(r["room"]))
-
+    
+    @rx.var
+    def global_occupancy_panel(self) -> list[RoomOccupancy]:  
+        result =[]      
+        year = round(sum(self.room_occupancy_days_year.values()) / self.days_elapsed_year / self.total_units * 100, 1) if self.days_elapsed_year else 0
+        total = round(sum(self.room_occupancy_days_total.values()) / self.business_days_elapsed / self.total_units * 100, 1) if self.business_days_elapsed else 0
+        result.append(RoomOccupancy(id="global", room="global", pct_year=year, pct_total=total))
+        return result     
+        
     @rx.var
     def selected_room_label(self) -> str:
         room = self.selected_room

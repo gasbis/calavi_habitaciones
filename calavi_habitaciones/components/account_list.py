@@ -15,11 +15,7 @@ def entry_row(item: dict) -> rx.Component:
             rx.el.span(
                 f"{item['amount']:,.2f}€",
                 class_name="text-sm font-semibold text-neutral-900 w-24 shrink-0 text-right",
-            ),
-            # rx.el.span(
-            #     f"{item['consum']:,.2f} Kg./Kw.",
-            #     class_name="text-sm font-semibold text-neutral-900 w-24 shrink-0 text-right",
-            # ),                  
+            ),              
             rx.cond(
                 item["bill_url"] != "",
                 rx.el.div(

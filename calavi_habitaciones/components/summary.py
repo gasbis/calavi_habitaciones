@@ -1,6 +1,7 @@
 import reflex as rx
 
 from calavi_habitaciones.states.occupancy_state import OccupancyState
+from calavi_habitaciones.components.rooms_occupancy import room_occupancy_card
 
 def stat_card(
     label: str, value: rx.Var | str, icon: str, hint: rx.Var | str , red_color: bool=False
@@ -65,29 +66,26 @@ def occupancy_bar() -> rx.Component:
             f"{OccupancyState.occupied_count} de {OccupancyState.total_units} unidades alquiladas actualmente ",
             class_name="mt-2 text-sm font-medium text-neutral-500",
         ),
-        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
+        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",        
     )
 
 
 def summary_section() -> rx.Component:
     return rx.el.section(
         rx.el.div(
-            rx.tablet_and_desktop(
-                stat_card(
-                "Habitaciones alquiladas",
-                OccupancyState.occupied_count.to_string(),
-                "door-open",
-                "Unidades con contrato ern vigor o pendiente de extensión",
-                ),
+            stat_card(
+            "Habitaciones alquiladas",
+            OccupancyState.occupied_count.to_string(),
+            "door-open",
+            "Unidades con contrato en vigor o pendiente de extensión",
             ),
-            rx.tablet_and_desktop(
-                stat_card(
-                "Recaudación mensual",
-                OccupancyState.monthly_revenue_display,
-                "wallet",
-                "Recaudación teórica según habitaciones alquiladas y precio",
-                ),
-            ),
+            
+            stat_card(
+            "Recaudación mensual",
+            OccupancyState.monthly_revenue_display,
+            "wallet",
+            "Recaudación teórica según habitaciones alquiladas y precio",
+            ),            
             stat_card(
                 label="Habitaciones pendientes de cobro",
                 value=rx.cond(
@@ -99,10 +97,9 @@ def summary_section() -> rx.Component:
                 hint="Alquileres no cobrados dentro del mes en curso",
                 red_color=False,
             ),
-            class_name="grid grid-cols-1 gap-3 sm:grid-cols-3",#"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
+            class_name="grid grid-cols-1 gap-3 sm:grid-cols-3",
         ),
-        rx.tablet_and_desktop(
-            occupancy_bar(),
-        ),
+        occupancy_bar(),        
+        room_occupancy_card(OccupancyState.global_occupancy_panel[0]),        
         class_name="flex w-full flex-col gap-4",
     )
