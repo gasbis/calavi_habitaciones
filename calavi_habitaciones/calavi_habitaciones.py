@@ -1,5 +1,6 @@
 import reflex as rx
 
+from calavi_habitaciones.calavi_inicio import index
 from calavi_habitaciones.calavi_cuentas import cuentas
 from calavi_habitaciones.components.admin_users import admin_management_section
 from calavi_habitaciones.components.auth import login_screen
@@ -21,10 +22,10 @@ def occupancy_page() -> rx.Component:
         page_header(),
         rx.el.div(
             page_title(title, subtitle),
-            summary_section(),
-            rx.tablet_and_desktop(
-                rooms_occupancy_section()
-            ),
+            # summary_section(),
+            # rx.tablet_and_desktop(
+            #     rooms_occupancy_section()
+            # ),
             rx.el.div(
                 rx.el.button(
                     rx.icon("layout-grid", class_name="h-4 w-4"),
@@ -59,18 +60,18 @@ def occupancy_page() -> rx.Component:
                     ),
                 history_view(),
             ),
-            admin_management_section(),
+            # admin_management_section(),
             class_name="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8",
         ),
         class_name="min-h-screen w-full bg-neutral-50 font-['Inter']",
     )
 
 
-def index() -> rx.Component:
+def habitaciones() -> rx.Component:
     return rx.cond(AuthState.is_authenticated, occupancy_page(), login_screen())
 
-
-app = rx.App(    
+app = rx.App(
+    html_lang="es",    
     head_components=[
         rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
         rx.el.link(
@@ -87,12 +88,22 @@ app = rx.App(
 app.add_page(
     index,
     route="/",
-    title= "Calavi",
+    title= "Calavi inicio",
     meta=[
         {"name": "robots", "content": "noindex, nofollow"}
     ],
     on_load=OccupancyState.load,
 ),
+
+app.add_page(
+    habitaciones,
+    route="/habitaciones",
+    title= "Calavi habitaciones",
+    meta=[
+        {"name": "robots", "content": "noindex, nofollow"}
+    ],
+    on_load=OccupancyState.load,
+)
 
 app.add_page(
     cuentas,

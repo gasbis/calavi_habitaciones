@@ -14,6 +14,9 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/habitaciones": {
+    params: {};
+  };
   "/cuentas": {
     params: {};
   };
@@ -27,7 +30,11 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/cuentas" | "/*";
+    page: "/" | "/habitaciones" | "/cuentas" | "/*";
+  };
+  "routes/[habitaciones]._index.jsx": {
+    id: "routes/[habitaciones]._index";
+    page: "/habitaciones";
   };
   "routes/[cuentas]._index.jsx": {
     id: "routes/[cuentas]._index";
@@ -45,6 +52,7 @@ type RouteFiles = {
 
 type RouteModules = {
   "root": typeof import("./app/root.jsx");
+  "routes/[habitaciones]._index": typeof import("./app/routes/[habitaciones]._index.jsx");
   "routes/[cuentas]._index": typeof import("./app/routes/[cuentas]._index.jsx");
   "routes/_index": typeof import("./app/routes/_index.jsx");
   "routes/[404]._index": typeof import("./app/routes/[404]._index.jsx");

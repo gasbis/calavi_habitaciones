@@ -6,6 +6,7 @@ from calavi_habitaciones.components.change_password import (
     change_password_dialog,
     change_password_trigger,
 )
+from calavi_habitaciones.components.summary import stat_card
 
 class MenuState(rx.State):
     mobile_menu_open: bool = False
@@ -36,7 +37,11 @@ def mobile_menu() -> rx.Component:
         rx.popover.content(
             rx.el.div(
                 menu_item(
-                    icon="home", name="Home", link="/",
+                    icon="home", name="Inicio", link="/",
+                    on_click_extra=MenuState.close_mobile_menu,
+                ),
+                menu_item(
+                    icon="calendar", name="Habitaciones", link="/habitaciones",
                     on_click_extra=MenuState.close_mobile_menu,
                 ),
                 menu_item(
@@ -85,7 +90,8 @@ def menu_item(icon: str, name: str, link: str, on_click_extra=None) -> rx.Compon
     
 def menu() -> rx.Component:
     return rx.el.div(
-        menu_item(icon="home", name="Home", link="/"),
+        menu_item(icon="home", name="Inicio", link="/"),
+        menu_item(icon="calendar", name="Habitaciones", link="/habitaciones"),
         menu_item(icon="coins", name="Contabilidad", link="/cuentas"),
         class_name="items-center gap-7 md:flex",
     )
@@ -169,12 +175,21 @@ def page_title(page_title: str, page_subtitle: str) -> rx.Component:
             class_name="min-w-0",
         ),
         rx.el.div(
-            rx.icon("calendar-days", class_name="h-4 w-4 text-neutral-400"),
-            rx.el.span(
-                f"{OccupancyState.occupied_count} ocupadas",
-                class_name="text-sm font-semibold text-neutral-700",
+            stat_card(
+                "Necesita atención",
+                OccupancyState.attention_count.to_string(),
+                "triangle-alert",
+                rx.cond(
+                    OccupancyState.attention_count == 1,
+                    "Contrato vencido o finalizando -menos de un mes-",
+                    "Contratos vencidos o finalizando -menos de un mes-"
+                ),
+                rx.cond(
+                    OccupancyState.attention_count > 0,
+                    True,
+                    False,
+                ),
             ),
-            class_name="flex w-fit items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-100 px-3 py-2",
         ),
         class_name="flex w-full flex-col gap-4 md:flex-row md:items-end md:justify-between",
     )

@@ -4,14 +4,15 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
-import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import {DynamicIcon} from "lucide-react/dynamic.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
+import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -21,14 +22,25 @@ import {jsx} from "@emotion/react"
 
 
 
-export const Link_link_99721a57788044d59b7d23e7df128ad0_81e687a6 = memo(({children}) => {
+export const Link_link_ad1189a55c786e65b2e18f2a52d65bbf_81e687a6 = memo(({children}) => {
     const on_click_9d271fbfb9d8a6a0e67e18312b21499b = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___components___header____menu_state.close_mobile_menu", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 const reflex___state____state = useContext(StateContexts.reflex___state____state)
 
 
 
     return(
-        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Home"))))
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Inicio"))))
+    )
+});
+
+export const Link_link_d2d9384183d2ccb7ca33c6d927d93c81_81e687a6 = memo(({children}) => {
+    const on_click_9d271fbfb9d8a6a0e67e18312b21499b = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___components___header____menu_state.close_mobile_menu", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),onClick:on_click_9d271fbfb9d8a6a0e67e18312b21499b,underline:"none"},jsx(ReactRouterLink,{to:"/habitaciones"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideCalendar,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/habitaciones"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/habitaciones"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Habitaciones"))))
     )
 });
 
@@ -94,13 +106,23 @@ export const Button_button_ead0a0e087e3cd0d31a84d69a05b89ee_81e687a6 = memo(({ch
     )
 });
 
-export const Link_link_f7d854600cf3f3c4cf8cd856fd0c16e7_81e687a6 = memo(({children}) => {
+export const Link_link_9fb26b1aceec54a325fef2718a27055e_81e687a6 = memo(({children}) => {
     const reflex___state____state = useContext(StateContexts.reflex___state____state)
 
 
 
     return(
-        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Home"))))
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideHome,{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((true ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Inicio"))))
+    )
+});
+
+export const Link_link_73489cff2e0864b30ef434662ab629ed_81e687a6 = memo(({children}) => {
+    const reflex___state____state = useContext(StateContexts.reflex___state____state)
+
+
+
+    return(
+        jsx(RadixThemesLink,{asChild:true,css:({ ["&:hover"] : ({ ["color"] : "var(--accent-8)" }) }),underline:"none"},jsx(ReactRouterLink,{to:"/habitaciones"},jsx("div",{className:"group flex items-center gap-2"},jsx(LucideCalendar,{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/habitaciones"?.valueOf?.())) ? "h-3 w-3 text-neutral-300" : "h-3 w-3 text-neutral-700 transition-colors group-hover:text-neutral-300")},),jsx("span",{className:((false ? pyOr((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/"?.valueOf?.()), () => ((reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/index"?.valueOf?.()))) : (reflex___state____state.router_rx_state_?.["page"]?.["path"]?.valueOf?.() === "/habitaciones"?.valueOf?.())) ? "text-sm font-semibold tracking-tight text-neutral-300" : "text-sm font-semibold tracking-tight text-neutral-700 transition-colors group-hover:text-neutral-300")},"Habitaciones"))))
     )
 });
 
@@ -207,33 +229,23 @@ const reflex___state____state__calavi_habitaciones___states___auth_state____auth
     )
 });
 
-export const Bare_comp_488315d0cca00fb1a8a515e1b403df9b_81e687a6 = memo(({children}) => {
+export const Icon_trianglealert_bd2766d3c60ba31ec93a0a0ca8ae2b63_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupied_count_rx_state_+" ocupadas")
+        jsx(LucideTriangleAlert,{className:(((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? true : false) ? "h-4 w-4 text-danger-600" : "h-4 w-4 text-brand-600")},)
     )
 });
 
-export const Bare_comp_1bad7f8a8f8c339fb91814512f23155d_81e687a6 = memo(({children}) => {
+export const Div_div_ec4c0c44ffb262d44e2cfd3d661cdee2_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        (JSON.stringify(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupied_count_rx_state_))
-    )
-});
-
-export const Bare_comp_6685f803c950d1d8484c7c28a4809620_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
-
-
-
-    return(
-        reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.monthly_revenue_display_rx_state_
+        jsx("div",{className:(((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? true : false) ? "flex h-8 w-8 items-center justify-center rounded-lg bg-warning-100 border border-danger-100" : "flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 border border-brand-100")},children)
     )
 });
 
@@ -257,43 +269,13 @@ export const P_p_52f7bed51acbc07b5637d9f54fa4e23e_81e687a6 = memo(({children}) =
     )
 });
 
-export const Bare_comp_75f69a355e6aff418b0a20b78dfafa0d_81e687a6 = memo(({children}) => {
+export const Bare_comp_7c260291f553f70b7727da968f8f631f_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        ((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupancy_rate_rx_state_.toLocaleString('en-US', ((decimals) => ({minimumFractionDigits: decimals, maximumFractionDigits: decimals}))(1)).replaceAll(',', ""))+"%")
-    )
-});
-
-export const Div_div_9e400e64ba090da3e244cbeefa46e330_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
-
-
-
-    return(
-        jsx("div",{className:"h-full rounded-full bg-brand-600 transition-all duration-500",css:({ ["width"] : (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupancy_rate_rx_state_+"%") })},)
-    )
-});
-
-export const Bare_comp_c7d1bc5d520946c3f85de8151f0c9bce_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
-
-
-
-    return(
-        (reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.occupied_count_rx_state_+" de "+reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.total_units_rx_state_+" unidades alquiladas actualmente ")
-    )
-});
-
-export const Foreach_comp_54f690a0d66dbe33f30d9518ef19e678_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
-
-
-
-    return(
-        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.rooms_occupancy_panel_rx_state_ ?? [],((item_rx_state_,index_1d435a620271e554c149ef14262981d5)=>(jsx("div",{className:"w-full rounded-xl border border-neutral-200 bg-neutral-100 p-2",key:index_1d435a620271e554c149ef14262981d5},jsx("p",{className:"text-sm font-semibold text-neutral-900"},("Habitaci\u00f3n "+item_rx_state_?.["room"])),jsx("div",{className:"mt-4 flex items-center justify-around"},jsx("div",{className:"flex flex-col items-center"},jsx("div",{css:({ ["width"] : "50px", ["height"] : "50px", ["borderRadius"] : "9999px", ["background"] : ("conic-gradient(#cb5d4d "+((item_rx_state_?.["pct_year"] / 100) * 100)+"%, #e2f0f3 0)"), ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["flexShrink"] : "0", ["position"] : "relative" }),title:"Ocupaci\u00f3n del a\u00f1o en curso"},jsx("div",{css:({ ["width"] : "36px", ["height"] : "36px", ["borderRadius"] : "9999px", ["backgroundColor"] : "#bcdce3" })},),jsx("span",{className:"absolute inset-0 flex items-center justify-center text-[10px] font-semibold text-neutral-700"},(item_rx_state_?.["pct_year"]+"%"))),jsx("span",{className:"mt-2 text-xs font-medium text-neutral-500"},"A\u00f1o en curso")),jsx("div",{className:"flex flex-col items-center"},jsx("div",{css:({ ["width"] : "50px", ["height"] : "50px", ["borderRadius"] : "9999px", ["background"] : ("conic-gradient(#cb5d4d "+((item_rx_state_?.["pct_total"] / 100) * 100)+"%, #e2f0f3 0)"), ["display"] : "flex", ["alignItems"] : "center", ["justifyContent"] : "center", ["flexShrink"] : "0", ["position"] : "relative" }),title:"Ocupaci\u00f3n desde el inicio del negocio"},jsx("div",{css:({ ["width"] : "36px", ["height"] : "36px", ["borderRadius"] : "9999px", ["backgroundColor"] : "#bcdce3" })},),jsx("span",{className:"absolute inset-0 flex items-center justify-center text-[10px] font-semibold text-neutral-700"},(item_rx_state_?.["pct_total"]+"%"))),jsx("span",{className:"mt-2 text-xs font-medium text-neutral-500"},"Hist\u00f3rico")))))))
+        ((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_?.valueOf?.() === 1?.valueOf?.()) ? "Contrato vencido o finalizando -menos de un mes-" : "Contratos vencidos o finalizando -menos de un mes-")
     )
 });
 
@@ -1322,139 +1304,6 @@ export const Cond_comp_baea3d9881e328da7221c2a3c03c3e5e_81e687a6 = memo(({childr
 
     return(
         ((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.view_mode_rx_state_?.valueOf?.() === "active"?.valueOf?.())?(children?.at?.(0)):(children?.at?.(1)))
-    )
-});
-
-export const Button_button_6818058f84624b121cbf21175751441d_81e687a6 = memo(({children}) => {
-    const on_click_cbe97f0016faec5bfce18ab4cc4bda8c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.open_new_admin", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-
-
-    return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-2.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",onClick:on_click_cbe97f0016faec5bfce18ab4cc4bda8c,type:"button"},children)
-    )
-});
-
-export const Bare_comp_f6e1e1bec53c002f149334f079d78676_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.management_notice_rx_state_
-    )
-});
-
-export const Cond_comp_7120152bb4890f0bcc20ef1a27c9f4f9_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        (!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.management_notice_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
-    )
-});
-
-export const Foreach_comp_1b570ab854aaa6c0fb8176b0f9d8f47f_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        Array.prototype.map.call(reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.admin_users_rx_state_ ?? [],((item_rx_state_,index_99ae251a64739767aa046e7a9f5f9757)=>(jsx("tr",{className:"border-t border-neutral-100 hover:bg-neutral-50/70",key:index_99ae251a64739767aa046e7a9f5f9757},jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("div",{className:"min-w-48"},jsx("p",{className:"text-sm font-semibold text-neutral-900"},item_rx_state_?.["name"]),jsx("p",{className:"mt-0.5 text-xs font-medium text-neutral-500"},item_rx_state_?.["email"]),jsx(Fragment,{},((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["email"]?.valueOf?.() === item_rx_state_?.["email"]?.valueOf?.())?(jsx(Fragment,{},jsx("span",{className:"mt-2 inline-flex w-fit items-center gap-1 rounded-full border border-brand-200 bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand-700"},"Usuario actual"))):(jsx(Fragment,{},jsx("div",{},))))))),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("span",{className:"text-sm font-medium text-neutral-700"},item_rx_state_?.["role"])),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("span",{className:(item_rx_state_?.["active"] ? "w-fit rounded-full border border-success-200 bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700" : "w-fit rounded-full border border-neutral-200 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-600")},(item_rx_state_?.["active"] ? "Activado" : "Desactivado"))),jsx("td",{className:"px-4 py-4 align-top sm:px-5"},jsx("button",{className:"flex w-fit items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-50",disabled:(reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["email"]?.valueOf?.() === item_rx_state_?.["email"]?.valueOf?.()),onClick:((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.toggle_user_access", ({ ["email"] : item_rx_state_?.["email"] }), ({  })))], [_e], ({  }))))},jsx(DynamicIcon,{className:"h-4 w-4",name:(item_rx_state_?.["active"] ? "user-round-x" : "user-round-check").replaceAll("_", "-")},),jsx("span",{},(item_rx_state_?.["active"] ? "Desactivar" : "Activar"))))))))
-    )
-});
-
-export const Bare_comp_ead4c6c32fefbb40affd4acfe28f2d00_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_email_error_rx_state_
-    )
-});
-
-export const Cond_comp_8b552820172f2e1196e920ba8847114c_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        (!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_email_error_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
-    )
-});
-
-export const Bare_comp_a7fc5868083aed6eec2c62cd211111b7_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_password_error_rx_state_
-    )
-});
-
-export const Cond_comp_57e54ea51a34e60b44735603b965350f_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        (!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_password_error_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
-    )
-});
-
-export const Bare_comp_2f0af7fc93ea2e8234342e9c1bdbd40f_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_error_rx_state_
-    )
-});
-
-export const Cond_comp_c2c436b2c9a5336514c7b52ab48cf2fa_81e687a6 = memo(({children}) => {
-    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        (!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_error_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
-    )
-});
-
-export const Form_form_b8d508ead2e80971a5dfd164d3070ea1_81e687a6 = memo(({children}) => {
-    
-
-    const handleSubmit_b26be98849c594dda3962d339d0f00ac = useCallback((ev) => {
-        const $form = ev.target
-        ev.preventDefault()
-        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...({  })};
-
-        (((...args) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.create_admin", ({ ["form_data"] : form_data }), ({  })))], args, ({  }))))(ev));
-
-        if (false) {
-            $form.reset()
-        }
-    })
-    
-
-
-    return(
-        jsx("form",{onSubmit:handleSubmit_b26be98849c594dda3962d339d0f00ac},children)
-    )
-});
-
-export const Dialogroot_dialog__root_3c40310f4e490e555cb038b2bb41aaa0_81e687a6 = memo(({children}) => {
-    const on_open_change_522058331b00272e68d3aebbb1dddb08 = useCallback(((_ev_0) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.set_new_admin_open", ({ ["value"] : _ev_0 }), ({  })))], [_ev_0], ({  })))), [addEvents, ReflexEvent])
-const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
-
-
-
-    return(
-        jsx(RadixThemesDialog.Root,{onOpenChange:on_open_change_522058331b00272e68d3aebbb1dddb08,open:reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.new_admin_open_rx_state_},children)
     )
 });
 

@@ -174,6 +174,10 @@ class OccupancyState(rx.State):
         return computed
 
     @rx.var
+    def filtered_rooms_no_paid_rent(self) -> list[str]:
+        return [r['room'] for r in self.filtered_rooms if not has_rent_entry_current_month(f"Habitación {r['room']}")]
+
+    @rx.var
     def occupied_count(self) -> int:
         return len(self.occupied_lease)
 

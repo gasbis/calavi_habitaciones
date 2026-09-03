@@ -12,8 +12,18 @@ def stat_card(
                 class_name="text-xs font-semibold uppercase tracking-wide text-neutral-500",
             ),
             rx.el.div(
-                rx.icon(icon, class_name="h-4 w-4 text-brand-600"),
-                class_name="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 border border-brand-100",
+                rx.icon(icon,
+                        class_name=rx.cond(
+                            red_color,
+                            "h-4 w-4 text-danger-600",
+                            "h-4 w-4 text-brand-600"
+                            ),
+                ),
+                class_name=rx.cond(
+                    red_color,
+                    "flex h-8 w-8 items-center justify-center rounded-lg bg-warning-100 border border-danger-100",
+                    "flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 border border-brand-100"
+                ),
             ),
             class_name="flex items-start justify-between gap-3",
         ),
@@ -79,15 +89,15 @@ def summary_section() -> rx.Component:
                 ),
             ),
             stat_card(
-                "Necesita atención",
-                OccupancyState.attention_count.to_string(),
-                "triangle-alert",
-                "Contratos vencidos o finalizando -menos de un mes-",
-                rx.cond(
-                    OccupancyState.attention_count > 0,
-                    True,
-                    False,
+                label="Habitaciones pendientes de cobro",
+                value=rx.cond(
+                    OccupancyState.filtered_rooms_no_paid_rent,
+                    rx.el.span(OccupancyState.filtered_rooms_no_paid_rent.join(" - ")),
+                    rx.el.span("Ninguna")
                 ),
+                icon="coins",
+                hint="Alquileres no cobrados dentro del mes en curso",
+                red_color=False,
             ),
             class_name="grid grid-cols-1 gap-3 sm:grid-cols-3",#"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
         ),

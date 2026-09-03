@@ -4,6 +4,9 @@
     <loc>http://localhost:3000/</loc>
   </url>
   <url>
+    <loc>http://localhost:3000/habitaciones</loc>
+  </url>
+  <url>
     <loc>http://localhost:3000/cuentas</loc>
   </url>
 </urlset>
