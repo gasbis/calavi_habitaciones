@@ -4,14 +4,14 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
-import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
-import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
 import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
 import {jsx} from "@emotion/react"
 
@@ -229,23 +229,23 @@ const reflex___state____state__calavi_habitaciones___states___auth_state____auth
     )
 });
 
-export const Icon_trianglealert_bd2766d3c60ba31ec93a0a0ca8ae2b63_81e687a6 = memo(({children}) => {
+export const Icon_trianglealert_3df794653bba551a0528da0d42ff8e10_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx(LucideTriangleAlert,{className:(((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? true : false) ? "h-4 w-4 text-danger-600" : "h-4 w-4 text-brand-600")},)
+        jsx(LucideTriangleAlert,{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? "h-3.5 w-3.5 text-danger-600" : "h-3.5 w-3.5 text-brand-600")},)
     )
 });
 
-export const Div_div_ec4c0c44ffb262d44e2cfd3d661cdee2_81e687a6 = memo(({children}) => {
+export const Div_div_b64f4993e11198ea7c375c5c6cf0d9f6_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("div",{className:(((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? true : false) ? "flex h-8 w-8 items-center justify-center rounded-lg bg-warning-100 border border-danger-100" : "flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 border border-brand-100")},children)
+        jsx("div",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? "flex h-7 w-7 items-center justify-center rounded-lg bg-warning-100 border border-danger-100" : "flex h-7 w-7 items-center justify-center rounded-lg bg-brand-50 border border-brand-100")},children)
     )
 });
 
@@ -259,13 +259,13 @@ export const Bare_comp_77bfd731c82a061b51066830280b4155_81e687a6 = memo(({childr
     )
 });
 
-export const P_p_52f7bed51acbc07b5637d9f54fa4e23e_81e687a6 = memo(({children}) => {
+export const P_p_062f7ab28c0bf461513f6bebc9cd6e09_81e687a6 = memo(({children}) => {
     const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
 
 
 
     return(
-        jsx("p",{className:(((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? true : false) ? "mt-3 text-2xl font-semibold tracking-tight text-danger-600" : "mt-3 text-2xl font-semibold tracking-tight text-neutral-900")},children)
+        jsx("p",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? "mt-1 text-center text-xl font-semibold tracking-tight text-danger-600" : "mt-1 text-center text-xl font-semibold tracking-tight text-neutral-900")},children)
     )
 });
 
@@ -276,6 +276,16 @@ export const Bare_comp_7c260291f553f70b7727da968f8f631f_81e687a6 = memo(({childr
 
     return(
         ((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_?.valueOf?.() === 1?.valueOf?.()) ? "Contrato vencido o finalizando -menos de un mes-" : "Contratos vencidos o finalizando -menos de un mes-")
+    )
+});
+
+export const Div_div_ab8f09134c6da387a69bd392e98ab52f_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
+
+
+
+    return(
+        jsx("div",{className:((reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.attention_count_rx_state_ > 0) ? "max-w-[210px] rounded-xl border border-danger-300 bg-neutral-100 p-4" : "max-w-[210px] rounded-xl border border-neutral-200 bg-neutral-100 p-4")},children)
     )
 });
 

@@ -175,21 +175,48 @@ def page_title(page_title: str, page_subtitle: str) -> rx.Component:
             class_name="min-w-0",
         ),
         rx.el.div(
-            stat_card(
-                "Necesita atención",
+            rx.el.div(                    
+                rx.el.div(
+                    rx.icon("triangle-alert",
+                            class_name=rx.cond(
+                                OccupancyState.attention_count > 0,
+                                "h-3.5 w-3.5 text-danger-600",
+                                "h-3.5 w-3.5 text-brand-600"
+                                ),
+                    ),
+                    class_name=rx.cond(
+                        OccupancyState.attention_count > 0,
+                        "flex h-7 w-7 items-center justify-center rounded-lg bg-warning-100 border border-danger-100",
+                        "flex h-7 w-7 items-center justify-center rounded-lg bg-brand-50 border border-brand-100"
+                    ),
+                ),
+                rx.el.span(
+                    "Necesita atención",
+                    class_name="text-[10px] font-semibold uppercase tracking-wide text-neutral-500",
+                ),
+                class_name="flex items-center justify-between gap-3",
+            ),
+            rx.el.p(
                 OccupancyState.attention_count.to_string(),
-                "triangle-alert",
+                class_name=rx.cond(
+                    OccupancyState.attention_count > 0,
+                    "mt-1 text-center text-xl font-semibold tracking-tight text-danger-600",
+                    "mt-1 text-center text-xl font-semibold tracking-tight text-neutral-900",
+                ),
+                
+            ),
+            rx.el.p(
                 rx.cond(
                     OccupancyState.attention_count == 1,
                     "Contrato vencido o finalizando -menos de un mes-",
                     "Contratos vencidos o finalizando -menos de un mes-"
                 ),
-                rx.cond(
-                    OccupancyState.attention_count > 0,
-                    True,
-                    False,
-                ),
+                class_name="mt-1 text-xs line-clamp-2 font-medium text-neutral-500"
             ),
+            class_name=rx.cond(
+                OccupancyState.attention_count > 0,
+                "max-w-[210px] rounded-xl border border-danger-300 bg-neutral-100 p-4",
+                "max-w-[210px] rounded-xl border border-neutral-200 bg-neutral-100 p-4",)            
         ),
-        class_name="flex w-full flex-col gap-4 md:flex-row md:items-end md:justify-between",
+        class_name="flex flex-col gap-4 md:flex-row md:items-center md:justify-between",
     )
