@@ -4,3 +4,4 @@ python-dotenv
 faker
 sqlmodel
 python-dateutil
+openpyxl

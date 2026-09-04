@@ -1,5 +1,7 @@
 import reflex as rx
 import logging
+from io import BytesIO
+from openpyxl import Workbook
 from calavi_habitaciones.models import (
     AccountEntry,
     to_display_date,
@@ -9,6 +11,7 @@ from calavi_habitaciones.models import (
     get_account_entry,
     update_account_entry,
     delete_account_entry,
+    business_start_date,
     _DISPLAY_FORMAT,
     ACCOUNTING_TAXONOMY,
     SUBCHAPTERS_WITH_CONSUM,
@@ -18,6 +21,20 @@ from datetime import date, datetime
 _FORM_KEYS: list[str] = [
     "mov_type", "mov_date", "concept", "chapter", "subchapter", "amount", "consum", "observ",
 ] 
+
+_IRPF_GLOBAL_OPTION = "Todos"
+
+_IRPF_COLUMNS: list[tuple[str, str]] = [
+    ("mov_type", "Tipo"),
+    ("mov_date", "Fecha"),
+    ("concept", "Concepto"),
+    ("chapter", "Capítulo"),
+    ("subchapter", "Subcapítulo"),
+    ("amount", "Importe"),
+    ("consum", "Consumo"),
+    ("observ", "Observaciones"),
+    ("bill_url", "Factura (URL)"),
+]
 
 def _blank_errors() -> dict[str, str]:
     return {key: "" for key in _FORM_KEYS}
@@ -47,6 +64,8 @@ class AccountState(rx.State):
     account_search: str = ""
     show_bill_link_modal: bool = False
     bill_url_draft: str = ""
+    irpf_dialog_open: bool = False
+    irpf_year: str = ""
     
     @rx.var
     def sorted_entries(self) -> list[dict]:
@@ -93,6 +112,16 @@ class AccountState(rx.State):
             or query in entrie["chapter"].lower()
             or query in entrie["subchapter"].lower()
         ]
+
+    @rx.var
+    def irpf_available_years(self) -> list[str]:
+        start = business_start_date()
+        start_year = start.year if start else date.today().year
+        current_year = date.today().year
+        if start_year > current_year:
+            start_year = current_year
+        years = [str(year) for year in range(current_year, start_year - 1, -1)]
+        return [_IRPF_GLOBAL_OPTION] + years
     
     @rx.event
     def open_bill_url(self, url: str):
@@ -119,6 +148,67 @@ class AccountState(rx.State):
     @rx.event
     def close_bill_link_modal(self):
         self.show_bill_link_modal = False
+
+    @rx.event
+    async def open_irpf_dialog(self):
+        from calavi_habitaciones.states.auth_state import AuthState
+        auth = await self.get_state(AuthState)
+        if not auth.is_authenticated:
+            return
+        if not self.irpf_year:
+            self.irpf_year = str(date.today().year)
+        self.irpf_dialog_open = True
+
+    @rx.event
+    def set_irpf_year(self, value: str):
+        self.irpf_year = value
+
+    @rx.event
+    def close_irpf_dialog(self):
+        self.irpf_dialog_open = False
+
+    @rx.event
+    def download_irpf(self):
+        """Genera un Excel con los asientos de accountingentry del año elegido (o todos) y lo descarga."""
+        try:
+            all_entries = list_account_entries()
+            if self.irpf_year == _IRPF_GLOBAL_OPTION:
+                selected_entries = all_entries
+            else:
+                selected_entries = []
+                for entry in all_entries:
+                    try:
+                        mov_date = datetime.strptime(entry["mov_date"], _DISPLAY_FORMAT).date()
+                    except ValueError:
+                        continue
+                    if str(mov_date.year) == self.irpf_year:
+                        selected_entries.append(entry)
+
+            def sort_key(entry: dict):
+                try:
+                    return datetime.strptime(entry["mov_date"], _DISPLAY_FORMAT).date()
+                except ValueError:
+                    return date.min
+
+            selected_entries = sorted(selected_entries, key=sort_key)
+
+            workbook = Workbook()
+            sheet = workbook.active
+            sheet.title = "IRPF"
+            sheet.append([label for _, label in _IRPF_COLUMNS])
+            for entry in selected_entries:
+                sheet.append([entry.get(key, "") for key, _ in _IRPF_COLUMNS])
+
+            buffer = BytesIO()
+            workbook.save(buffer)
+            buffer.seek(0)
+
+            label = "todos" if self.irpf_year == _IRPF_GLOBAL_OPTION else self.irpf_year
+            self.irpf_dialog_open = False
+            return rx.download(data=buffer.getvalue(), filename=f"IRPF_{label}.xlsx")
+        except Exception as e:
+            logging.exception(f"Error: {e}")
+            self.notice = "No se ha podido generar el Excel. Por favor inténtalo de nuevo."
         
     @rx.event
     def set_account_search(self, value: str):
@@ -322,4 +412,4 @@ class AccountState(rx.State):
                 errors["consum"] = "El consumo es obligatorio para este subcapítulo."
 
         return errors
-        
+    
