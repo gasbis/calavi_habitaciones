@@ -1,0 +1,47 @@
+name: Monthly Database Backup
+
+on:
+  schedule:
+    - cron: "0 3 1 * *"   # día 1 de cada mes a las 3:00 UTC
+  workflow_dispatch: {}    # permite lanzarlo a mano desde la pestaña Actions
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar cliente de PostgreSQL
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client gnupg
+
+      - name: Generar el dump de la base de datos
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: |
+          set -euo pipefail
+          FILENAME="backup_$(date +%Y-%m).dump"
+          pg_dump --format=custom "$DATABASE_PUBLIC_URL" -f "$FILENAME"
+          echo "DUMP_FILE=$FILENAME" >> "$GITHUB_ENV"
+
+      - name: Cifrar el dump
+        env:
+          BACKUP_ENCRYPTION_KEY: ${{ secrets.BACKUP_ENCRYPTION_KEY }}
+        run: |
+          set -euo pipefail
+          gpg --batch --yes --symmetric --cipher-algo AES256 \
+              --passphrase "$BACKUP_ENCRYPTION_KEY" \
+              -o "${DUMP_FILE}.gpg" "$DUMP_FILE"
+          rm "$DUMP_FILE"
+          echo "UPLOAD_FILE=${DUMP_FILE}.gpg" >> "$GITHUB_ENV"
+
+      - name: Subir a Cloudflare R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          set -euo pipefail
+          aws s3 cp "$UPLOAD_FILE" "s3://${{ secrets.R2_BUCKET }}/$UPLOAD_FILE" \
+            --endpoint-url "${{ secrets.R2_ENDPOINT }}"
+
+      - name: Limpiar ficheros locales
+        if: always()
+        run: rm -f backup_*.dump backup_*.dump.gpg
