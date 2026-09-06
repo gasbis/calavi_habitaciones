@@ -228,7 +228,7 @@ class OccupancyState(rx.State):
         self.history_selected_id = ""
 
     @rx.event
-    async def show_history_view(self):
+    def show_history_view(self):
         self.view_mode = "history"
         self.selected_id = ""
 

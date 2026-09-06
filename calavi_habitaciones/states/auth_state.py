@@ -56,7 +56,7 @@ class AuthState(rx.State):
     change_password_notice: str = ""
     
     @rx.event
-    async def load_admins(self):
+    def load_admins(self):
         if not self.is_authenticated:
             return
         self.admin_users = [
