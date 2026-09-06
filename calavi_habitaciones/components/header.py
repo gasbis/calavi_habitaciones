@@ -6,7 +6,6 @@ from calavi_habitaciones.components.change_password import (
     change_password_dialog,
     change_password_trigger,
 )
-from calavi_habitaciones.components.summary import stat_card
 
 class MenuState(rx.State):
     mobile_menu_open: bool = False
@@ -223,5 +222,5 @@ def page_title(page_title: str, page_subtitle: str) -> rx.Component:
                 "max-w-[220px] rounded-xl border border-danger-300 bg-neutral-100 p-4",
                 "max-w-[220px] rounded-xl border border-neutral-200 bg-neutral-100 p-4",)            
         ),
-        class_name="flex flex-col gap-4 md:flex-row md:items-center md:justify-between",
+        class_name="flex flex-col gap-4 border-b border-neutral-200 pb-5 md:flex-row md:items-start md:justify-between",
     )

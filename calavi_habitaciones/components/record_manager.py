@@ -1,6 +1,5 @@
 import reflex as rx
 
-from calavi_habitaciones.components.record_form import record_dialog
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.record_state import RecordState
 

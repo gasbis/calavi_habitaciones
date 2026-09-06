@@ -11,3 +11,4 @@ __pycache__/
 # Virtual environments
 .venv
 import_accounting.py
+flujo_del_codigo.txt

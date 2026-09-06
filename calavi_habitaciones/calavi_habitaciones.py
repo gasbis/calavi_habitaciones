@@ -12,6 +12,7 @@ from calavi_habitaciones.components.record_form import record_dialog, room_subfo
 from calavi_habitaciones.states.auth_state import AuthState
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.account_state import AccountState
+from calavi_habitaciones.states.account_summary_state import AccountSummaryState
 
 title="Control de habitaciones"
 subtitle="Todas las habitaciones actualmente ocupadas con información sobre residentes, contratos de alquiler y rentas, todo de un vistazo."
@@ -85,7 +86,7 @@ app.add_page(
     meta=[
         {"name": "robots", "content": "noindex, nofollow"}
     ],
-    on_load=OccupancyState.load,
+    on_load=[ AccountSummaryState.load, OccupancyState.load ]
 ),
 
 app.add_page(
@@ -115,5 +116,5 @@ app.add_page(
     meta=[
         {"name": "robots", "content": "noindex, nofollow"}
     ],
-    on_load=AccountState.load,
+    on_load=AuthState.load_admins,
 )

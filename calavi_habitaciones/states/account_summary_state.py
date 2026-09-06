@@ -6,13 +6,14 @@ from calavi_habitaciones.models import (
     business_start_date,
     ACCOUNTING_TAXONOMY,
     _DISPLAY_FORMAT,
+    _SPANISH_MONTHS,
 )
 from calavi_habitaciones.utils.formatting import format_eur
 
-_SPANISH_MONTHS_SHORT: list[str] = [
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
-]
+# _SPANISH_MONTHS_SHORT: list[str] = [
+#     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+#     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+# ]
 
 _FIANZA_SUBCHAPTER = "Fianza"
 _EXPENSE_CHAPTERS_FOR_TOTAL: set[str] = {"Gastos fijos", "Préstamo"}
@@ -201,7 +202,7 @@ class AccountSummaryState(rx.State):
             rows.append(
                 {
                     "row_type": "detail",
-                    "month": _SPANISH_MONTHS_SHORT[month - 1],
+                    "month": _SPANISH_MONTHS[month - 1],
                     "income_display": format_eur(income),
                     "expense_display": format_eur(expense),
                     "balance_display": format_eur(income - expense),

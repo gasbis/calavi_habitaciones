@@ -3,7 +3,6 @@ import reflex as rx
 from calavi_habitaciones.components.auth import login_screen
 from calavi_habitaciones.components.header import page_header, page_title
 from calavi_habitaciones.states.auth_state import AuthState
-from calavi_habitaciones.states.account_summary_state import AccountSummaryState
 from calavi_habitaciones.components.summary import rooms_summary_section, account_summary_section
 
 title="Inicio"
@@ -18,7 +17,6 @@ def summary_page() -> rx.Component:
             class_name="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8",
         ),
         class_name="min-h-screen w-full bg-neutral-50 font-['Inter']",
-        on_mount=AccountSummaryState.load,
     )
 
 

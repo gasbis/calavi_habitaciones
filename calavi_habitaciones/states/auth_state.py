@@ -64,6 +64,14 @@ class AuthState(rx.State):
     change_password_notice: str = ""
     
     @rx.event
+    async def load_admins(self):
+        if not self.is_authenticated:
+            return
+        self.admin_users = [
+            AdminDirectoryEntry(**user) for user in list_admin_accounts()
+        ]
+        
+    @rx.event
     def set_new_admin_open(self, value: bool):
         self.new_admin_open = value
     

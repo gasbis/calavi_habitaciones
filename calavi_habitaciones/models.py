@@ -93,6 +93,11 @@ ACCOUNTING_TAXONOMY: dict[str, dict[str, list[str]]] ={
 
 SUBCHAPTERS_WITH_CONSUM: set[str] = {"Agua", "Electricidad"}
 
+_SPANISH_MONTHS: list[str] = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+]
+
 def to_display_date(value: str) -> str:
     if not value:
         return ""
@@ -732,11 +737,6 @@ def create_account_entry(entry: AccountEntry) -> str:
         logging.exception(f"Error: {e}")
         return ""
     
-_SPANISH_MONTHS: list[str] = [
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
-]
- 
  
 def current_month_name() -> str:
     """Nombre del mes en curso, en español."""
