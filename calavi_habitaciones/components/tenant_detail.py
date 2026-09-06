@@ -1,6 +1,5 @@
 import reflex as rx
 
-from calavi_habitaciones.components.room_card import status_pill
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.record_state import RecordState
 

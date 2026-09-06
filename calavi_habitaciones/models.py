@@ -366,33 +366,6 @@ def get_tenant_record(tenant_id: str) -> dict[str, str]:
         logging.exception(f"Error: {e}")
         return {}
     
-def _room_record_in_use(room_id: str) -> bool:
-    """True si esta habitación está referenciada por algún contrato (activo o histórico)."""
-    try:
-        pk = int(room_id) if room_id.isdigit() else -1
-        with rx.session() as session:
-            record = session.exec(
-                sqlmodel.select(OccupancyRecord).where(OccupancyRecord.room_id == pk)
-            ).first()
-            return record is not None
-    except Exception as e:
-        logging.exception(f"Error: {e}")
-        return True
-
-
-def _tenant_record_in_use(tenant_id: str) -> bool:
-    """True si este inquilino está referenciado por algún contrato (activo o histórico)."""
-    try:
-        pk = int(tenant_id) if tenant_id.isdigit() else -1
-        with rx.session() as session:
-            record = session.exec(
-                sqlmodel.select(OccupancyRecord).where(OccupancyRecord.tenant_id == pk)
-            ).first()
-            return record is not None
-    except Exception as e:
-        logging.exception(f"Error: {e}")
-        return True
-
 
 def update_room_record(room_id: str, room: str, floor: int, bed_type: str) -> bool:
     try:
@@ -410,21 +383,6 @@ def update_room_record(room_id: str, room: str, floor: int, bed_type: str) -> bo
         logging.exception(f"Error: {e}")
         return False
 
-
-def delete_room_record(room_id: str) -> bool:
-    try:
-        if _room_record_in_use(room_id):
-            return False
-        with rx.session() as session:
-            record = session.get(RoomRecord, int(room_id))
-            if record is None:
-                return False
-            session.delete(record)
-            session.commit()
-            return True
-    except Exception as e:
-        logging.exception(f"Error: {e}")
-        return False
 
 
 def update_tenant_record(
@@ -446,21 +404,6 @@ def update_tenant_record(
         logging.exception(f"Error: {e}")
         return False
 
-
-def delete_tenant_record(tenant_id: str) -> bool:
-    try:
-        if _tenant_record_in_use(tenant_id):
-            return False
-        with rx.session() as session:
-            record = session.get(TenantRecord, int(tenant_id))
-            if record is None:
-                return False
-            session.delete(record)
-            session.commit()
-            return True
-    except Exception as e:
-        logging.exception(f"Error: {e}")
-        return False
 
 
 def room_number_exists(room: str, exclude_id: str = "") -> bool:
@@ -703,18 +646,6 @@ def set_admin_active(email: str, active: bool) -> bool:
 # *****************************CONTABILIDAD***********************************    
 
 
-def _apply_account(record: AccountingEntry, data: dict) -> AccountingEntry:   
-    record.mov_type = data["mov_type"],
-    record.mov_date = data["mov_date"],
-    record.concept = data["concept"],
-    record.chapter = data["chapter"],
-    record.subchapter = data["subchapter"],
-    record.amount = float(data["amount"]),
-    record.consum = float(data["consum"]),
-    record.observ=data["observ"],
-    record.bill_url=data["bill_url"],    
-    return record
-
 def create_account_entry(entry: AccountEntry) -> str:
     try:
         with rx.session() as session:
@@ -852,6 +783,8 @@ def delete_account_entry(entry_id: str) -> bool:
 
 
 def to_input_date(display: str) -> str:
+    if not display:
+        return ""
     try:
         return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%Y-%m-%d")
     except Exception:

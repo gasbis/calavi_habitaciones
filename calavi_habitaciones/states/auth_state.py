@@ -15,14 +15,6 @@ from calavi_habitaciones.models import (
 )
 
 
-class AdminCredential(TypedDict):
-    email: str
-    password: str
-    name: str
-    role: str
-    active: bool
-
-
 class AdminUser(TypedDict):
     email: str
     name: str
@@ -173,6 +165,7 @@ class AuthState(rx.State):
 
         self.change_password_open = False
         self.change_password_notice = "Tu contraseña se ha actualizado correctamente."
+        yield rx.toast(self.change_password_notice, duration=2500)
 
     @rx.event
     async def sign_in(self, form_data: dict):

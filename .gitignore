@@ -12,3 +12,4 @@ __pycache__/
 .venv
 import_accounting.py
 flujo_del_codigo.txt
+flujo_del_codigo.md

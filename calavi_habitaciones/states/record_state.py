@@ -4,9 +4,7 @@ from dateutil.relativedelta import relativedelta
 import reflex as rx
 
 from calavi_habitaciones.models import (
-    _DISPLAY_FORMAT,
     _RECORD_STATUSES,
-    EMPTY_ROOM,
     _BED_TYPES,
     Lease,
     create_room,
@@ -22,7 +20,8 @@ from calavi_habitaciones.models import (
     update_room,
     update_room_record,
     update_tenant_record,
-    to_display_date
+    to_display_date,
+    to_input_date,
 )
 from calavi_habitaciones.states.occupancy_state import OccupancyState
 
@@ -42,16 +41,6 @@ def _blank_errors() -> dict[str, str]:
     return {key: "" for key in _FORM_KEYS}
 
 
-def _to_input_date(display: str) -> str:
-    if not display:
-        return ""
-    try:
-        return datetime.strptime(display, _DISPLAY_FORMAT).strftime("%Y-%m-%d")
-    except Exception:
-        logging.exception("Unexpected error")
-        return ""
-
-
 class RecordState(rx.State):
     is_open: bool = False
     mode: str = "create"
@@ -61,21 +50,6 @@ class RecordState(rx.State):
     errors: dict[str, str] = _blank_errors()
     form_error: str = ""
     delete_target_id: str = ""
-    notice: str = ""
-    termination_target_id: str = ""
-    termination_error: str = ""
-    termination_notice: str = ""
-    extension_target_id: str = ""
-    extension_error: str = ""
-    notes_target_id: str = ""
-    notes_error: str = ""
-    notes_notice: str = ""
-    change_room_target_id: str = ""
-    extension_error: str = ""
-    extension_notice: str = ""
-    extension_end_date: str = ""
-    change_room_error: str = ""
-    change_room_notice: str = ""
     bed_type_options: list[str] = _BED_TYPES
     selected_room_id: str = ""   # "" => crear habitación nueva
     selected_tenant_id: str = ""  # "" => crear inquilino nuevo
@@ -100,7 +74,6 @@ class RecordState(rx.State):
     tenant_subform_error: str = ""
     
     lease_end_key: int = 0 #fuerza el remount solo del campo lease end (para fecha calculada)
-    termination_date_default: str = ""
 
     @rx.var
     def dialog_title(self) -> str:
@@ -126,22 +99,6 @@ class RecordState(rx.State):
     def has_delete_target(self) -> bool:
         return self.delete_target_id != ""
 
-    @rx.var
-    def has_termination_target(self) -> bool:
-        return self.termination_target_id != ""
-
-    @rx.var
-    def has_extension_target(self) -> bool:
-        return self.extension_target_id != ""
-    
-    @rx.var
-    def has_notes_target(self) -> bool:
-        return self.notes_target_id != ""
-    
-    @rx.var
-    def has_change_room_target(self) -> bool:
-        return self.change_room_target_id != ""
-    
     @rx.event
     def set_tenant_subform_open(self, value: bool):
         self.tenant_subform_open = value
@@ -172,11 +129,6 @@ class RecordState(rx.State):
         self.room_subform_bed_type = self.selected_room.get("bed_type", "Single")
         self.room_subform_error = ""
         self.room_subform_open = True
-
-    @rx.event
-    def close_room_subform(self):
-        self.room_subform_open = False
-        self.room_subform_error = ""
 
     @rx.event
     def set_room_subform_selected_id(self, value: str):
@@ -266,11 +218,6 @@ class RecordState(rx.State):
         self.tenant_subform_open = True
 
     @rx.event
-    def close_tenant_subform(self):
-        self.tenant_subform_open = False
-        self.tenant_subform_error = ""
-
-    @rx.event
     def set_tenant_subform_selected_id(self, value: str):
         self.tenant_subform_selected_id = value
         self.tenant_subform_error = ""
@@ -348,308 +295,6 @@ class RecordState(rx.State):
         self.tenant_subform_error = ""
 
     @rx.event
-    async def request_extend(self):
-        from calavi_habitaciones.states.auth_state import AuthState
-        auth = await self.get_state(AuthState)
-        if not auth.is_authenticated:
-            return
-        occupancy = await self.get_state(OccupancyState)
-        if occupancy.selected_id == "":
-            self.notice = (
-                "Seleccione un contrato en vigor para poder extenderlo."
-            )
-            return
-        self.notice = ""
-        self.extension_error = ""
-        self.extension_notice = ""
-        self.extension_target_id = occupancy.selected_id
-
-    @rx.event
-    def cancel_extend(self):
-        self.extension_target_id = ""
-        self.extension_error = ""
-
-    @rx.event
-    async def request_notes(self):
-        from calavi_habitaciones.states.auth_state import AuthState
-        auth = await self.get_state(AuthState)
-        if not auth.is_authenticated:
-            return
-        occupancy = await self.get_state(OccupancyState)
-        if occupancy.selected_id == "":
-            self.notice = (
-                "Seleccione una habitación ocupada antes de editar las observaciones."
-            )
-            return
-        self.notice = ""        
-        self.notes_target_id = occupancy.selected_id
-
-    @rx.event
-    def cancel_notes(self):
-        self.notes_target_id = ""
-        self.termination_error = ""
-
-    @rx.event
-    async def confirm_notes(self, form_data: dict):
-        try:
-            from calavi_habitaciones.states.auth_state import AuthState
-            auth = await self.get_state(AuthState)
-            if not auth.is_authenticated:
-                return
-            occupancy = await self.get_state(OccupancyState)
-            target = occupancy.selected_id
-            if target == "":
-                self.notes_error = (
-                    "Selecciona un contrato en vigor para editar las observaciones."
-                )
-                return
-            room = get_room(target)
-            if room["id"] == "":
-                self.notes_error = "No encuentro esta habitación."
-                return
-            new_note = form_data.get("edit_notes", "")
-            updated = dict(room)
-            updated["notes"] = new_note
-            if not update_room(target, Lease(**updated)):
-                self.notes_error = "No encuentro este contrato."
-                return
-            occupancy._sync_rooms()
-            self.notes_target_id = ""
-            self.notes_error = ""
-            self.notes_notice = f"Las observaciones de la habitación {room['room']} se han editado."
-            yield rx.toast(self.notes_notice, duration=3000)
-        except ValueError:
-            self.notes_error = "Ingrese una fecha válida."
-        except Exception as e:
-            logging.exception(f"Error: {e}")
-            self.notes_error = (
-                "No se han podido guardar las observaciones. Por favor, inténtelo de nuevo."
-            )
-
-    @rx.event
-    async def request_terminate(self):
-        from calavi_habitaciones.states.auth_state import AuthState
-        auth = await self.get_state(AuthState)
-        if not auth.is_authenticated:
-            return
-        occupancy = await self.get_state(OccupancyState)
-        if occupancy.selected_id == "":
-            self.notice = (
-                "Seleccione una habitación ocupada antes de finalizar un contrato."
-            )
-            return
-        self.notice = ""
-        self.termination_error = ""
-        self.termination_notice = ""
-        self.extension_target_id = ""
-        self.delete_target_id = ""
-        self.termination_target_id = occupancy.selected_id
-        self.termination_date_default = date.today().strftime("%Y-%m-%d")
-
-    @rx.event
-    def cancel_terminate(self):
-        self.termination_target_id = ""
-        self.termination_error = ""
-
-    @rx.event
-    async def confirm_terminate(self, form_data: dict):
-        try:
-            from calavi_habitaciones.states.auth_state import AuthState
-            auth = await self.get_state(AuthState)
-            if not auth.is_authenticated:
-                return
-            occupancy = await self.get_state(OccupancyState)
-            target = self.termination_target_id
-            room = get_room(target)
-            if room["id"] == "":
-                self.termination_target_id = ""
-                self.termination_error = (
-                    "That occupancy record could not be found."
-                )
-                return
-
-            raw_date = form_data.get("termination_date", "").strip()
-            note = form_data.get("termination_note", "")
-
-            if not raw_date:
-                self.termination_error = "Enter the termination date."
-                return
-
-            end_date = datetime.strptime(raw_date, "%Y-%m-%d")
-            lease_start = datetime.strptime(
-                room["lease_start"], _DISPLAY_FORMAT
-            )
-            if end_date < lease_start:
-                self.termination_error = (
-                    "The termination date cannot be before the lease start."
-                )
-                return
-
-            updated = dict(room)
-            updated["record_status"] = _RECORD_STATUSES[3]
-            updated["termination_date"] = end_date.strftime(_DISPLAY_FORMAT)
-            if note:
-                updated["notes"] = f"{room['notes']}\nTermination note: {note}"
-            if not update_room(target, Lease(**updated)):
-                self.termination_error = (
-                    "That occupancy record could not be found."
-                )
-                return
-            occupancy._sync_rooms()
-            if occupancy.selected_id == target:
-                occupancy.selected_id = ""
-            self.extension_target_id = ""
-            if self.editing_id == target:
-                self.editing_id = ""
-                self.is_open = False
-            self.termination_target_id = ""
-            self.termination_error = ""
-            self.extension_notice = ""
-            self.termination_notice = (
-                f"Ha finalizado el contrato de la habitación {room['room']}. "
-                "El registro queda guardado en histórico."
-            )
-            self.notice = ""
-            yield rx.toast(
-                f"EL regisgtro de la habitación {room['room']} pasa al histórico.",
-                duration=3000,
-            )
-        except ValueError:
-            self.termination_error = "Ingrese una fecha válida de finalización."
-        except Exception as e:
-            logging.exception(f"Error: {e}")
-            self.termination_error = (
-                "No se ha rescindido el contrato. Por favor inténtelo de nuevo"
-            )
-
-    @rx.event
-    async def extend_contract(self, form_data: dict):
-        try:
-            from calavi_habitaciones.states.auth_state import AuthState
-            auth = await self.get_state(AuthState)
-            if not auth.is_authenticated:
-                return
-            occupancy = await self.get_state(OccupancyState)
-            target = occupancy.selected_id
-            if target == "":
-                self.extension_error = (
-                    "Selecciona un contrato en vigor para extender el alquiler."
-                )
-                return
-            room = get_room(target)
-            if room["id"] == "":
-                self.extension_error = "No encuentro esta habitación."
-                return
-            raw_date = form_data.get("extension_end_date", "").strip()
-            current_end = datetime.strptime(room["lease_end"], _DISPLAY_FORMAT)
-            if raw_date:
-                new_end = datetime.strptime(raw_date, "%Y-%m-%d")
-            else:
-                self.extension_error = (
-                    "Introduzca la nueva fecha de finalización."
-                )
-                return
-            if new_end <= current_end:
-                self.extension_error = (
-                    "La fecha debe ser posterior a la fecha de finalización actual."
-                )
-                return
-            updated = dict(room)
-            updated["lease_end"] = new_end.strftime(_DISPLAY_FORMAT)
-            if room["record_status"] == _RECORD_STATUSES[1]:
-                updated["record_status"] = _RECORD_STATUSES[0]
-            elif room["record_status"] == _RECORD_STATUSES[2]:
-                updated["record_status"] = _RECORD_STATUSES[0]
-            if not update_room(target, Lease(**updated)):
-                self.extension_error = "No encuentro la habitación seleccionada."
-                return
-            occupancy._sync_rooms()
-            self.extension_target_id = ""
-            self.extension_error = ""
-            self.extension_end_date = ""
-            self.extension_notice = f"El contrato de la habitación {room['room']} se ha prorrogado hasta {updated['lease_end']}."
-            self.notice = self.extension_notice
-            yield rx.toast(self.extension_notice, duration=3000)
-        except ValueError:
-            self.extension_error = "Enter a valid future lease end date."
-        except Exception as e:
-            logging.exception(f"Error: {e}")
-            self.extension_error = (
-                "El contrato no puede ha podido ser prorrogado. Por favor, inténtelo de nuevo."
-            )
-            
-    @rx.event
-    async def request_change_room(self):
-        from calavi_habitaciones.states.auth_state import AuthState
-        auth = await self.get_state(AuthState)
-        if not auth.is_authenticated:
-            return
-        occupancy = await self.get_state(OccupancyState)
-        if occupancy.selected_id == "":
-            self.notice = (
-                "Seleccione un contrato en vigor para poder cambiar la habitación."
-            )
-            return
-        room = get_room(occupancy.selected_id)
-        self.room_available = list_available_rooms(exclude_room_id=room["room_id"])
-        self.room_subform_selected_id = ""
-        self.notice = ""
-        self.change_room_error = ""
-        self.change_room_notice = ""
-        self.change_room_target_id = occupancy.selected_id
-
-    @rx.event
-    def cancel_change_room(self):
-        self.change_room_target_id = ""
-        self.change_room_error = ""
-        
-    @rx.event
-    async def change_room(self, form_data: dict):
-        try:
-            from calavi_habitaciones.states.auth_state import AuthState
-            auth = await self.get_state(AuthState)
-            if not auth.is_authenticated:
-                return
-            occupancy = await self.get_state(OccupancyState)
-            target = occupancy.selected_id
-            if target == "":
-                self.change_room_error = "Selecciona un contrato en vigor para hacer el cambio."
-                return
-            room = get_room(target)
-            if room["id"] == "":
-                self.change_room_error = "No encuentro este contrato."
-                return
-
-            new_room_id = self.room_subform_selected_id
-            if not new_room_id:
-                self.change_room_error = "Selecciona la nueva habitación."
-                return
-            if new_room_id == room["room_id"]:
-                self.change_room_error = "Selecciona una habitación distinta a la actual."
-                return
-
-            new_room = get_room_record(new_room_id)
-            if not new_room:
-                self.change_room_error = "La habitación seleccionada ya no existe."
-                return
-
-            updated = dict(room)
-            updated["room_id"] = new_room_id
-            if not update_room(target, Lease(**updated)):
-                self.change_room_error = "No encuentro el contrato seleccionado."
-                return
-
-            occupancy._sync_rooms()
-            self.change_room_target_id = ""
-            self.change_room_error = ""
-            self.change_room_notice = f"El contrato pasó de la habitación {room['room']} a la {new_room['room']}."
-            self.notice = self.change_room_notice
-            yield rx.toast(self.change_room_notice, duration=3000)
-        except Exception as e:
-            logging.exception(f"Error: {e}")
-            self.change_room_error = "No se ha podido cambiar la habitación. Inténtelo de nuevo."
-
-    @rx.event
     async def open_create(self):
         from calavi_habitaciones.states.auth_state import AuthState
         auth = await self.get_state(AuthState)
@@ -662,8 +307,6 @@ class RecordState(rx.State):
         self.errors = _blank_errors()
         self.form_error = ""
         self.delete_target_id = ""
-        self.extension_target_id = ""
-        self.notice = ""
         self.selected_room_id = ""
         self.selected_room = {}
         self.selected_tenant_id = ""
@@ -679,16 +322,16 @@ class RecordState(rx.State):
             return
         room = get_room(room_id)
         if room["id"] == "":
-            self.notice = "No encuentro este contrato."
+            yield rx.toast("No encuentro este contrato.", duration=2500)
             return
         self.mode = "edit"
         self.editing_id = room_id
         self.form_values = {
             "rent": str(room["rent"]),
             "deposit": str(room["deposit"]),
-            "lease_start": _to_input_date(room["lease_start"]),
-            "lease_end": _to_input_date(room["lease_end"]),
-            "termination_date": _to_input_date(room["termination_date"]),
+            "lease_start": to_input_date(room["lease_start"]),
+            "lease_end": to_input_date(room["lease_end"]),
+            "termination_date": to_input_date(room["termination_date"]),
             "notes": room["notes"],
         }
         self.errors = _blank_errors()
@@ -808,7 +451,6 @@ class RecordState(rx.State):
 
             self.is_open = False
             self.errors = _blank_errors()
-            self.notice = message
             yield rx.toast(message, duration=2500)
         except Exception as e:
             logging.exception(f"Error: {e}")
@@ -822,11 +464,8 @@ class RecordState(rx.State):
             return
         occupancy = await self.get_state(OccupancyState)
         if occupancy.selected_id == "":
-            self.notice = "Selecciona un registro antes de borrarlo."
+            yield rx.toast("Selecciona un registro antes de borrarlo.", duration=2500)
             return
-        self.notice = ""
-        self.termination_target_id = ""
-        self.extension_target_id = ""
         self.delete_target_id = occupancy.selected_id
 
     @rx.event
@@ -846,20 +485,20 @@ class RecordState(rx.State):
             label = room["room"]
             if room["id"] == "" or not delete_room(target):
                 self.delete_target_id = ""
-                self.notice = "Este registro no existe."
+                yield rx.toast("Este registro no existe.", duration=2500)
                 return
 
             occupancy._sync_rooms()
             if occupancy.selected_id == target:
                 occupancy.selected_id = ""
-            self.extension_target_id = ""
             self.delete_target_id = ""
             if self.editing_id == target:
                 self.editing_id = ""
                 self.is_open = False
-            self.notice = f"El contrato de la habitación {label} se ha eliminado del registro."
-            yield rx.toast(self.notice, duration=2500)
+            message = f"El contrato de la habitación {label} se ha eliminado del registro."
+            yield rx.toast(message, duration=2500)
         except Exception as e:
             logging.exception(f"Error: {e}")
             self.delete_target_id = ""
-            self.notice = "El registro no se ha borrado. Por favor inténtalo de nuevo."
+            yield rx.toast("El registro no se ha borrado. Por favor inténtalo de nuevo.", duration=2500)
+            

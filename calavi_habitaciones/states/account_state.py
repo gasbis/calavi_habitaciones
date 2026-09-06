@@ -54,18 +54,16 @@ class AccountState(rx.State):
     chapter: str = ""
     subchapter: str = ""
     bill_url: str = ""
-    notice: str = ""
-    form_key: int = 0
     mode: str = "create"
     entries: list[dict] = []
     delete_target_id: str = ""
     delete_error: str = ""
-    notice: str = ""
     account_search: str = ""
     show_bill_link_modal: bool = False
     bill_url_draft: str = ""
     irpf_dialog_open: bool = False
     irpf_year: str = ""
+    irpf_error: str = ""
     
     @rx.var
     def sorted_entries(self) -> list[dict]:
@@ -157,6 +155,7 @@ class AccountState(rx.State):
             return
         if not self.irpf_year:
             self.irpf_year = str(date.today().year)
+        self.irpf_error = ""
         self.irpf_dialog_open = True
 
     @rx.event
@@ -208,7 +207,7 @@ class AccountState(rx.State):
             return rx.download(data=buffer.getvalue(), filename=f"IRPF_{label}.xlsx")
         except Exception as e:
             logging.exception(f"Error: {e}")
-            self.notice = "No se ha podido generar el Excel. Por favor inténtalo de nuevo."
+            self.irpf_error = "No se ha podido generar el Excel. Por favor inténtalo de nuevo."
         
     @rx.event
     def set_account_search(self, value: str):
@@ -291,7 +290,6 @@ class AccountState(rx.State):
             self._sync_entries()
             self.is_open = False
             self._reset_form()
-            self.notice = message
             yield rx.toast(message, duration=2500)
         except Exception as e:
             logging.exception(f"Error: {e}")
@@ -362,7 +360,6 @@ class AccountState(rx.State):
         self.delete_target_id = ""
         self.is_open = False
         self._reset_form()
-        self.notice = "El movimiento ha sido eliminado."
         yield rx.toast("Movimiento eliminado", duration=2500)
 
     @rx.event

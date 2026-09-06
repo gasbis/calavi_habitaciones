@@ -29,6 +29,14 @@ def irpf_dialog() -> rx.Component:
                     on_change=AccountState.set_irpf_year,
                     class_name="mt-4 w-full rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm font-medium text-neutral-900 outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",
                 ),
+                rx.cond(
+                    AccountState.irpf_error != "",
+                    rx.el.p(
+                        AccountState.irpf_error,
+                        class_name="mt-3 text-xs font-medium text-danger-600",
+                    ),
+                    rx.el.div(),
+                ),
                 rx.el.div(
                     rx.el.button(
                         "Cancelar",

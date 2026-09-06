@@ -10,11 +10,6 @@ from calavi_habitaciones.models import (
 )
 from calavi_habitaciones.utils.formatting import format_eur
 
-# _SPANISH_MONTHS_SHORT: list[str] = [
-#     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-#     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
-# ]
-
 _FIANZA_SUBCHAPTER = "Fianza"
 _EXPENSE_CHAPTERS_FOR_TOTAL: set[str] = {"Gastos fijos", "Préstamo"}
 

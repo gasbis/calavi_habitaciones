@@ -231,11 +231,6 @@ class OccupancyState(rx.State):
     async def show_history_view(self):
         self.view_mode = "history"
         self.selected_id = ""
-        from calavi_habitaciones.states.record_state import RecordState
-
-        record_state = await self.get_state(RecordState)
-        record_state.extension_target_id = ""
-        record_state.extension_error = ""
 
     @rx.event
     def set_history_search(self, value: str):
@@ -252,15 +247,11 @@ class OccupancyState(rx.State):
     @rx.event
     async def select_room(self, room_id: str):
         from calavi_habitaciones.states.auth_state import AuthState
-        from calavi_habitaciones.states.record_state import RecordState
 
         auth = await self.get_state(AuthState)
         if auth.is_authenticated:
             self.selected_id = room_id
             self._sync_rent_paid_status()
-            record_state = await self.get_state(RecordState)
-            record_state.extension_target_id = ""
-            record_state.extension_error = ""
 
     @rx.event
     async def set_detail_open(self, value: bool):
@@ -270,15 +261,11 @@ class OccupancyState(rx.State):
     @rx.event
     async def clear_selection(self):
         from calavi_habitaciones.states.auth_state import AuthState
-        from calavi_habitaciones.states.record_state import RecordState
 
         auth = await self.get_state(AuthState)
         if auth.is_authenticated:
             self.selected_id = ""
             self.rent_paid_current_month = False
-            record_state = await self.get_state(RecordState)
-            record_state.extension_target_id = ""
-            record_state.extension_error = ""
             
     @rx.event
     async def register_rent_payment(self):
@@ -348,4 +335,3 @@ class OccupancyState(rx.State):
         await asyncio.sleep(0.4)
         self._sync_rooms()
         self.is_loading = False
-        
