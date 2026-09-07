@@ -60,43 +60,49 @@ def irpf_dialog() -> rx.Component:
 
 def account_manager_section() -> rx.Component:
     return rx.el.section(
+    rx.el.div(
+        # 1. BLOQUE DE LA IZQUIERDA: Icono + Título y Subtítulo
         rx.el.div(
             rx.el.div(
-                rx.el.div(
-                    rx.icon(
-                        "euro", class_name="h-5 w-5 text-brand-600"
-                    ),
-                    class_name="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-brand-100 bg-brand-50",
+                rx.icon(
+                    "euro", class_name="h-5 w-5 text-brand-600"
                 ),
-                rx.el.div(
-                    rx.el.h2(
-                        "Gestión de las anotaciones contables",
-                        class_name="text-xl font-semibold tracking-tight text-neutral-900",
-                    ),
-                    rx.el.p(
-                        "Alta, baja o edición de asientos contables de ingresos y gastos",
-                        class_name="mt-1 text-sm font-medium text-neutral-500",
-                    ),
-                    class_name="min-w-0",
-                ),
-                class_name="flex items-start gap-3",
+                class_name="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-brand-100 bg-brand-50",
             ),
             rx.el.div(
+                rx.el.h2(
+                    "Gestión de las anotaciones contables",
+                    class_name="text-xl font-semibold tracking-tight text-neutral-900",
+                ),
+                rx.el.p(
+                    "Alta, baja o edición de asientos contables de ingresos y gastos",
+                    class_name="mt-1 text-sm font-medium text-neutral-500",
+                ),
+                class_name="min-w-0",
+            ),
+            class_name="flex items-start gap-3",
+        ),
+        
+        # 2. BLOQUE DE LA DERECHA: Agrupa Botones + Buscador
+        rx.el.div(
+            # Contenedor de Botones (Cambiado de grid a flex para pantallas grandes)
+            rx.el.div(
                 rx.el.button(
-                    rx.icon("plus", class_name="h-13 w-13"),
+                    rx.icon("plus", class_name="h-5 w-5"),
                     rx.el.span("Nuevo apunte"),
                     on_click=AccountState.open_create,
-                    class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
+                    class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
                 ),
                 rx.el.button(
-                    rx.icon("file-spreadsheet", class_name="h-4 w-4"),
+                    rx.icon("file-spreadsheet", class_name="h-5 w-5"),
                     rx.el.span("IRPF"),
                     on_click=AccountState.open_irpf_dialog,
-                    class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-50 px-1.5 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-100 sm:w-auto",
+                    class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-100 sm:w-auto",
                 ),
-                
-                class_name="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2"
+                class_name="flex flex-col sm:flex-row gap-2 w-full lg:w-auto"
             ),
+            
+            # Buscador
             rx.el.div(
                 rx.icon(
                     "search",
@@ -108,14 +114,15 @@ def account_manager_section() -> rx.Component:
                     on_change=AccountState.set_account_search.debounce(300),
                     class_name="w-full rounded-lg border border-neutral-300 bg-neutral-100 py-2 pl-9 pr-3 text-sm outline-hidden focus:border-brand-500 focus:ring-2 focus:ring-brand-200",
                 ),
-                class_name="relative w-full lg:w-130",
+                class_name="relative w-full lg:w-80", # Ajustado de w-130 a w-80 para balancear el diseño
             ),
-            class_name="flex flex-col gap-4 border-b border-neutral-200 px-5 py-5 lg:flex-row lg:items-center lg:justify-between sm:px-6",
+            class_name="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto"
         ),
-        rx.el.div(
-            
-        ),
-        account_dialog(),
-        irpf_dialog(),
-        class_name="w-full  rounded-tl-xl rounded-tr-xl bg-neutral-100",
-    )
+        
+        class_name="flex flex-col gap-4 border-b border-neutral-200 px-5 py-5 lg:flex-row lg:items-center lg:justify-between sm:px-6",
+    ),
+    rx.el.div(),
+    account_dialog(),
+    irpf_dialog(),
+    class_name="w-full rounded-tl-xl rounded-tr-xl bg-neutral-100",
+)

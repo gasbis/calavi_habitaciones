@@ -42,7 +42,7 @@ def record_manager_section() -> rx.Component:
             ),
             rx.el.div(
                 rx.el.button(
-                    rx.icon("plus", class_name="h-4 w-4"),
+                    rx.icon("plus", class_name="h-5 w-5"),
                     rx.el.span("Nuevo alquiler"),
                     on_click=RecordState.open_create,
                     class_name="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700 sm:w-auto",
