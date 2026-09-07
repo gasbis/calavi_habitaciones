@@ -28,6 +28,9 @@ class AccountSummaryState(rx.State):
         auth = await self.get_state(AuthState)
         if not auth.is_authenticated:
             return
+        self._sync_entries()
+
+    def _sync_entries(self):
         self.entries = list_account_entries()
         if not self.selected_year:
             self.selected_year = str(date.today().year)

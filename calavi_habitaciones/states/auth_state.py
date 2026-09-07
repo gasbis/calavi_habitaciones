@@ -213,6 +213,11 @@ class AuthState(rx.State):
 
             occupancy = await self.get_state(OccupancyState)
             occupancy._sync_rooms()
+
+            from calavi_habitaciones.states.account_summary_state import AccountSummaryState
+
+            account_summary = await self.get_state(AccountSummaryState)
+            account_summary._sync_entries()
         except Exception as e:
             logging.exception(f"Error: {e}")
             self.is_authenticated = False
