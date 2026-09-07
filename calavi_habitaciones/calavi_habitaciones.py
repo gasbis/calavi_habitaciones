@@ -124,7 +124,7 @@ app.add_page(
     meta=[
         {"name": "robots", "content": "noindex, nofollow"}
     ],
-    on_load=[ AccountSummaryState.load, OccupancyState.load ]
+    on_load=[ AccountState.load, AccountSummaryState.load, OccupancyState.load ]
 ),
 
 app.add_page(
