@@ -4,16 +4,16 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
-import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
-import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
-import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
-import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
+import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
 import LucideUsers from "lucide-react/dist/esm/icons/users.mjs"
+import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
+import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
+import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -360,17 +360,6 @@ export const Bare_comp_9220ae683917a97659c00d76262e7390_81e687a6 = memo(({childr
 
     return(
         reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.result_label_rx_state_
-    )
-});
-
-export const Button_button_0392f20a9b00f5f21c0bd784cbe10dd2_81e687a6 = memo(({children}) => {
-    const on_click_681a3a56a0b1f92efbc4486f298be561 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___occupancy_state____occupancy_state.refresh", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-const reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state)
-
-
-
-    return(
-        jsx("button",{className:"flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 sm:w-auto",disabled:reflex___state____state__calavi_habitaciones___states___occupancy_state____occupancy_state.is_loading_rx_state_,onClick:on_click_681a3a56a0b1f92efbc4486f298be561},children)
     )
 });
 

@@ -123,6 +123,11 @@ class AccountSummaryState(rx.State):
         return rows
 
     @rx.var
+    def total_expenses_display(self) -> str:
+        rows = self.expenses_summary
+        return rows[-1]["amount_display"] if rows else format_eur(0.0)
+
+    @rx.var
     def income_summary(self) -> list[dict]:
         income_chapters = list(ACCOUNTING_TAXONOMY.get("Ingreso", {}).keys())
         scoped_income = [
@@ -177,6 +182,10 @@ class AccountSummaryState(rx.State):
         return rows
 
     @rx.var
+    def total_income_display(self) -> str:
+        return self.income_summary[-1]["total_display"]
+
+    @rx.var
     def monthly_summary(self) -> list[dict]:
         income_by_month = {month: 0.0 for month in range(1, 13)}
         expense_by_month = {month: 0.0 for month in range(1, 13)}
@@ -216,6 +225,10 @@ class AccountSummaryState(rx.State):
             }
         )
         return rows
+
+    @rx.var
+    def total_balance_display(self) -> str:
+        return self.monthly_summary[-1]["balance_display"]
 
     @rx.var
     def yearly_summary(self) -> list[dict]:

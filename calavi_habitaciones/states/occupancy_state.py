@@ -309,20 +309,6 @@ class OccupancyState(rx.State):
         )
 
     @rx.event
-    async def refresh(self):
-        from calavi_habitaciones.states.auth_state import AuthState
-
-        auth = await self.get_state(AuthState)
-        if not auth.is_authenticated:
-            return
-        self.is_loading = True
-        yield
-        await asyncio.sleep(0.6)
-        self._sync_rooms()
-        self.is_loading = False
-        yield rx.toast("Occupancy data is up to date", duration=2500)
-
-    @rx.event
     async def load(self):
         from calavi_habitaciones.states.auth_state import AuthState
 

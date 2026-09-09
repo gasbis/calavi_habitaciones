@@ -100,7 +100,7 @@ def room_occupancy_card(item: RoomOccupancy) -> rx.Component:
         ),
         class_name=rx.cond(
             item["room"] == "global",
-            "w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
+            "w-full rounded-xl border-2 border-neutral-200 bg-neutral-100 p-5 transition-colors hover:border-brand-300",
             "w-full rounded-xl border border-neutral-200 bg-neutral-100 p-2"
         ),
     )
@@ -109,7 +109,7 @@ def room_occupancy_card(item: RoomOccupancy) -> rx.Component:
 
 
 def stat_card(
-    label: str, value: rx.Var | str, icon: str, hint: rx.Var | str , red_color: bool=False
+    label: str, value: rx.Var | str, icon: str, hint: rx.Var | str, red_color: bool = False, clickable: bool = False
 ) -> rx.Component:
     return rx.el.div(
         rx.el.div(
@@ -143,7 +143,11 @@ def stat_card(
             
         ),
         rx.el.p(hint, class_name="mt-1 text-sm font-medium text-neutral-500"),
-        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
+        class_name=(
+            "w-full h-full rounded-xl border-2 border-neutral-200 bg-neutral-100 p-5 transition-colors hover:border-brand-300"
+            if clickable
+            else "w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5"
+        ),
     )
 
 
@@ -204,8 +208,26 @@ def summary_section() -> rx.Component:
             ),
             class_name="grid grid-cols-1 gap-3 sm:grid-cols-3",
         ),
-        occupancy_bar(),        
-        room_occupancy_card(OccupancyState.global_occupancy_panel[0]),        
+        occupancy_bar(),
+        rx.dialog.root(
+            rx.dialog.trigger(
+                rx.el.button(
+                    room_occupancy_card(OccupancyState.global_occupancy_panel[0]),
+                    type="button",
+                    class_name="w-full text-left",
+                ),
+            ),
+            rx.dialog.content(
+                rx.dialog.title("Ocupación de las habitaciones"),
+                rx.dialog.description(
+                    rx.el.div(
+                        rx.foreach(OccupancyState.rooms_occupancy_panel, room_occupancy_card),
+                        class_name="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4",
+                    ),
+                ),
+                class_name="w-full max-w-3xl rounded-xl border border-neutral-200 bg-white p-6 shadow-lg",
+            ),
+        ),
         class_name="flex w-full flex-col gap-4",
     )
 
@@ -216,10 +238,6 @@ def rooms_summary_section() -> rx.Component:
             class_name="text-xl font-semibold tracking-tight text-neutral-900 mb-4",
         ),
         summary_section(),
-        rx.el.div(
-            rx.foreach(OccupancyState.rooms_occupancy_panel, room_occupancy_card),
-            class_name="mt-4 grid grid-cols-2 gap-1 sm:grid-cols-4 lg:grid-cols-7",
-        ),
         class_name="w-full",
     )
 
@@ -482,14 +500,81 @@ def account_summary_section() -> rx.Component:
             class_name="flex items-center justify-between gap-3 mb-4",
         ),
         rx.el.div(
-            expenses_summary_table(),
-            income_summary_table(),
-            class_name="grid grid-cols-1 gap-4 lg:grid-cols-2",
+            rx.el.div(
+                rx.dialog.root(
+                    rx.dialog.trigger(
+                        rx.el.button(
+                            stat_card(
+                                "Gastos",
+                                AccountSummaryState.total_expenses_display,
+                                "banknote-arrow-down",
+                                "Suma de los gastos durante el período seleccionado",
+                                clickable=True,
+                            ),
+                            type="button",
+                            class_name="w-full h-full text-left",
+                        ),
+                    ),
+                    rx.dialog.content(
+                        rx.dialog.title("Gastos por capítulos y subcapítulos"),
+                        rx.dialog.description(expenses_summary_table()),
+                        class_name="w-full max-w-3xl rounded-xl border border-neutral-200 bg-white p-6 shadow-lg",
+                    ),
+                ),
+                class_name="h-full",
+            ),
+            rx.el.div(
+                rx.dialog.root(
+                    rx.dialog.trigger(
+                        rx.el.button(
+                            stat_card(
+                                "Ingresos",
+                                AccountSummaryState.total_income_display,
+                                "hand-coins",
+                                "Suma de los ingresos durante el período seleccionado",
+                                clickable=True,
+                            ),
+                            type="button",
+                            class_name="w-full h-full text-left",
+                        ),
+                    ),
+                    rx.dialog.content(
+                        rx.dialog.title("Ingresos por capítulos y subcapítulos"),
+                        rx.dialog.description(income_summary_table()),
+                        class_name="w-full max-w-3xl rounded-xl border border-neutral-200 bg-white p-6 shadow-lg",
+                    ),
+                ),
+                class_name="h-full",
+            ),
+            rx.el.div(
+                rx.dialog.root(
+                    rx.dialog.trigger(
+                        rx.el.button(
+                            stat_card(
+                                label="Balance",
+                                value=AccountSummaryState.total_balance_display,
+                                icon="scale",
+                                hint="Balance sin tener en cuenta ingresos por fianza ni gastos extraordinarios",
+                                red_color=False,
+                                clickable=True,
+                            ),
+                            type="button",
+                            class_name="w-full h-full text-left",
+                        ),
+                    ),
+                    rx.dialog.content(
+                        rx.dialog.title("Ingresos y gastos por meses"),
+                        rx.dialog.description(monthly_summary_table()),
+                        class_name="w-full max-w-3xl rounded-xl border border-neutral-200 bg-white p-6 shadow-lg",
+                    ),
+                ),
+                class_name="h-full",
+            ),
+            class_name="grid grid-cols-1 gap-3 sm:grid-cols-3",
         ),
         rx.el.div(
-            monthly_summary_table(),
             yearly_summary_table(),
-            class_name="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2",
+            class_name="mt-4 w-full",
         ),
         class_name="w-full",
     )

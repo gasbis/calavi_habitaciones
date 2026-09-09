@@ -7,28 +7,15 @@ from calavi_habitaciones.states.occupancy_state import OccupancyState
 
 def toolbar() -> rx.Component:
     return rx.el.div(
-        rx.el.div(
-            rx.el.h2(
-                "Actualmente ocupadas",
-                class_name="text-xl font-semibold tracking-tight text-neutral-900",
-            ),
-            rx.el.p(
-                OccupancyState.result_label,
-                class_name="text-sm font-medium text-neutral-500",
-            ),
-            class_name="flex flex-col gap-0.5",
+        rx.el.h2(
+            "Actualmente ocupadas",
+            class_name="text-xl font-semibold tracking-tight text-neutral-900",
         ),
-        rx.el.div(
-            rx.el.button(
-                rx.icon("refresh-cw", class_name="h-4 w-4"),
-                rx.el.span("Refrescar", class_name="hidden sm:inline"),
-                on_click=OccupancyState.refresh,
-                disabled=OccupancyState.is_loading,
-                class_name="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 sm:w-auto",
-            ),
-            class_name="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end lg:w-auto",
+        rx.el.p(
+            OccupancyState.result_label,
+            class_name="text-sm font-medium text-neutral-500",
         ),
-        class_name="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:justify-between",
+        class_name="flex flex-col gap-0.5",
     )
 
 
