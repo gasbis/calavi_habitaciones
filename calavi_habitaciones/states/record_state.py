@@ -126,7 +126,7 @@ class RecordState(rx.State):
         self.room_subform_selected_id = self.selected_room_id
         self.room_subform_room = self.selected_room.get("room", "")
         self.room_subform_floor = self.selected_room.get("floor", "0")
-        self.room_subform_bed_type = self.selected_room.get("bed_type", "Single")
+        self.room_subform_bed_type = self.selected_room.get("bed_type", _BED_TYPES[0])
         self.room_subform_error = ""
         self.room_subform_open = True
 

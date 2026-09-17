@@ -42,7 +42,7 @@ class AccountEntry(TypedDict):
     observ: str
     bill_url: str
     
-_BED_TYPES: list[str] = ["2,00x0,90x0,18", "1.35", "1.50"]
+_BED_TYPES: list[str] = ["2,00x0,90x0,18", "1,90x1,35x0,20"]
 
 
 _DISPLAY_FORMAT = "%d-%m-%Y"
