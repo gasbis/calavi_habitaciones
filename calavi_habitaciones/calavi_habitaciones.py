@@ -115,6 +115,16 @@ app = rx.App(
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
             rel="stylesheet",
         ),
+        # ---- PWA: instalación como aplicación en el móvil ----
+        rx.el.link(rel="manifest", href="/manifest.json"),
+        rx.el.meta(name="theme-color", content="#cb5d4d"),
+        rx.el.meta(name="mobile-web-app-capable", content="yes"),
+        rx.el.meta(name="apple-mobile-web-app-capable", content="yes"),
+        rx.el.meta(name="apple-mobile-web-app-status-bar-style", content="default"),
+        rx.el.meta(name="apple-mobile-web-app-title", content="Calavi"),
+        rx.el.link(rel="apple-touch-icon", href="/apple-touch-icon.png"),
+        rx.el.link(rel="icon", type="image/png", sizes="192x192", href="/icon-192.png"),
+        rx.el.script(src="/sw-register.js", defer=True),
     ],
 )
 app.add_page(

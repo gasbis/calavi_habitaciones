@@ -486,6 +486,108 @@ def yearly_summary_table() -> rx.Component:
     )
 
 
+# *******************GRÁFICOS DE SUMINISTROS (AGUA / ELECTRICIDAD)******************************
+
+def utility_area_chart(
+    title: str,
+    icon: str,
+    data: rx.Var,
+    totals: rx.Var,
+    consum_label: str,
+    amount_color: str,
+    consum_color: str,
+) -> rx.Component:
+    """Gráfico de áreas con el gasto anual (€) y el consumo anual en un mismo eje."""
+    return rx.el.div(
+        rx.el.div(
+            rx.el.div(
+                rx.icon(icon, class_name="h-4 w-4 text-neutral-600"),
+                rx.el.h3(title, class_name="text-sm font-semibold text-neutral-900"),
+                class_name="flex items-center gap-2",
+            ),
+            rx.el.span(totals, class_name="text-xs font-medium text-neutral-500"),
+            class_name="flex flex-wrap items-center justify-between gap-2 mb-3",
+        ),
+        rx.recharts.area_chart(
+            rx.recharts.cartesian_grid(
+                stroke_dasharray="3 3",
+                vertical=False,
+                stroke=_colors["neutral"]["100"],
+            ),
+            rx.recharts.x_axis(
+                data_key="period",
+                tick_line=False,
+                axis_line=False,
+                tick={"fontSize": 12},
+            ),
+            rx.recharts.y_axis(
+                tick_line=False,
+                axis_line=False,
+                tick={"fontSize": 12},
+                width=50,
+            ),
+            rx.recharts.area(
+                data_key="gasto",
+                name="Gasto (€)",
+                type_="linear",
+                stroke=amount_color,
+                stroke_width=2,
+                fill=amount_color,
+                custom_attrs={"fillOpacity": 0.2},
+                active_dot={"r": 4, "fill": amount_color, "stroke": "white"},
+            ),
+            rx.recharts.area(
+                data_key="consumo",
+                name=consum_label,
+                type_="linear",
+                stroke=consum_color,
+                stroke_width=2,
+                fill=consum_color,
+                custom_attrs={"fillOpacity": 0.2},
+                active_dot={"r": 4, "fill": consum_color, "stroke": "white"},
+            ),
+            rx.recharts.graphing_tooltip(),
+            rx.recharts.legend(icon_type="circle", icon_size=8),
+            data=data,
+            width="100%",
+            height=260,
+            margin={"top": 5, "right": 10, "left": 0, "bottom": 0},
+        ),
+        class_name="w-full rounded-xl border border-neutral-200 bg-neutral-100 p-5",
+    )
+
+
+def utilities_charts_section() -> rx.Component:
+    return rx.el.section(
+        rx.el.h2(
+            "Evolución anual de agua y electricidad",
+            class_name="text-xl font-semibold tracking-tight text-neutral-900 mb-4",
+        ),
+        rx.el.div(
+            utility_area_chart(
+                "Agua: gasto y consumo anual",
+                "droplet",
+                AccountSummaryState.water_chart_data,
+                AccountSummaryState.water_totals_display,
+                "Consumo (m³)",
+                amount_color=_colors["danger"]["500"],
+                consum_color=_colors["neutral"]["400"],
+            ),
+            utility_area_chart(
+                "Electricidad: gasto y consumo anual",
+                "zap",
+                AccountSummaryState.electricity_chart_data,
+                AccountSummaryState.electricity_totals_display,
+                "Consumo (kWh/10)",
+                amount_color=_colors["danger"]["500"],
+                consum_color=_colors["archive"]["600"],
+            ),
+            class_name="grid grid-cols-1 gap-4 lg:grid-cols-2",
+        ),
+        class_name="w-full",
+    )
+
+
 def account_summary_section() -> rx.Component:
     return rx.el.section(
         rx.el.div(

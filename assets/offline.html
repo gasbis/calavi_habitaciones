@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#cb5d4d">
+  <title>Calavi · Sin conexión</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+           background: #e2f0f3; color: #1a2c2b; font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .card { max-width: 320px; margin: 16px; padding: 28px 24px; text-align: center; background: #fff;
+            border: 1px solid #bcdce3; border-radius: 16px; }
+    img { width: 64px; height: 64px; border-radius: 14px; }
+    h1 { font-size: 18px; margin: 16px 0 8px; }
+    p { font-size: 14px; color: #2a5961; margin: 0 0 20px; line-height: 1.5; }
+    button { border: 0; border-radius: 8px; padding: 10px 16px; font-size: 14px; font-weight: 600;
+             background: #cb5d4d; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="/icon-192.png" alt="">
+    <h1>Sin conexión</h1>
+    <p>Calavi necesita conexión a internet para mostrar los datos de la casa. Comprueba la conexión y vuelve a intentarlo.</p>
+    <button onclick="location.reload()">Reintentar</button>
+  </div>
+</body>
+</html>

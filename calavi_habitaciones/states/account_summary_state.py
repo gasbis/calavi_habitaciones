@@ -272,3 +272,63 @@ class AccountSummaryState(rx.State):
                 }
             )
         return rows
+
+
+    # ---------------- Gráficos de suministros (agua / electricidad) ----------------
+    # Independientes del selector de año: totales por año desde el primer gasto registrado.
+
+    def _utility_series(self, subchapter: str, consum_factor: float = 1.0) -> list[dict]:
+        """Gasto (amount) y consumo (consum * consum_factor) de un suministro, por año."""
+        expense_years = [
+            parsed.year
+            for entry in self.entries
+            if entry["mov_type"] == "Gasto"
+            and (parsed := self._parse_date(entry["mov_date"])) is not None
+        ]
+        if not expense_years:
+            return []
+        first_year = min(expense_years)
+        last_year = max(max(expense_years), date.today().year)
+
+        amount_by = {year: 0.0 for year in range(first_year, last_year + 1)}
+        consum_by = {year: 0.0 for year in range(first_year, last_year + 1)}
+        for entry in self.entries:
+            if entry["mov_type"] != "Gasto" or entry["subchapter"] != subchapter:
+                continue
+            parsed = self._parse_date(entry["mov_date"])
+            if parsed is None:
+                continue
+            amount_by[parsed.year] += entry["amount"] or 0.0
+            consum_by[parsed.year] += entry["consum"] or 0.0
+
+        return [
+            {
+                "period": str(year),
+                "gasto": round(amount_by[year], 2),
+                "consumo": round(consum_by[year] * consum_factor, 2),
+            }
+            for year in amount_by
+        ]
+
+    @rx.var
+    def water_chart_data(self) -> list[dict]:
+        return self._utility_series("Agua")
+
+    @rx.var
+    def electricity_chart_data(self) -> list[dict]:
+        # El consumo se representa en kWh/10 para compartir escala con el gasto en €.
+        return self._utility_series("Electricidad", consum_factor=0.1)
+
+    @rx.var
+    def water_totals_display(self) -> str:
+        data = self.water_chart_data
+        amount = sum(row["gasto"] for row in data)
+        consum = sum(row["consumo"] for row in data)
+        return f"Total: {format_eur(amount)} · {consum:,.0f} m³".replace(",", ".")
+
+    @rx.var
+    def electricity_totals_display(self) -> str:
+        data = self.electricity_chart_data
+        amount = sum(row["gasto"] for row in data)
+        consum = sum(row["consumo"] for row in data) * 10  # total en kWh reales
+        return f"Total: {format_eur(amount)} · {consum:,.0f} kWh".replace(",", ".")
