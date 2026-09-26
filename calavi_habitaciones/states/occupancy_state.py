@@ -1,6 +1,6 @@
 import asyncio
 from datetime import date, datetime
-from calavi_habitaciones.models import format_eur, has_rent_entry_current_month, _DISPLAY_FORMAT
+from calavi_habitaciones.models import format_eur, has_rent_entry_current_month, lease_status, _DISPLAY_FORMAT
 
 
 import reflex as rx
@@ -167,18 +167,10 @@ class OccupancyState(rx.State):
                 room["tenant"] = " ".join(room["tenant"].split()[:2])
             else:
                 room["tenant"] = room["tenant"].split()[0]
-            try:
-                date_end = datetime.strptime(r["lease_end"], _DISPLAY_FORMAT).date()
-            except ValueError:
-                computed.append(room)
-                continue
-            days_left = (date_end - today).days
-            if days_left < 0:
-                room["record_status"] = _RECORD_STATUSES[2]  # vencido
-            elif days_left <= 30:
-                room["record_status"] = _RECORD_STATUSES[1]  # próximo a vencer
-            else:
-                room["record_status"] = _RECORD_STATUSES[0]  # activo
+            # Mismo criterio que los avisos por SMS (services/lease_alerts.py).
+            status = lease_status(r["lease_end"], today)
+            if status:
+                room["record_status"] = status
             computed.append(room)
         return computed
 

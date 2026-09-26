@@ -2,6 +2,10 @@ import reflex as rx
 
 from calavi_habitaciones.states.auth_state import AuthState
 from calavi_habitaciones.states.occupancy_state import OccupancyState
+from calavi_habitaciones.components.alert_phone import (
+    alert_phone_dialog,
+    alert_phone_trigger,
+)
 from calavi_habitaciones.components.change_password import (
     change_password_dialog,
     change_password_trigger,
@@ -138,6 +142,7 @@ def page_header() -> rx.Component:
                             ),
                             class_name="hidden min-w-0 flex-col sm:flex",
                         ),
+                        alert_phone_trigger(),
                         change_password_trigger(),
                         rx.el.button(
                             rx.icon("log-out", class_name="h-4 w-4"),
@@ -157,6 +162,7 @@ def page_header() -> rx.Component:
             class_name="mx-auto flex w-full max-w-7xl flex-col px-4 py-3 sm:px-6 lg:px-8",
         ),
         change_password_dialog(),
+        alert_phone_dialog(),
         class_name="sticky top-0 z-10 w-full border-b border-neutral-200 bg-neutral-50/90 backdrop-blur",
     )
 

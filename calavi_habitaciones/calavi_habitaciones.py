@@ -13,6 +13,7 @@ from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.account_state import AccountState
 from calavi_habitaciones.states.account_summary_state import AccountSummaryState
 from calavi_habitaciones.states.record_state import RecordState
+from calavi_habitaciones.services.lease_alerts import tarea_avisos_alquiler
 
 title="Control de habitaciones"
 subtitle="Todas las habitaciones actualmente ocupadas con información sobre residentes, contratos de alquiler y rentas, todo de un vistazo."
@@ -127,6 +128,10 @@ app = rx.App(
         rx.el.script(src="/sw-register.js", defer=True),
     ],
 )
+
+# Aviso diario por SMS a los administradores de los alquileres que
+# necesitan atención (ver services/lease_alerts.py).
+app.register_lifespan_task(tarea_avisos_alquiler)
 app.add_page(
     index,
     route="/",

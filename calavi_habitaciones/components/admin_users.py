@@ -46,6 +46,13 @@ def admin_user_row(item: AdminDirectoryEntry) -> rx.Component:
             class_name="px-4 py-4 align-top sm:px-5",
         ),
         rx.el.td(
+            rx.el.span(
+                rx.cond(item["phone"] != "", item["phone"], "—"),
+                class_name="text-sm font-medium text-neutral-700",
+            ),
+            class_name="px-4 py-4 align-top sm:px-5",
+        ),
+        rx.el.td(
             access_badge(item["active"]),
             class_name="px-4 py-4 align-top sm:px-5",
         ),
@@ -210,6 +217,10 @@ def admin_management_section() -> rx.Component:
                         ),
                         rx.el.th(
                             "Rol",
+                            class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-700 sm:px-5",
+                        ),
+                        rx.el.th(
+                            "Avisos SMS",
                             class_name="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-700 sm:px-5",
                         ),
                         rx.el.th(

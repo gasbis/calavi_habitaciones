@@ -1,4 +1,6 @@
+import asyncio
 import logging
+import re
 from typing import TypedDict
 
 import reflex as rx
@@ -11,6 +13,7 @@ from calavi_habitaciones.models import (
     list_admin_accounts,
     set_admin_active,
     set_admin_password,
+    set_admin_phone,
     verify_password,
 )
 
@@ -19,6 +22,7 @@ class AdminUser(TypedDict):
     email: str
     name: str
     role: str
+    phone: str
 
 
 class AdminDirectoryEntry(TypedDict):
@@ -26,13 +30,31 @@ class AdminDirectoryEntry(TypedDict):
     name: str
     role: str
     active: bool
+    phone: str
 
 
 EMPTY_ADMIN_USER: AdminUser = AdminUser(
     email="",
     name="",
     role="",
+    phone="",
 )
+
+
+def normalize_phone(raw: str) -> str | None:
+    """Devuelve el teléfono en formato internacional ("+34600000000"),
+    "" si viene vacío (= quitar el teléfono) o None si no es válido.
+    Un número español de 9 cifras sin prefijo se asume +34."""
+    phone = re.sub(r"[\s\-\.\(\)]", "", raw or "")
+    if not phone:
+        return ""
+    if phone.startswith("00"):
+        phone = "+" + phone[2:]
+    if re.fullmatch(r"[6789]\d{8}", phone):
+        phone = "+34" + phone
+    if not re.fullmatch(r"\+\d{8,15}", phone):
+        return None
+    return phone
 
 
 class AuthState(rx.State):
@@ -54,7 +76,11 @@ class AuthState(rx.State):
     change_password_new_error: str = ""
     change_password_error: str = ""
     change_password_notice: str = ""
-    
+
+    phone_open: bool = False
+    phone_error: str = ""
+    phone_sending_test: bool = False
+
     @rx.event
     def load_admins(self):
         if not self.is_authenticated:
@@ -168,6 +194,70 @@ class AuthState(rx.State):
         yield rx.toast(self.change_password_notice, duration=2500)
 
     @rx.event
+    def set_phone_open(self, value: bool):
+        self.phone_open = value
+
+    @rx.event
+    def open_phone(self):
+        if not self.is_authenticated:
+            return
+        self.phone_error = ""
+        self.phone_open = True
+
+    @rx.event
+    def submit_phone(self, form_data: dict):
+        self.phone_error = ""
+        if not self.is_authenticated:
+            self.phone_error = "Debes iniciar sesión."
+            return
+        phone = normalize_phone(form_data.get("phone", ""))
+        if phone is None:
+            self.phone_error = "Introduce un móvil válido, p.ej. +34600000000."
+            return
+        email = self.current_user["email"]
+        if not set_admin_phone(email, phone or None):
+            self.phone_error = "No se ha podido guardar el teléfono. Inténtalo de nuevo."
+            return
+        self.current_user = AdminUser(**{**dict(self.current_user), "phone": phone})
+        self.admin_users = [
+            AdminDirectoryEntry(**{**dict(u), "phone": phone}) if u["email"] == email else u
+            for u in self.admin_users
+        ]
+        self.phone_open = False
+        yield rx.toast(
+            "Teléfono guardado: recibirás los avisos por SMS."
+            if phone
+            else "Teléfono eliminado: ya no recibirás avisos por SMS.",
+            duration=2500,
+        )
+
+    @rx.event
+    async def send_test_sms(self):
+        if not self.is_authenticated:
+            return
+        phone = self.current_user["phone"]
+        if not phone:
+            self.phone_error = "Primero guarda un teléfono."
+            return
+        from calavi_habitaciones.services.twilio_sms import enviar_sms
+
+        self.phone_error = ""
+        self.phone_sending_test = True
+        yield
+        try:
+            await asyncio.to_thread(
+                enviar_sms,
+                "Calavi: SMS de prueba. Aqui recibiras los avisos de alquileres que necesitan atencion.",
+                phone,
+            )
+            yield rx.toast(f"SMS de prueba enviado a {phone}.", duration=2500)
+        except Exception as e:
+            logging.error(f"Fallo al mandar SMS de prueba: {e}")
+            self.phone_error = f"No se ha podido enviar el SMS: {e}"
+        finally:
+            self.phone_sending_test = False
+
+    @rx.event
     async def sign_in(self, form_data: dict):
         self.email_error = ""
         self.password_error = ""
@@ -205,6 +295,7 @@ class AuthState(rx.State):
                 email=credential.email,
                 name=credential.name,
                 role=credential.role,
+                phone=credential.phone or "",
             )
             self.admin_users = [
                 AdminDirectoryEntry(**user) for user in list_admin_accounts()
@@ -259,6 +350,7 @@ class AuthState(rx.State):
                     active=next_active
                     if user["email"] == email
                     else user["active"],
+                    phone=user["phone"],
                 )
                 for user in self.admin_users
             ]

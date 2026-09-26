@@ -6,7 +6,7 @@ from typing import TypedDict
 import reflex as rx
 import sqlmodel
 from calavi_habitaciones.utils.formatting import format_eur
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 
 class Lease(TypedDict):
@@ -98,6 +98,28 @@ _SPANISH_MONTHS: list[str] = [
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
 ]
 
+ATTENTION_DAYS = 30
+
+
+def lease_status(lease_end: str, today: date | None = None) -> str:
+    """Estado de un contrato según su fecha de fin: "Caducado" si ya ha
+    pasado, "Caduca pronto" si faltan ATTENTION_DAYS días o menos, y
+    "Activo" en otro caso. Devuelve "" si la fecha no es válida.
+    Lo usan tanto la web (OccupancyState.filtered_rooms) como los avisos
+    por SMS (services/lease_alerts.py), para que siempre coincidan."""
+    today = today or date.today()
+    try:
+        date_end = datetime.strptime(lease_end, _DISPLAY_FORMAT).date()
+    except ValueError:
+        return ""
+    days_left = (date_end - today).days
+    if days_left < 0:
+        return _RECORD_STATUSES[2]
+    if days_left <= ATTENTION_DAYS:
+        return _RECORD_STATUSES[1]
+    return _RECORD_STATUSES[0]
+
+
 def to_display_date(value: str) -> str:
     if not value:
         return ""
@@ -116,6 +138,11 @@ class AdminAccount(rx.Model, table=True):
     role: str = ""
     active: bool = True
     password_hash: str = ""
+    # Teléfono (formato internacional, p.ej. "+34600000000") al que se
+    # mandan los avisos por SMS de alquileres que necesitan atención
+    # (ver services/lease_alerts.py). Opcional: sin él, ese
+    # administrador no recibe avisos.
+    phone: str | None = None
 
 class TenantRecord(rx.Model, table=True):
     """Database-backed tenant record for a room and its resident."""
@@ -151,7 +178,21 @@ class OccupancyRecord(rx.Model, table=True):
     notes: str = ""
     record_status: str = _RECORD_STATUSES[0]
     termination_date: str = ""
-    
+    # Último estado ("Caduca pronto" / "Caducado") del que ya se avisó por
+    # SMS a los administradores; None si no hay aviso pendiente. Ver
+    # services/lease_alerts.py.
+    alert_status_sent: str | None = None
+
+
+class AlertRun(rx.Model, table=True):
+    """Una fila = un chequeo diario de avisos ya ejecutado (key = fecha
+    ISO, p.ej. "2026-09-26"). Hace de cerrojo entre procesos para no
+    mandar dos veces los mismos SMS si hubiera varias réplicas."""
+
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    key: str = sqlmodel.Field(index=True, unique=True)
+    run_at: datetime = sqlmodel.Field(default_factory=lambda: datetime.now(timezone.utc))
+
 class AccountingEntry(rx.Model, table=True):
     id: int | None = sqlmodel.Field(default=None, primary_key=True)
     mov_type: str = sqlmodel.Field(nullable=False)
@@ -608,6 +649,7 @@ def list_admin_accounts() -> list[dict[str, str | bool]]:
                     "name": r.name,
                     "role": r.role,
                     "active": r.active,
+                    "phone": r.phone or "",
                 }
                 for r in records
             ]
@@ -642,6 +684,77 @@ def set_admin_active(email: str, active: bool) -> bool:
     except Exception as e:
         logging.exception(f"Error: {e}")
         return False
+
+def set_admin_phone(email: str, phone: str | None) -> bool:
+    try:
+        with rx.session() as session:
+            record = session.exec(
+                sqlmodel.select(AdminAccount).where(AdminAccount.email == email)
+            ).first()
+            if record is None:
+                return False
+            record.phone = phone or None
+            session.add(record)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+# *****************************AVISOS POR SMS***********************************
+
+def list_alert_phones() -> list[str]:
+    """Teléfonos de avisos de los administradores activos."""
+    with rx.session() as session:
+        records = session.exec(
+            sqlmodel.select(AdminAccount).where(AdminAccount.active == True)  # noqa: E712
+        ).all()
+        return sorted({r.phone for r in records if r.phone})
+
+
+def list_leases_for_alerts() -> list[dict]:
+    """Contratos no rescindidos con lo necesario para decidir el aviso."""
+    with rx.session() as session:
+        records = session.exec(
+            sqlmodel.select(OccupancyRecord).where(
+                OccupancyRecord.record_status != _RECORD_STATUSES[3]
+            )
+        ).all()
+        return [
+            {
+                "id": r.id,
+                "room": r.room.room,
+                "tenant": r.tenant.tenant,
+                "lease_end": r.lease_end,
+                "alert_status_sent": r.alert_status_sent or "",
+            }
+            for r in records
+        ]
+
+
+def set_lease_alert_status(record_id: int, status: str | None) -> None:
+    with rx.session() as session:
+        record = session.get(OccupancyRecord, record_id)
+        if record is None:
+            return
+        record.alert_status_sent = status
+        session.add(record)
+        session.commit()
+
+
+def claim_alert_run(key: str) -> bool:
+    """Reserva el chequeo del día `key`. True si lo hemos reservado
+    nosotros; False si otro proceso ya lo hizo."""
+    import sqlalchemy
+
+    with rx.session() as session:
+        session.add(AlertRun(key=key))
+        try:
+            session.commit()
+        except sqlalchemy.exc.IntegrityError:
+            session.rollback()
+            return False
+        return True
 
 # *****************************CONTABILIDAD***********************************    
 
