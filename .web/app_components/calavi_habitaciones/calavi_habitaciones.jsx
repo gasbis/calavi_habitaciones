@@ -4,16 +4,17 @@ import {Dialog as RadixThemesDialog,Link as RadixThemesLink,Popover as RadixThem
 import {StateContexts,addEvents} from "$/utils/context"
 import {Fragment,memo,useCallback,useContext,useEffect,useRef} from "react"
 import {Link as ReactRouterLink} from "react-router"
-import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
+import {DynamicIcon} from "lucide-react/dynamic.mjs"
 import LucideArchive from "lucide-react/dist/esm/icons/archive.mjs"
-import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
-import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import LucideCoins from "lucide-react/dist/esm/icons/coins.mjs"
+import LucideCalendarCheck from "lucide-react/dist/esm/icons/calendar-check.mjs"
 import LucideBedDouble from "lucide-react/dist/esm/icons/bed-double.mjs"
+import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
+import LucideCalendar from "lucide-react/dist/esm/icons/calendar.mjs"
 import LucideTriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs"
 import LucideBanknote from "lucide-react/dist/esm/icons/banknote.mjs"
-import LucideCalendarClock from "lucide-react/dist/esm/icons/calendar-clock.mjs"
 import LucideUsers from "lucide-react/dist/esm/icons/users.mjs"
+import LucideHome from "lucide-react/dist/esm/icons/home.mjs"
 import {jsx} from "@emotion/react"
 
 
@@ -95,6 +96,26 @@ export const Bare_comp_df0c08eb96d32ede689f6eaf2fe1b2d9_81e687a6 = memo(({childr
 
     return(
         reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["role"]
+    )
+});
+
+export const Dynamicicon_dynamicicon_9f3cd684a7107be486edb473276e553d_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        jsx(DynamicIcon,{className:"h-4 w-4",name:(!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["phone"]?.valueOf?.() === ""?.valueOf?.())) ? "bell-ring" : "bell-off").replaceAll("_", "-")},)
+    )
+});
+
+export const Button_button_aa735935326c115b593224f752742102_81e687a6 = memo(({children}) => {
+    const on_click_e7d92fe21bfc64c78dae72d0d805e227 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.open_phone", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+
+
+    return(
+        jsx("button",{className:"flex items-center gap-2 rounded-lg border border-neutral-300 bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50",onClick:on_click_e7d92fe21bfc64c78dae72d0d805e227,title:"Tel\u00e9fono para avisos por SMS",type:"button"},children)
     )
 });
 
@@ -248,6 +269,100 @@ const reflex___state____state__calavi_habitaciones___states___auth_state____auth
 
     return(
         jsx(RadixThemesDialog.Root,{onOpenChange:on_open_change_f48b740c42881d4f5a6b266024b26738,open:reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.change_password_open_rx_state_},children)
+    )
+});
+
+export const Input_input_a1877cfb39a274bc85b914115742307f_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        jsx("input",{className:"mt-2 w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-hidden",defaultValue:reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["phone"],key:reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["phone"],name:"phone",placeholder:"+34600000000",type:"tel"},)
+    )
+});
+
+export const Bare_comp_9b02c780850584776662e6731bd312a0_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.phone_error_rx_state_
+    )
+});
+
+export const Cond_comp_4282fa7ab0e1c18e473cc4cdbb7a02f1_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        (!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.phone_error_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
+    )
+});
+
+export const Bare_comp_1833db1f9901139e5e6e37f5412a9c2e_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        (reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.phone_sending_test_rx_state_ ? "Enviando..." : "Enviar SMS de prueba")
+    )
+});
+
+export const Button_button_9afb46f85636a52558d2f16e44ec5b21_81e687a6 = memo(({children}) => {
+    const on_click_861fcb91d75d3cfd29fbadfb04dcb90b = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.send_test_sms", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        jsx("button",{className:"mr-auto rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 disabled:opacity-50",disabled:reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.phone_sending_test_rx_state_,onClick:on_click_861fcb91d75d3cfd29fbadfb04dcb90b,type:"button"},children)
+    )
+});
+
+export const Cond_comp_c5e60b1f1aec7dcea747f58638979f10_81e687a6 = memo(({children}) => {
+    const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        (!((reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.current_user_rx_state_?.["phone"]?.valueOf?.() === ""?.valueOf?.()))?(children?.at?.(0)):(children?.at?.(1)))
+    )
+});
+
+export const Form_form_3d093bb260af39effd927056a6a5424b_81e687a6 = memo(({children}) => {
+    
+
+    const handleSubmit_439ce5270219107ef63c84f06ec741f2 = useCallback((ev) => {
+        const $form = ev.target
+        ev.preventDefault()
+        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...({  })};
+
+        (((...args) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.submit_phone", ({ ["form_data"] : form_data }), ({  })))], args, ({  }))))(ev));
+
+        if (false) {
+            $form.reset()
+        }
+    })
+    
+
+
+    return(
+        jsx("form",{onSubmit:handleSubmit_439ce5270219107ef63c84f06ec741f2},children)
+    )
+});
+
+export const Dialogroot_dialog__root_3c4a5fedd088217d01a263a74bab7404_81e687a6 = memo(({children}) => {
+    const on_open_change_85cd661c7589deb4dcc1aa3cedf29b66 = useCallback(((_ev_0) => (addEvents([(ReflexEvent("reflex___state____state.calavi_habitaciones___states___auth_state____auth_state.set_phone_open", ({ ["value"] : _ev_0 }), ({  })))], [_ev_0], ({  })))), [addEvents, ReflexEvent])
+const reflex___state____state__calavi_habitaciones___states___auth_state____auth_state = useContext(StateContexts.reflex___state____state__calavi_habitaciones___states___auth_state____auth_state)
+
+
+
+    return(
+        jsx(RadixThemesDialog.Root,{onOpenChange:on_open_change_85cd661c7589deb4dcc1aa3cedf29b66,open:reflex___state____state__calavi_habitaciones___states___auth_state____auth_state.phone_open_rx_state_},children)
     )
 });
 
