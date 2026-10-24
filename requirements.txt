@@ -1,5 +1,5 @@
-sqlalchemy[asyncio]==2.0.36
 reflex[db]==0.9.8
+sqlalchemy[asyncio]
 psycopg2-binary==2.9.10
 python-dotenv==1.0.0
 faker==30.8.2
