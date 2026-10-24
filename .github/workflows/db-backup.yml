@@ -7,7 +7,13 @@ on:
 
 jobs:
   backup:
-    runs-on: ubuntu-latest
+    # Versión fija en vez de ubuntu-latest: el repositorio de apt de
+    # PostgreSQL (más abajo) tarda en dar soporte a cada Ubuntu nuevo, y
+    # el salto automático de ubuntu-latest podría romper la instalación
+    # de pg_dump sin avisar. También
+    # asegura que siga estando el cliente `aws` (viene en esta imagen).
+    # Subir a mano cuando convenga.
+    runs-on: ubuntu-24.04
     steps:
       - name: Instalar cliente de PostgreSQL 18
         run: |
