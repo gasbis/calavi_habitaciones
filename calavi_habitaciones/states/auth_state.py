@@ -6,6 +6,7 @@ from typing import TypedDict
 import reflex as rx
 
 from calavi_habitaciones.models import (
+    DatabaseUnavailableError,
     create_admin_account,
     email_exists,
     get_admin_account,
@@ -15,6 +16,12 @@ from calavi_habitaciones.models import (
     set_admin_password,
     set_admin_phone,
     verify_password,
+)
+
+
+DB_UNAVAILABLE_MESSAGE = (
+    "No se puede conectar con la base de datos. "
+    "Inténtalo más tarde o revisa los logs del servidor."
 )
 
 
@@ -173,7 +180,11 @@ class AuthState(rx.State):
         new_password = form_data.get("new_password", "")
         confirm_password = form_data.get("confirm_password", "")
 
-        credential = get_admin_account(self.current_user["email"])
+        try:
+            credential = get_admin_account(self.current_user["email"])
+        except DatabaseUnavailableError:
+            self.change_password_error = DB_UNAVAILABLE_MESSAGE
+            return
         if credential is None or not verify_password(current_password, credential.password_hash):
             self.change_password_current_error = "La contraseña actual no es correcta."
             return
@@ -277,7 +288,13 @@ class AuthState(rx.State):
             if self.email_error or self.password_error:
                 return
 
-            credential = get_admin_account(email)
+            try:
+                credential = get_admin_account(email)
+            except DatabaseUnavailableError:
+                self.auth_error = DB_UNAVAILABLE_MESSAGE
+                self.is_authenticated = False
+                self.current_user = EMPTY_ADMIN_USER
+                return
             if (
                 credential is None
                 or not credential.active
@@ -311,6 +328,9 @@ class AuthState(rx.State):
             account_summary._sync_entries()
         except Exception as e:
             logging.exception(f"Error: {e}")
+            self.auth_error = (
+                "Acceso no disponible en este momento. Inténtalo de nuevo."
+            )
             self.is_authenticated = False
             self.current_user = EMPTY_ADMIN_USER
 

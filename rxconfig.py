@@ -3,6 +3,25 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
+def _clean_db_url(raw: str | None) -> str | None:
+    """Limpia la URL de la base de datos de caracteres invisibles.
+
+    Al copiar/pegar variables en Railway se pueden colar espacios, saltos de
+    línea, espacios no separables, BOM o comillas, y SQLAlchemy no puede
+    leer la URL ("Could not parse SQLAlchemy URL").
+    """
+    if not raw:
+        return None
+    url = raw.strip(" \t\r\n\u00a0\u200b\u200c\u200d\u2060\ufeff\"'")
+    if url != raw:
+        print(
+            f"[rxconfig] DATABASE_URL tenía caracteres extra "
+            f"(inicio {raw[:3]!r}, fin {raw[-3:]!r}); se han eliminado.",
+            flush=True,
+        )
+    return url or None
+
 tailwind_config = {
         "theme": {
             "extend": {
@@ -22,7 +41,7 @@ tailwind_config = {
 config = rx.Config(
     app_name="calavi_habitaciones",
     show_built_with_reflex=False,
-    db_url=os.environ.get("DATABASE_URL"),
+    db_url=_clean_db_url(os.environ.get("DATABASE_URL")),
     plugins=[
         rx.plugins.SitemapPlugin(),
         rx.plugins.TailwindV4Plugin(tailwind_config),

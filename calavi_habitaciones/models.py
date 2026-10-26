@@ -658,15 +658,27 @@ def list_admin_accounts() -> list[dict[str, str | bool]]:
         return []
 
 
+class DatabaseUnavailableError(Exception):
+    """No se ha podido consultar la base de datos (conexión, driver, etc.).
+
+    Se distingue de "usuario no encontrado" para que el login no muestre
+    "credenciales incorrectas" cuando el problema es la base de datos.
+    """
+
+
 def get_admin_account(email: str) -> AdminAccount | None:
+    """Devuelve la cuenta o None si no existe.
+
+    Lanza DatabaseUnavailableError si la base de datos no responde.
+    """
     try:
         with rx.session() as session:
             return session.exec(
                 sqlmodel.select(AdminAccount).where(AdminAccount.email == email)
             ).first()
     except Exception as e:
-        logging.exception(f"Error: {e}")
-        return None
+        logging.exception(f"Error de base de datos al buscar administrador: {e}")
+        raise DatabaseUnavailableError(str(e)) from e
 
 
 def set_admin_active(email: str, active: bool) -> bool:

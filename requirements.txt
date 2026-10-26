@@ -1,8 +1,8 @@
 reflex[db]==0.9.8
 sqlalchemy[asyncio]
 psycopg[binary]
-psycopg2-binary
-python-dotenv
+psycopg2-binary==2.9.12
+python-dotenv==1.2.2
 faker
 sqlmodel
 python-dateutil
