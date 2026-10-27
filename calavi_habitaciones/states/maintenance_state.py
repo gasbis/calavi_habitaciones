@@ -79,6 +79,8 @@ class MaintenanceState(rx.State):
     tasks: list[MaintTask] = []
     locations: list[MaintLocation] = []
     status_filter: str = "Todas"
+    # Lista de tareas vencidas en Inicio desplegada (True) u oculta (False)
+    warning_open: bool = True
     notice: str = ""
 
     # Diálogo de tarea
@@ -168,6 +170,10 @@ class MaintenanceState(rx.State):
         if self.status_filter == "Todas":
             return self.items
         return [it for it in self.items if it["status"] == self.status_filter]
+
+    @rx.event
+    def toggle_warning(self):
+        self.warning_open = not self.warning_open
 
     @rx.event
     def set_status_filter(self, value: str):

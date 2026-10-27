@@ -123,13 +123,36 @@ def maintenance_warning_section() -> rx.Component:
                     rx.icon("arrow-right", class_name="h-3.5 w-3.5"),
                     href="/mantenimiento",
                     underline="none",
+                    # Que pulsar el enlace no pliegue/despliegue el cuadro
+                    on_click=rx.stop_propagation,
                     class_name="hidden items-center gap-1 text-neutral-700 hover:text-brand-700 sm:flex",
                 ),
-                class_name="flex items-start gap-3 border-b border-warning-200 px-5 py-4 sm:items-center sm:px-6",
+                rx.icon(
+                    "chevron-down",
+                    class_name=rx.cond(
+                        MaintenanceState.warning_open,
+                        "h-5 w-5 shrink-0 rotate-180 text-neutral-600 transition-transform",
+                        "h-5 w-5 shrink-0 text-neutral-600 transition-transform",
+                    ),
+                ),
+                role="button",
+                tab_index=0,
+                aria_expanded=MaintenanceState.warning_open,
+                title=rx.cond(MaintenanceState.warning_open, "Ocultar la lista", "Mostrar la lista"),
+                on_click=MaintenanceState.toggle_warning,
+                class_name=rx.cond(
+                    MaintenanceState.warning_open,
+                    "flex cursor-pointer select-none items-start gap-3 border-b border-warning-200 px-5 py-4 transition-colors hover:bg-warning-100 sm:items-center sm:px-6",
+                    "flex cursor-pointer select-none items-start gap-3 px-5 py-4 transition-colors hover:bg-warning-100 sm:items-center sm:px-6",
+                ),
             ),
-            rx.el.ul(
-                rx.foreach(MaintenanceState.overdue_items, _overdue_row),
-                class_name="max-h-[28rem] overflow-y-auto",
+            rx.cond(
+                MaintenanceState.warning_open,
+                rx.el.ul(
+                    rx.foreach(MaintenanceState.overdue_items, _overdue_row),
+                    class_name="max-h-[28rem] overflow-y-auto",
+                ),
+                rx.fragment(),
             ),
             class_name="w-full overflow-hidden rounded-xl border border-danger-300 bg-warning-50",
         ),
