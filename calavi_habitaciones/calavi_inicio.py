@@ -3,6 +3,7 @@ import reflex as rx
 from calavi_habitaciones.components.auth import login_screen
 from calavi_habitaciones.components.header import page_header, page_title
 from calavi_habitaciones.states.auth_state import AuthState
+from calavi_habitaciones.components.maintenance import maintenance_warning_section
 from calavi_habitaciones.components.summary import rooms_summary_section, account_summary_section, utilities_charts_section
 
 title="Inicio"
@@ -12,6 +13,7 @@ def summary_page() -> rx.Component:
         page_header(),
         rx.el.div(
             page_title(title, subtitle),
+            maintenance_warning_section(),
             rooms_summary_section(),
             utilities_charts_section(),
             account_summary_section(),

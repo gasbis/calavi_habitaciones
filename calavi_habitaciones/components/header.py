@@ -48,6 +48,10 @@ def mobile_menu() -> rx.Component:
                     on_click_extra=MenuState.close_mobile_menu,
                 ),
                 menu_item(
+                    icon="wrench", name="Mantenimiento", link="/mantenimiento",
+                    on_click_extra=MenuState.close_mobile_menu,
+                ),
+                menu_item(
                     icon="users", name="Administradores", link="/administradores",
                     on_click_extra=MenuState.close_mobile_menu,
                 ),
@@ -96,6 +100,7 @@ def menu() -> rx.Component:
         menu_item(icon="home", name="Inicio", link="/"),
         menu_item(icon="calendar", name="Habitaciones", link="/habitaciones"),
         menu_item(icon="coins", name="Contabilidad", link="/cuentas"),
+        menu_item(icon="wrench", name="Mantenimiento", link="/mantenimiento"),
         menu_item(icon="users", name="Administradores", link="/administradores"),
         class_name="items-center gap-7 md:flex",
     )

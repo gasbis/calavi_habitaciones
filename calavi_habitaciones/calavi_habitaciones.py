@@ -3,6 +3,7 @@ import reflex as rx
 from calavi_habitaciones.calavi_inicio import index
 from calavi_habitaciones.calavi_cuentas import cuentas
 from calavi_habitaciones.calavi_administradores import administradores
+from calavi_habitaciones.calavi_mantenimiento import mantenimiento
 from calavi_habitaciones.components.auth import login_screen
 from calavi_habitaciones.components.header import page_header, page_title
 from calavi_habitaciones.components.history_view import history_view
@@ -13,6 +14,7 @@ from calavi_habitaciones.states.occupancy_state import OccupancyState
 from calavi_habitaciones.states.account_state import AccountState
 from calavi_habitaciones.states.account_summary_state import AccountSummaryState
 from calavi_habitaciones.states.record_state import RecordState
+from calavi_habitaciones.states.maintenance_state import MaintenanceState
 from calavi_habitaciones.services.lease_alerts import tarea_avisos_alquiler
 
 title="Control de habitaciones"
@@ -139,7 +141,7 @@ app.add_page(
     meta=[
         {"name": "robots", "content": "noindex, nofollow"}
     ],
-    on_load=[ AccountSummaryState.load, OccupancyState.load ]
+    on_load=[ AccountSummaryState.load, OccupancyState.load, MaintenanceState.load ]
 ),
 
 app.add_page(
@@ -160,6 +162,16 @@ app.add_page(
         {"name": "robots", "content": "noindex, nofollow"}
     ],
     on_load=AccountState.load,
+)
+
+app.add_page(
+    mantenimiento,
+    route="/mantenimiento",
+    title= "Calavi mantenimiento",
+    meta=[
+        {"name": "robots", "content": "noindex, nofollow"}
+    ],
+    on_load=MaintenanceState.load,
 )
 
 app.add_page(

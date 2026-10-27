@@ -915,3 +915,250 @@ def to_input_date(display: str) -> str:
     except Exception:
         logging.exception("Unexpected error")
         return ""
+
+# *****************************MANTENIMIENTO DE LA CASA***********************************
+#
+# Tres tablas:
+#   - MaintenanceLocation: ubicaciones (Hab. 1, Cocina, Terraza...).
+#   - MaintenanceTask: tareas (Engrase cerraduras...) con su plazo en meses.
+#   - MaintenanceItem: qué tarea se hace en qué ubicación y la fecha de la
+#     última vez que se hizo (solo la última; no se guarda histórico).
+# Si una tarea no tiene fila para una ubicación, es que no aplica allí.
+
+MAINTENANCE_SOON_DAYS = 30
+DEFAULT_PERIOD_MONTHS = 12
+
+
+class MaintenanceLocation(rx.Model, table=True):
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    name: str = sqlmodel.Field(nullable=False)
+    floor: str = ""  # zona/planta, p.ej. "Planta baja"
+    sort_order: int = 0
+
+
+class MaintenanceTask(rx.Model, table=True):
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    name: str = sqlmodel.Field(nullable=False)
+    period_months: int = DEFAULT_PERIOD_MONTHS
+
+
+class MaintenanceItem(rx.Model, table=True):
+    __table_args__ = (
+        sqlmodel.UniqueConstraint("task_id", "location_id", name="uq_maintenanceitem_task_location"),
+    )
+
+    id: int | None = sqlmodel.Field(default=None, primary_key=True)
+    task_id: int = sqlmodel.Field(foreign_key="maintenancetask.id", index=True)
+    location_id: int = sqlmodel.Field(foreign_key="maintenancelocation.id", index=True)
+    # Fecha de la última realización (dd-mm-aaaa); None si nunca se ha hecho.
+    last_done: str | None = None
+
+
+def maintenance_due_date(last_done: str | None, period_months: int) -> date | None:
+    """Fecha en la que toca repetir la tarea, o None si nunca se ha hecho."""
+    from dateutil.relativedelta import relativedelta
+
+    if not last_done:
+        return None
+    try:
+        done = datetime.strptime(last_done, _DISPLAY_FORMAT).date()
+    except ValueError:
+        return None
+    return done + relativedelta(months=max(int(period_months or 0), 1))
+
+
+def maintenance_status(last_done: str | None, period_months: int, today: date) -> str:
+    """"Vencida" (o nunca hecha), "Vence pronto" (≤ MAINTENANCE_SOON_DAYS) o "Al día"."""
+    due = maintenance_due_date(last_done, period_months)
+    if due is None or due <= today:
+        return "Vencida"
+    if (due - today).days <= MAINTENANCE_SOON_DAYS:
+        return "Vence pronto"
+    return "Al día"
+
+
+def list_maintenance_locations() -> list[dict]:
+    try:
+        with rx.session() as session:
+            records = session.exec(
+                sqlmodel.select(MaintenanceLocation).order_by(
+                    MaintenanceLocation.sort_order, MaintenanceLocation.id
+                )
+            ).all()
+            return [
+                {"id": str(r.id), "name": r.name, "floor": r.floor or "", "sort_order": r.sort_order}
+                for r in records
+            ]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+
+
+def list_maintenance_tasks() -> list[dict]:
+    """Tareas con los ids (str) de las ubicaciones donde aplican."""
+    try:
+        with rx.session() as session:
+            tasks = session.exec(
+                sqlmodel.select(MaintenanceTask).order_by(MaintenanceTask.id)
+            ).all()
+            items = session.exec(sqlmodel.select(MaintenanceItem)).all()
+            by_task: dict[int, list[str]] = {}
+            for it in items:
+                by_task.setdefault(it.task_id, []).append(str(it.location_id))
+            return [
+                {
+                    "id": str(t.id),
+                    "name": t.name,
+                    "period_months": t.period_months,
+                    "location_ids": by_task.get(t.id, []),
+                }
+                for t in tasks
+            ]
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+
+
+def list_maintenance_items() -> list[dict]:
+    """Cada combinación tarea-ubicación con su última fecha (texto, puede ser "")."""
+    try:
+        with rx.session() as session:
+            tasks = {t.id: t for t in session.exec(sqlmodel.select(MaintenanceTask)).all()}
+            locations = {
+                l.id: l for l in session.exec(sqlmodel.select(MaintenanceLocation)).all()
+            }
+            items = session.exec(sqlmodel.select(MaintenanceItem)).all()
+            result = []
+            for it in items:
+                task = tasks.get(it.task_id)
+                loc = locations.get(it.location_id)
+                if task is None or loc is None:
+                    continue
+                result.append(
+                    {
+                        "id": str(it.id),
+                        "task_id": str(task.id),
+                        "task": task.name,
+                        "location": loc.name,
+                        "floor": loc.floor or "",
+                        "location_order": loc.sort_order,
+                        "period_months": task.period_months,
+                        "last_done": it.last_done or "",
+                    }
+                )
+            result.sort(key=lambda r: (int(r["task_id"]), r["location_order"], r["location"]))
+            return result
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return []
+
+
+def save_maintenance_task(
+    task_id: str, name: str, period_months: int, location_ids: list[str]
+) -> bool:
+    """Crea (task_id == "") o actualiza una tarea y sus ubicaciones. Las
+    ubicaciones que se mantienen conservan su última fecha; las que se
+    quitan se borran y las nuevas empiezan sin fecha."""
+    try:
+        wanted = {int(x) for x in location_ids if str(x).isdigit()}
+        with rx.session() as session:
+            if task_id:
+                task = session.get(MaintenanceTask, int(task_id))
+                if task is None:
+                    return False
+            else:
+                task = MaintenanceTask()
+            task.name = name
+            task.period_months = period_months
+            session.add(task)
+            session.flush()
+            current = session.exec(
+                sqlmodel.select(MaintenanceItem).where(MaintenanceItem.task_id == task.id)
+            ).all()
+            current_ids = {it.location_id for it in current}
+            for it in current:
+                if it.location_id not in wanted:
+                    session.delete(it)
+            for loc_id in wanted - current_ids:
+                session.add(MaintenanceItem(task_id=task.id, location_id=loc_id))
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def delete_maintenance_task(task_id: str) -> bool:
+    try:
+        with rx.session() as session:
+            task = session.get(MaintenanceTask, int(task_id))
+            if task is None:
+                return False
+            for it in session.exec(
+                sqlmodel.select(MaintenanceItem).where(MaintenanceItem.task_id == task.id)
+            ).all():
+                session.delete(it)
+            session.delete(task)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def save_maintenance_location(location_id: str, name: str, floor: str) -> bool:
+    try:
+        with rx.session() as session:
+            if location_id:
+                loc = session.get(MaintenanceLocation, int(location_id))
+                if loc is None:
+                    return False
+            else:
+                last = session.exec(
+                    sqlmodel.select(MaintenanceLocation).order_by(
+                        MaintenanceLocation.sort_order.desc()
+                    )
+                ).first()
+                loc = MaintenanceLocation(sort_order=(last.sort_order + 1) if last else 1)
+            loc.name = name
+            loc.floor = floor
+            session.add(loc)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def delete_maintenance_location(location_id: str) -> bool:
+    try:
+        with rx.session() as session:
+            loc = session.get(MaintenanceLocation, int(location_id))
+            if loc is None:
+                return False
+            for it in session.exec(
+                sqlmodel.select(MaintenanceItem).where(MaintenanceItem.location_id == loc.id)
+            ).all():
+                session.delete(it)
+            session.delete(loc)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
+
+
+def set_maintenance_last_done(item_id: str, last_done: str | None) -> bool:
+    """Anota la última fecha (dd-mm-aaaa) de una tarea en una ubicación."""
+    try:
+        with rx.session() as session:
+            item = session.get(MaintenanceItem, int(item_id))
+            if item is None:
+                return False
+            item.last_done = last_done or None
+            session.add(item)
+            session.commit()
+            return True
+    except Exception as e:
+        logging.exception(f"Error: {e}")
+        return False
